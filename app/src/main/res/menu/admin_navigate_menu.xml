@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bnForm"
+        android:icon="@drawable/coupon"
+        android:title="統計報表" />
+    <item
+        android:id="@+id/bnInformation"
+        android:icon="@drawable/menu"
+        android:title="活動設定" />
+    <item
+        android:id="@+id/bnMessage"
+        android:icon="@drawable/book"
+        android:title="留言管理" />
+
+</menu>

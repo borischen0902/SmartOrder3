@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tbTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="熱門餐點" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tbNoodle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="麵類" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tbRice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="飯類" />
+
+
+    </android.support.design.widget.TabLayout>
+
+
+</RelativeLayout>
+
+
