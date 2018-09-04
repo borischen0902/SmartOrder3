@@ -29,7 +29,6 @@
             android:layout_height="wrap_content"
             android:text="飯類" />
 
-
     </android.support.design.widget.TabLayout>
 
 

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WaiterActivityOrderFragment extends Fragment {
+    private List<COrder> order = new ArrayList<>();
+    private OrderAdapter orderAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -21,27 +24,31 @@ public class WaiterActivityOrderFragment extends Fragment {
         View view = inflater.inflate(R.layout.waiter_order_fragment, container, false);
         RecyclerView rvOrder = (RecyclerView) view.findViewById(R.id.rvOrder);
         rvOrder.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvOrder.setAdapter(new orderAdapter(inflater, getOrder()));
+        order = getOrder();
+        orderAdapter = new OrderAdapter(inflater, order);
+        rvOrder.setAdapter(orderAdapter);
+        ItemTouchHelper.Callback callback = new SwipeCardCallBack(order, orderAdapter);
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(rvOrder);
         return view;
     }
 
     //假資料
     private List<COrder> getOrder() {
-        List<COrder> order = new ArrayList<>();
-        order.add(new COrder(5, 1, 2, 3, 4, 3, 2, 4));
-        order.add(new COrder(2, 2, 3, 3, 4, 3, 2, 4));
-        order.add(new COrder(3, 2, 2, 3, 4, 3, 2, 4));
-        order.add(new COrder(4, 1, 4, 3, 4, 3, 2, 4));
-        order.add(new COrder(1, 3, 4, 3, 4, 3, 2, 4));
+        order.add(new COrder(5, 1, 2, 3, 4, 3, 2, 4, 1));
+        order.add(new COrder(2, 2, 3, 3, 4, 3, 2, 4, 0));
+        order.add(new COrder(3, 2, 2, 3, 4, 3, 2, 4, 0));
+        order.add(new COrder(4, 1, 4, 3, 4, 3, 2, 4, 0));
+        order.add(new COrder(1, 3, 4, 3, 4, 3, 2, 4, 0));
         return order;
     }
 
     //把Data binding在View
-    private class orderAdapter extends RecyclerView.Adapter<orderAdapter.MyViewHolder> {
+    private class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder> {
         private LayoutInflater inflater;
         private List<COrder> order;
 
-        public orderAdapter(LayoutInflater inflater, List<COrder> order) {
+        public OrderAdapter(LayoutInflater inflater, List<COrder> order) {
             this.inflater = inflater;
             this.order = order;
         }
@@ -64,6 +71,12 @@ public class WaiterActivityOrderFragment extends Fragment {
 
         @Override
         public int getItemCount() {
+            for (int i = 0; i < order.size(); i++) {
+                if (order.get(i).getOrderStatus() == 1) {
+                    order.remove(i);
+                }
+            }
+
             return order.size();
         }
 
@@ -91,6 +104,58 @@ public class WaiterActivityOrderFragment extends Fragment {
 
                 }
             });
+
+        }
+    }
+
+    private class SwipeCardCallBack extends ItemTouchHelper.SimpleCallback {
+        /**
+         * Creates a Callback for the given drag and swipe allowance. These values serve as
+         * defaults
+         * and if you want to customize behavior per ViewHolder, you can override
+         * {@link #getSwipeDirs(RecyclerView, ViewHolder)}
+         * and / or {@link #getDragDirs(RecyclerView, ViewHolder)}.
+         *
+         * @param dragDirs  Binary OR of direction flags in which the Views can be dragged. Must be
+         * composed of {@link #LEFT}, {@link #RIGHT}, {@link #START}, {@link
+         * #END},
+         * {@link #UP} and {@link #DOWN}.
+         * @param swipeDirs Binary OR of direction flags in which the Views can be swiped. Must be
+         * composed of {@link #LEFT}, {@link #RIGHT}, {@link #START}, {@link
+         * #END},
+         * {@link #UP} and {@link #DOWN}.
+         */
+        private List<COrder> order;
+        private OrderAdapter orderAdapter;
+
+        public SwipeCardCallBack(List<COrder> order, OrderAdapter orderAdapter) {
+            super(0,
+                    ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+            this.order = order;
+            this.orderAdapter = orderAdapter;
+        }
+
+        public SwipeCardCallBack(int dragDirs, int swipeDirs) {
+            super(dragDirs, swipeDirs);
+        }
+
+        public SwipeCardCallBack() {
+            super(0,
+                    ItemTouchHelper.LEFT | ItemTouchHelper.UP |
+                            ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN
+            );
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            COrder orderItem = order.get(viewHolder.getLayoutPosition());
+            orderItem.setOrderStatus(1);
+            orderAdapter.notifyDataSetChanged();
         }
 
     }

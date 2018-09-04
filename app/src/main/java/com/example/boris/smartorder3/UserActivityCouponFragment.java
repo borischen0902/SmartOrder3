@@ -24,7 +24,7 @@ public class UserActivityCouponFragment extends Fragment {
         View view = inflater.inflate(R.layout.user_coupon_fragment, container, false);
         RecyclerView rvCoupon = (RecyclerView) view.findViewById(R.id.rvCoupon);
         rvCoupon.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvCoupon.setAdapter(new couponAdapter(inflater, getCoupon()));
+        rvCoupon.setAdapter(new CouponAdapter(inflater, getCoupon()));
 
         return view;
     }
@@ -40,11 +40,11 @@ public class UserActivityCouponFragment extends Fragment {
     }
 
     //把Data binding在View
-    private class couponAdapter extends RecyclerView.Adapter<couponAdapter.MyViewHolder> {
+    private class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.MyViewHolder> {
         private LayoutInflater inflater;
         private List<CCoupon> coupon;
 
-        public couponAdapter(LayoutInflater inflater, List<CCoupon> coupon) {
+        public CouponAdapter(LayoutInflater inflater, List<CCoupon> coupon) {
             this.inflater = inflater;
             this.coupon = coupon;
         }

@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true">
 
         <android.support.design.widget.TabItem
-            android:id="@+id/tbBookink"
+            android:id="@+id/tbBooking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="訂位" />

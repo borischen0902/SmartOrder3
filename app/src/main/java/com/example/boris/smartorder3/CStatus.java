@@ -1,6 +1,7 @@
 package com.example.boris.smartorder3;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class CStatus implements Serializable {
 private int tableID;

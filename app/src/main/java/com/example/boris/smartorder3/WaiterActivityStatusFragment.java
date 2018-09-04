@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class WaiterActivityStatusFragment extends Fragment {
@@ -28,7 +29,7 @@ public class WaiterActivityStatusFragment extends Fragment {
         status = getStatus();
         statusAdapter = new StatusAdapter(inflater, status);
         rvStatus.setAdapter(statusAdapter);
-        ItemTouchHelper.Callback callback = new SwipeCardCallBack(status,statusAdapter);
+        ItemTouchHelper.Callback callback = new SwipeCardCallBack(status, statusAdapter);
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(rvStatus);
         return view;
@@ -39,9 +40,20 @@ public class WaiterActivityStatusFragment extends Fragment {
         status.add(new CStatus(1, "11:05", "12:02", 1));
         status.add(new CStatus(3, "11:06", "12:03", 0));
         status.add(new CStatus(4, "11:08", "12:04", 0));
+        //shortByTime(status);
         return status;
     }
 
+    /*
+    private class dateSorting implements Comparator<CStatus> {
+private
+
+        @Override
+        public int compare(CStatus o1, CStatus o2) {
+            return 0;
+        }
+    }
+*/
 
     private class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.MyViewHolder> {
         private LayoutInflater inflater;
@@ -68,7 +80,6 @@ public class WaiterActivityStatusFragment extends Fragment {
                     status.remove(i);
                 }
             }
-
             return status.size();
         }
 
@@ -97,18 +108,18 @@ public class WaiterActivityStatusFragment extends Fragment {
          * and / or {@link #getDragDirs(RecyclerView, ViewHolder)}.
          *
          * @param dragDirs  Binary OR of direction flags in which the Views can be dragged. Must be
-         *                  composed of {@link #LEFT}, {@link #RIGHT}, {@link #START}, {@link
-         *                  #END},
-         *                  {@link #UP} and {@link #DOWN}.
+         * composed of {@link #LEFT}, {@link #RIGHT}, {@link #START}, {@link
+         * #END},
+         * {@link #UP} and {@link #DOWN}.
          * @param swipeDirs Binary OR of direction flags in which the Views can be swiped. Must be
-         *                  composed of {@link #LEFT}, {@link #RIGHT}, {@link #START}, {@link
-         *                  #END},
-         *                  {@link #UP} and {@link #DOWN}.
+         * composed of {@link #LEFT}, {@link #RIGHT}, {@link #START}, {@link
+         * #END},
+         * {@link #UP} and {@link #DOWN}.
          */
-       private List<CStatus> status;
-       private StatusAdapter statusAdapter;
+        private List<CStatus> status;
+        private StatusAdapter statusAdapter;
 
-        public SwipeCardCallBack(List<CStatus> status, StatusAdapter statusAdapter){
+        public SwipeCardCallBack(List<CStatus> status, StatusAdapter statusAdapter) {
             super(0,
                     ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
             this.status = status;

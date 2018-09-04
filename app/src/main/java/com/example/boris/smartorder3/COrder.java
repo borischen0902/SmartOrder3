@@ -11,9 +11,10 @@ public class COrder implements Serializable {
     private int orderItem5;
     private int orderItem6;
     private int orderItem7;
+    private int orderStatus;
     private String level;
 
-    public COrder(int tableID, int orderItem1, int orderItem2, int orderItem3, int orderItem4, int orderItem5, int orderItem6, int orderItem7) {
+    public COrder(int tableID, int orderItem1, int orderItem2, int orderItem3, int orderItem4, int orderItem5, int orderItem6, int orderItem7, int orderStatus) {
         this.tableID = tableID;
         this.orderItem1 = orderItem1;
         this.orderItem2 = orderItem2;
@@ -22,6 +23,7 @@ public class COrder implements Serializable {
         this.orderItem5 = orderItem5;
         this.orderItem6 = orderItem6;
         this.orderItem7 = orderItem7;
+        this.orderStatus = orderStatus;
     }
 
     public int getTableID() {
@@ -177,6 +179,15 @@ public class COrder implements Serializable {
                 break;
         }
         return level;
+    }
+
+    //狀態
+    public int getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(int orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
 
