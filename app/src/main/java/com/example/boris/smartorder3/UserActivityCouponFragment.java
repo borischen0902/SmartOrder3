@@ -20,7 +20,7 @@ import java.util.List;
 
 public class UserActivityCouponFragment extends Fragment {
     private CouponAdapter couponAdapter;
-    RecyclerView rvCoupon;
+    private RecyclerView rvCoupon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
