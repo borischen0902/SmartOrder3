@@ -40,20 +40,8 @@ public class WaiterActivityStatusFragment extends Fragment {
         status.add(new CStatus(1, "11:05", "12:02", 1));
         status.add(new CStatus(3, "11:06", "12:03", 0));
         status.add(new CStatus(4, "11:08", "12:04", 0));
-        //shortByTime(status);
         return status;
     }
-
-    /*
-    private class dateSorting implements Comparator<CStatus> {
-private
-
-        @Override
-        public int compare(CStatus o1, CStatus o2) {
-            return 0;
-        }
-    }
-*/
 
     private class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.MyViewHolder> {
         private LayoutInflater inflater;
