@@ -5,15 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UserActivity">
+    tools:context=".UserActivity"
+    android:id="@+id/LL">
 
-
-
-
-   <TextView
+   <android.support.v7.widget.RecyclerView
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:text="hello"/>
+       android:layout_height="match_parent"
+       android:id="@+id/reorderlist"
+       android:orientation="vertical">
 
 
+
+   </android.support.v7.widget.RecyclerView>
 </LinearLayout>

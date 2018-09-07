@@ -5,4 +5,13 @@
     <string name="orderlist">點餐紀錄</string>
     <string name="Collectionoffer">收藏優惠</string>
     <string name="membertitle">會員</string>
+    <string name="accountnumber">帳號</string>
+    <string name="memberpassword">顯示密碼</string>
+    <string name="showinformation">會員基本資料</string>
+    <string name="memberphone">電話：</string>
+    <string name="showorder">詳細訂單</string>
+    <string name="orderlistid">編號</string>
+    <string name="orderlistdste">日期</string>
+    <string name="orderitem">品項</string>
+    <string name="ordertotal">total:</string>
 </resources>
