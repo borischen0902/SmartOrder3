@@ -17,7 +17,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     EditText etAccount;
-    EditText etPassword;
+    EditText etPassword;;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
