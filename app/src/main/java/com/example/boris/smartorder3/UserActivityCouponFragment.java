@@ -107,7 +107,6 @@ public class UserActivityCouponFragment extends Fragment {
                 myViewHolder.tvCouponInfoDetail.setText(couponItem.getInfo());
                 myViewHolder.btCouponReceive.setOnClickListener(new View.OnClickListener() {
                     private int couponQty = couponItem.getQty();
-
                     @Override
                     public void onClick(View v) {
                         if (couponQty > 0) {

@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void btLoginOnClick(View view) {
         Toast.makeText(this, "已點擊登入", Toast.LENGTH_SHORT).show();
+
     }
 
 }
