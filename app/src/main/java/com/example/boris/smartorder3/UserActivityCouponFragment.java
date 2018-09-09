@@ -20,7 +20,7 @@ import java.util.List;
 
 public class UserActivityCouponFragment extends Fragment {
     private CouponAdapter couponAdapter;
-    RecyclerView rvCoupon;
+    private RecyclerView rvCoupon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,16 +95,15 @@ public class UserActivityCouponFragment extends Fragment {
             final int position = i;
             myViewHolder.ivCoupon.setImageResource(couponItem.getPicture());
             myViewHolder.tvCouponTitle.setText(couponItem.getTitle());
-            myViewHolder.tvMore.setOnClickListener(new View.OnClickListener() {
+            myViewHolder.tvMore.setOnClickListener(new View.OnClickListener() { //  開啟卡片延伸
                 @Override
                 public void onClick(View v) {
                     getIsCardViewExtend(position);
-                    moveTo(myViewHolder.cvCoupon);
                 }
             });
             if (isCardViewExtend == position) {
                 myViewHolder.llExtend.setVisibility(View.VISIBLE);
-
+                moveTo(myViewHolder.itemView);
                 myViewHolder.tvCouponInfoDetail.setText(couponItem.getInfo());
                 myViewHolder.btCouponReceive.setOnClickListener(new View.OnClickListener() {
                     private int couponQty = couponItem.getQty();
@@ -132,6 +131,7 @@ public class UserActivityCouponFragment extends Fragment {
             }
         }
 
+        /* 卡片延伸 */
         private void getIsCardViewExtend(int position) {
             if (isCardViewExtend == position) {
                 isCardViewExtend = -1;
@@ -144,6 +144,7 @@ public class UserActivityCouponFragment extends Fragment {
             }
         }
 
+        /* 點擊時調整item位置 */
         private void moveTo(View view) {
             int itemHeight = view.getHeight();
             int screenHeight = getResources().getDisplayMetrics().heightPixels;
