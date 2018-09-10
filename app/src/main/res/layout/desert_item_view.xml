@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/conMenuDesert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivDesertPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/raindrop" />
+
+        <TextView
+            android:id="@+id/txtDesertName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="水信玄餅"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivDesertPhoto" />
+
+        <TextView
+            android:id="@+id/txtDesertPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="70元"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnDesertButton"
+            app:layout_constraintStart_toEndOf="@+id/txtDesertName"
+            app:layout_constraintTop_toBottomOf="@+id/ivDesertPhoto" />
+
+        <Button
+            android:id="@+id/btnDesertButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="選購"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivDesertPhoto"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
