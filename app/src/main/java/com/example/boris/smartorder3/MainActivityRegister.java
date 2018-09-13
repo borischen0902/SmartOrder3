@@ -4,15 +4,12 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +17,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import java.time.Year;
 import java.util.Calendar;
 
 public class MainActivityRegister extends AppCompatActivity {
@@ -35,6 +31,13 @@ public class MainActivityRegister extends AppCompatActivity {
     Gson gson;
     boolean isBirthClick = false;
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +95,7 @@ public class MainActivityRegister extends AppCompatActivity {
         tvBirthdayRegister = findViewById(R.id.tvBirthdayRegister);
     }
 
-
+    /* 確認鍵 */
     public void btRegisterConfirmOnclick(View view) {
         phone = etAccountRegister.getText().toString();
         password = etPasswordRegister.getText().toString();
