@@ -2,10 +2,10 @@ package com.example.boris.smartorder3;
 
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
 
 public class CCommon {
     public final static String LOGIN_INFO = "SmartOrderLoginInfo";

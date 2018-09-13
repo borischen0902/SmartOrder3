@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_login);
-        //isLogin(); 儲存設定檔功能, 開發階段關閉
+        //isLogin(); //儲存設定檔功能, 開發階段關閉
         handleViews();
     }
 
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         account = etAccount.getText().toString();
         password = etPassword.getText().toString();
         if (CCommon.isNetworkConnected(this)) {
-            String url = CCommon.URL + "/LoginServlet";
+            String url = CCommon.URL + "/SmartOrderServlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "checkAccount");
             jsonObject.addProperty("account", account);
