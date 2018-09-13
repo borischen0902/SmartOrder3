@@ -42,9 +42,9 @@ public class UserActivityMemberFragment extends Fragment {
 
         mViewPager = view.findViewById(R.id.view_pager);
         mTabLayout = view.findViewById(R.id.mambertab_layout);
-        mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[0]).setIcon(R.drawable.information_24dp));
-        mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[1]).setIcon(R.drawable.orderlist));
-        mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[2]).setIcon(R.drawable.offer));
+        mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[0]));
+        mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[1]));
+        mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[2]));
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
