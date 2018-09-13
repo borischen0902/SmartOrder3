@@ -15,6 +15,7 @@ public class UserActivityReservationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.user_reservation_fragment, container, false);
+        initView
         return view;
     }
 

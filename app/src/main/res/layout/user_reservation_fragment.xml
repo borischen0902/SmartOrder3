@@ -9,7 +9,10 @@
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget">
+
+        <!--tabTextAppearance 避免英文變大寫-->
 
         <android.support.design.widget.TabItem
             android:id="@+id/tbBooking"
