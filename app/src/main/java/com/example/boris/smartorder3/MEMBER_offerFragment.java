@@ -22,7 +22,8 @@ import java.util.List;
 public class MEMBER_offerFragment extends Fragment {
     private OfferAdapter offerAdapter;
     private RecyclerView rvCoupon;
-    public static Fragment newInstance(){
+
+    public static Fragment newInstance() {
         MEMBER_offerFragment fragment = new MEMBER_offerFragment();
         return fragment;
     }
@@ -31,7 +32,7 @@ public class MEMBER_offerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.member_offerfragment, container, false);
-        rvCoupon =  view.findViewById(R.id.reoffer);
+        rvCoupon = view.findViewById(R.id.reoffer);
         rvCoupon.setLayoutManager(new LinearLayoutManager(getActivity()));
         offerAdapter = new MEMBER_offerFragment.OfferAdapter(inflater, getCoupon());
         rvCoupon.setAdapter(offerAdapter);
@@ -96,47 +97,45 @@ public class MEMBER_offerFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int i) {
             final OfferCoupon couponItem = offercoupon.get(i);
-            final int position = i;
-
+            myViewHolder.tvCouponQty.setText("剩餘 " + couponItem.getQty() + " 張");
             myViewHolder.ivCoupon.setImageResource(couponItem.getPicture());
             myViewHolder.tvCouponTitle.setText(couponItem.getTitle());
             myViewHolder.llExtend.setVisibility(View.VISIBLE);
             moveTo(myViewHolder.itemView);
             myViewHolder.tvCouponInfoDetail.setText(couponItem.getInfo());
             myViewHolder.btCouponuse.setOnClickListener(new View.OnClickListener() {
-                private int couponQty = couponItem.getQty();
+                //                private int couponQty = couponItem.getQty();
                 @Override
                 public void onClick(View v) {
-                    if (couponQty > 0) {
-                        couponQty -= 1;
+                    if (couponItem.getQty() > 0) {
+                        couponItem.setQty(couponItem.getQty() - 1);
                         Toast.makeText(v.getContext(), "已使用優惠券", Toast.LENGTH_SHORT).show();
-                        myViewHolder.tvCouponQty.setText("剩餘 " + couponQty + " 張");
+                        myViewHolder.tvCouponQty.setText("剩餘 " + couponItem.getQty() + " 張");
                     } else {
-                            Toast.makeText(v.getContext(), "已無優惠券", Toast.LENGTH_SHORT).show();
-                        }
-
+                        Toast.makeText(v.getContext(), "已無優惠券", Toast.LENGTH_SHORT).show();
                     }
-                });
-                myViewHolder.btCouponShare.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(v.getContext(), "對不起, 您沒有朋友", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+
+                }
+            });
+            myViewHolder.btCouponShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "對不起, 您沒有朋友", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
-
-
-
-        /* 點擊時調整item位置 */
-        private void moveTo(View view) {
-            int itemHeight = view.getHeight();
-            int screenHeight = getResources().getDisplayMetrics().heightPixels;
-            int scrollHeight = view.getTop() - (screenHeight / 2 - itemHeight / 2);
-            rvCoupon.smoothScrollBy(0, scrollHeight);
-        }
-
     }
+
+
+    /* 點擊時調整item位置 */
+    private void moveTo(View view) {
+        int itemHeight = view.getHeight();
+        int screenHeight = getResources().getDisplayMetrics().heightPixels;
+        int scrollHeight = view.getTop() - (screenHeight / 2 - itemHeight / 2);
+        rvCoupon.smoothScrollBy(0, scrollHeight);
+    }
+
+}
 
 
 
