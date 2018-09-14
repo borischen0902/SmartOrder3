@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "217377743988",
+    "firebase_url": "https://smartorder-cp102.firebaseio.com",
+    "project_id": "smartorder-cp102",
+    "storage_bucket": "smartorder-cp102.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217377743988:android:da1e5bca17570356",
+        "android_client_info": {
+          "package_name": "com.example.boris.smartorder3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217377743988-5dsrqrld825fmgiphe9dmg27hec7a03o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.boris.smartorder3",
+            "certificate_hash": "96451577840f82ebafcd321eba40fcd190786a94"
+          }
+        },
+        {
+          "client_id": "217377743988-71anep5knimqov86ark0v4buh69e2ooi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuTe7CjNxvGaA-0kofm9HocLf0RfZSRU4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217377743988-71anep5knimqov86ark0v4buh69e2ooi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
