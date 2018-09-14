@@ -1,6 +1,7 @@
 package com.example.boris.smartorder3;
 
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
@@ -9,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -36,6 +40,9 @@ public class UserActivityMemberFragment extends Fragment {
         return view;
 
     }
+
+
+
 
     private void handleview(View view) {
 
