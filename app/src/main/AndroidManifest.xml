@@ -39,6 +39,7 @@
             android:label="user_activity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+
     </application>
 
 </manifest>

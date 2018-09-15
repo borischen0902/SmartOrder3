@@ -39,8 +39,6 @@ public class UserActivity extends AppCompatActivity {
         //    }
         //});
 
-
-
     }
 
 

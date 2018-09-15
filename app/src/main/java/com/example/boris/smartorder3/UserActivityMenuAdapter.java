@@ -11,7 +11,8 @@ public class UserActivityMenuAdapter extends FragmentStatePagerAdapter {
     private List<Fragment> mFragments ;
     private List<String> mTitles ;
 
-    public UserActivityMenuAdapter(FragmentManager fm, List<Fragment> fragments, List<String> titles) {
+    public UserActivityMenuAdapter
+            (FragmentManager fm, List<Fragment> fragments, List<String> titles) {
         super(fm);
         mFragments = fragments;
         mTitles = titles;

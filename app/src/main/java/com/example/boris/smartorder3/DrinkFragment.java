@@ -1,7 +1,9 @@
 package com.example.boris.smartorder3;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -33,6 +35,7 @@ public class DrinkFragment extends Fragment {
         List<CDrink> drinkList = getDrinkList();
         recyclerView.setAdapter(new ItemAdapter(getActivity(), drinkList));
         return view;
+
 
         }
 
@@ -82,6 +85,9 @@ public class DrinkFragment extends Fragment {
 
                     @Override
                     public void onClick(View view) {
+
+
+
 
                     }
                 });

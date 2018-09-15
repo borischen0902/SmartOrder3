@@ -1,7 +1,9 @@
 package com.example.boris.smartorder3;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +24,11 @@ import java.util.List;
 public class DesertFragment extends Fragment {
     private RecyclerView recyclerView;
 
-
-
     public DesertFragment() {
+
     }
+
+
 
 
     @Override
@@ -44,6 +48,8 @@ public class DesertFragment extends Fragment {
         return fragment;
     }
 
+
+
     private List<CDesert> getDesertList () {
 
         List<CDesert> desertList = new ArrayList<>();
@@ -61,6 +67,8 @@ public class DesertFragment extends Fragment {
         private List<CDesert> desertList;
 
 
+
+
         public ItemAdapter(Context context, List<CDesert> desertList) {
             this.context = context;
             this.desertList = desertList;
@@ -72,10 +80,15 @@ public class DesertFragment extends Fragment {
         public DesertFragment.ItemAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View itemView = LayoutInflater.from(context).inflate(R.layout.desert_item_view, viewGroup, false);
             return new DesertFragment.ItemAdapter.MyViewHolder(itemView);
+
+
+
+
         }
 
         @Override
         public void onBindViewHolder(@NonNull DesertFragment.ItemAdapter.MyViewHolder myViewHolder, int i) {
+
 
             final CDesert desertItem = desertList.get(i);
             myViewHolder.imageView.setImageResource(desertItem.getImage());
@@ -86,8 +99,11 @@ public class DesertFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
+
+
                 }
             });
+
         }
 
         @Override
@@ -114,4 +130,6 @@ public class DesertFragment extends Fragment {
     }
 
 
-}
+
+    }
+
