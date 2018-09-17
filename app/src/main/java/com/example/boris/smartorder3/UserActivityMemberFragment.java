@@ -1,6 +1,7 @@
 package com.example.boris.smartorder3;
 
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
@@ -9,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -36,14 +40,17 @@ public class UserActivityMemberFragment extends Fragment {
 
     }
 
+
+
+
     private void handleview(View view) {
 
 
         mViewPager = view.findViewById(R.id.view_pager);
         mTabLayout = view.findViewById(R.id.mambertab_layout);
-        mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[0]).setIcon(R.drawable.information_24dp));
-        mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[1]).setIcon(R.drawable.orderlist));
-        mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[2]).setIcon(R.drawable.offer));
+        mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[0]));
+        mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[1]));
+        mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[2]));
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

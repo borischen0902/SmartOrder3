@@ -27,7 +27,7 @@ import java.util.List;
 public class DrinkFragment extends Fragment {
     private final static String TAG = "DrinkFragment";
     private RecyclerView rvDrink;
-    private CommonTask drinkGetAllTask;
+    private CCommonTask drinkGetAllTask;
 
 
     public DrinkFragment() {

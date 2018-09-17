@@ -98,16 +98,15 @@ public class UserActivityCouponFragment extends Fragment {
             myViewHolder.tvMore.setOnClickListener(new View.OnClickListener() { //  開啟卡片延伸
                 @Override
                 public void onClick(View v) {
-                    getIsCardViewExtend(position);
+                    getIsCardViewExtend(myViewHolder.itemView ,position);
                 }
             });
             if (isCardViewExtend == position) {
                 myViewHolder.llExtend.setVisibility(View.VISIBLE);
-                moveTo(myViewHolder.itemView);
+                //moveTo(myViewHolder.itemView);
                 myViewHolder.tvCouponInfoDetail.setText(couponItem.getInfo());
                 myViewHolder.btCouponReceive.setOnClickListener(new View.OnClickListener() {
                     private int couponQty = couponItem.getQty();
-
                     @Override
                     public void onClick(View v) {
                         if (couponQty > 0) {
@@ -132,7 +131,7 @@ public class UserActivityCouponFragment extends Fragment {
         }
 
         /* 卡片延伸 */
-        private void getIsCardViewExtend(int position) {
+        private void getIsCardViewExtend(View view, int position) {
             if (isCardViewExtend == position) {
                 isCardViewExtend = -1;
                 notifyItemChanged(position);
@@ -141,6 +140,7 @@ public class UserActivityCouponFragment extends Fragment {
                 isCardViewExtend = position;
                 notifyItemChanged(preIsCardViewExtend);
                 notifyItemChanged(isCardViewExtend);
+                moveTo(view);
             }
         }
 

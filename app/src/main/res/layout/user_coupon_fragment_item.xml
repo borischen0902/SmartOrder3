@@ -28,8 +28,6 @@
                     android:id="@+id/ivCoupon"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginStart="12dp"
                     android:background="@drawable/info1" />
 
                 <TextView
@@ -84,6 +82,7 @@
                     android:layout_marginBottom="12dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp"
+                    android:textSize="14sp"
                     android:text="八月優惠! 歡慶父親節, 消費現折8.8折!" />
 
                 <TextView

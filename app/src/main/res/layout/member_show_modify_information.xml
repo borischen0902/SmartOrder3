@@ -15,39 +15,18 @@
     app:cardElevation="6dp"
     android:layout_centerHorizontal="true">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="修改"
-        android:id="@+id/btmodify" />
-
 
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginEnd="30dp"
+        android:id="@+id/photo"
         android:background="@color/colorgray"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_marginStart="120dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="100dp">
-        <Button
-            android:id="@+id/btTakePictureLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="拍照" />
-        <Button
-            android:id="@+id/btPickPicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="選取相簿" />
-    </LinearLayout>
 
 
 
@@ -83,11 +62,11 @@
                     android:text="@string/accountnumber"
                     android:textSize="16dp" />
 
-                <TextView
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
-                    android:text="顯示帳號"
+                    android:hint="輸入帳號"
                     android:textSize="16dp" />
             </TableRow>
 
@@ -101,11 +80,11 @@
                     android:text="@string/memberpassword"
                     android:textSize="16dp" />
 
-                <TextView
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
-                    android:text="顯示密碼"
+                    android:hint="輸入密碼"
                     android:textSize="16dp" />
             </TableRow>
 
@@ -119,12 +98,12 @@
                     android:text="@string/memberphone"
                     android:textSize="16dp" />
 
-                <TextView
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
-                    android:text="顯示電話"
-                    android:textSize="16dp" />
+                    android:hint="輸入電話"
+                    android:textSize="16dp"/>
             </TableRow>
 
         </TableLayout>
