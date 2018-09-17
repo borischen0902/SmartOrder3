@@ -2,12 +2,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/scrRamen">
 
@@ -203,15 +203,15 @@
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/conGreenOnionCustomized"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/conGarlicCustomized"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:layout_height="45dp"
                 android:orientation="horizontal"
-                android:id="@+id/conGreenOnionCustomized">
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/conGarlicCustomized">
 
 
                 <!--蔥選項-->
@@ -222,28 +222,26 @@
                     android:text="蔥"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/btnGreenOnionYes"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/txtGreenOnion"
                     android:layout_marginStart="80dp"
+                    android:text="有"
                     android:textSize="20sp"
-                    android:text="有"/>
+                    app:layout_constraintStart_toEndOf="@id/txtGreenOnion" />
 
 
                 <Button
                     android:id="@+id/btnGreenOnionNo"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/btnGreenOnionYes"
                     android:layout_marginStart="15dp"
+                    android:text="無"
                     android:textSize="20sp"
-                    android:text="無"/>
-
+                    app:layout_constraintStart_toEndOf="@id/btnGreenOnionYes" />
 
 
             </android.support.constraint.ConstraintLayout>
