@@ -21,8 +21,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.internal.service.Common;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.protobuf.StringValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +33,11 @@ import javax.xml.transform.Result;
 public class RamenFragment extends Fragment {
     RadioGroup rdgDashi,rdgRichness,rdgGarlic,rdgSpicy,rdgTexture;
     CheckBox btnExtraSeaweedYes,btnExtraRiceYes,btnExtraEggYes;
-    boolean seaWeed,egg,rice;
     int dashi,richness,garlic,spicy,texture;
     private FragmentActivity activity;
     private FragmentManager fragmentManager;
     private final static String TAG = "RamenUploadFragment";
+
 
     public RamenFragment() {
 
@@ -51,6 +53,9 @@ public class RamenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ramen, container, false);
         customized(view);
+
+
+
         Button btnRamenConfirm = view.findViewById(R.id.btnRamenConfirm);
         btnRamenConfirm.setOnClickListener(confirmListener);
         activity = getActivity();
@@ -80,53 +85,19 @@ public class RamenFragment extends Fragment {
             switch (v.getId()) {
                 case R.id.btnRamenConfirm:
 
+                    Ramen ramen = new Ramen(dashi, richness, garlic, spicy, texture);
+                    int dashi= ramen.getDashi();
+
+
 
                     new AlertDialog.Builder(getActivity())
                             .setTitle("是否送出？")
-                            .setMessage("")
+                            .setMessage(""+dashi)
                             .setPositiveButton("確定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    int dashi = rdgDashi.getCheckedRadioButtonId();
-                                    int richness = rdgRichness.getCheckedRadioButtonId();
-                                    int garlic = rdgGarlic.getCheckedRadioButtonId();
-                                    int spicy = rdgSpicy.getCheckedRadioButtonId();
-                                    int texture = rdgTexture.getCheckedRadioButtonId();
 
 
-                                    if (Common.networkConnected(activity)) {
-                                        String url = Common.URL + "/RamenServlet";
-                                        Ramen ramen = new Ramen(dashi, richness, garlic, spicy, texture, true,true,true);
-                                        JsonObject jsonObject = new JsonObject();
-                                        jsonObject.addProperty("ramen", new Gson().toJson(ramen));
-                                        jsonObject.addProperty("action", "Insert");
-
-                                        jsonObject.addProperty("dashi",dashi);
-                                        jsonObject.addProperty("richness",richness);
-                                        jsonObject.addProperty("garlic",garlic);
-                                        jsonObject.addProperty("spicy",spicy);
-                                        jsonObject.addProperty("texture",texture);
-                                        jsonObject.addProperty("seaweed",seaWeed);
-                                        jsonObject.addProperty("egg",egg);
-                                        jsonObject.addProperty("rice",rice);
-
-
-                                        int count = 0;
-                                        try {
-                                            String result = new CommonTask(url, jsonObject.toString()).execute().get();
-                                            count = Integer.valueOf(result);
-                                        } catch (Exception e) {
-                                            Log.e(TAG, e.toString());
-
-                                        }
-                                        if (count == 0) {
-                                            Common.showToast(getActivity(), R.string.msg_InsertFail);
-                                        } else {
-                                            Common.showToast(getActivity(), R.string.msg_InsertSuccess);
-                                        }
-                                    } else {
-                                        Common.showToast(getActivity(), R.string.msg_NoNetwork);
-                                    }
 
 
 
@@ -162,6 +133,9 @@ public class RamenFragment extends Fragment {
 
                 switch(checkedId) {
                     case R.id.btnDashiLight:
+
+
+
 
 
                         dashi = 0;
@@ -308,53 +282,6 @@ public class RamenFragment extends Fragment {
             }
         });
 
-
-
-        CheckBox btnExtraSeaweedYes = view.findViewById(R.id.btnExtraSeaweedYes);
-        btnExtraSeaweedYes.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                if (isChecked) {
-
-                    seaWeed = true;
-
-                }
-
-
-            }
-        });
-
-        CheckBox btnExtraEggYes = view.findViewById(R.id.btnExtraEggYes);
-        btnExtraEggYes.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                if (isChecked) {
-
-                    egg = true;
-
-                }
-
-
-            }
-        });
-
-        CheckBox btnExtraRiceYes = view.findViewById(R.id.btnExtraRiceYes);
-        btnExtraRiceYes.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                if (isChecked) {
-
-                    rice = true;
-
-                }
-            }
-        });
 
 
 

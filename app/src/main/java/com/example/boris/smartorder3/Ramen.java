@@ -6,7 +6,6 @@ import java.io.Serializable;
 public class Ramen implements Serializable {
 
     private int dashi, richness, garlic, spicy, texture;
-    private boolean seaweed, egg, rice;
 
     public int getDashi() {
         return dashi;
@@ -48,38 +47,14 @@ public class Ramen implements Serializable {
         this.texture = texture;
     }
 
-    public boolean isSeaweed() {
-        return seaweed;
-    }
 
-    public void setSeaweed(boolean seaweed) {
-        this.seaweed = seaweed;
-    }
 
-    public boolean isEgg() {
-        return egg;
-    }
-
-    public void setEgg(boolean egg) {
-        this.egg = egg;
-    }
-
-    public boolean isRice() {
-        return rice;
-    }
-
-    public void setRice(boolean rice) {
-        this.rice = rice;
-    }
-
-    public Ramen(int dashi, int richness, int garlic, int spicy, int texture, boolean seaweed, boolean egg, boolean rice) {
+    public Ramen(int dashi, int richness, int garlic, int spicy, int texture) {
         this.dashi = dashi;
         this.richness = richness;
         this.garlic = garlic;
         this.spicy = spicy;
         this.texture = texture;
-        this.seaweed = seaweed;
-        this.egg = egg;
-        this.rice = rice;
+
     }
 }

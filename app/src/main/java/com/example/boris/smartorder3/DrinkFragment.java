@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.internal.service.Common;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -53,15 +54,15 @@ public class DrinkFragment extends Fragment {
     }
 
     private void showAllDrinks() {
-        if (Common.networkConnected(getActivity())) {
-            String url = Common.URL + "/DrinkServlet";
+        if (CCommon.isNetworkConnected(getActivity())) {
+            String url = CCommon.URL + "/SmartOrderServlet";
             List<Drink> drinkList = null;
 
             try {
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("action", "getAll");
+                jsonObject.addProperty("action", "drinkGetAll");
                 String jsonOut = jsonObject.toString();
-                drinkGetAllTask = new CommonTask(url, jsonOut);
+                drinkGetAllTask = new CCommonTask(url, jsonOut);
                 String jsonIn = drinkGetAllTask.execute().get();
                 Log.d(TAG, jsonIn);
                 Gson gson = new Gson();
@@ -71,12 +72,11 @@ public class DrinkFragment extends Fragment {
                 Log.e(TAG, e.toString());
             }
             if (drinkList == null || drinkList.isEmpty())  {
-                Common.showToast(getActivity(), R.string.msg_NoNewsFound);
+
             } else {
                 rvDrink.setAdapter(new DrinkRecyclerViewAdapter(getActivity(), drinkList));
             }
         } else {
-            Common.showToast(getActivity(), R.string.msg_NoNetwork);
         }
     }
 
@@ -124,6 +124,13 @@ public class DrinkFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull DrinkFragment.DrinkRecyclerViewAdapter.MyViewHolder myViewHolder, int i) {
+
+            String url = CCommon.URL + "/SmartOrderServlet";
+
+            int id = spot.getId();
+            spotImageTask = new ImageTask(url, id, imageSize, myViewHolder.imageView);
+            spotImageTask.execute();
+
 
             final Drink drinkItem = drinkList.get(i);
             myViewHolder.txtName.setText(String.valueOf(drinkItem.getName()));
