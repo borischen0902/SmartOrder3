@@ -2,6 +2,8 @@ package com.example.boris.smartorder3;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.lang.reflect.Field;
 
 public class UserActivity extends AppCompatActivity {
 
@@ -38,6 +42,8 @@ public class UserActivity extends AppCompatActivity {
         //                .setAction("Action", null).show();
         //    }
         //});
+
+
 
     }
 

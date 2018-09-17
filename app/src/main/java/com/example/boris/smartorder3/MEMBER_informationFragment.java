@@ -65,15 +65,6 @@ public class MEMBER_informationFragment extends Fragment {
         return view;
     }
 
-   
-
-
-    public void onPickPictureClick(View view) {
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_PICK_PICTURE);
-    }
-
     public boolean isIntentAvailable(Context context, Intent intent) {
         PackageManager packageManager = context.getPackageManager();
         List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -159,7 +150,7 @@ public class MEMBER_informationFragment extends Fragment {
                 Uri contentUri = FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".provider", file);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
                 if (isIntentAvailable(getActivity(), intent)) {
-                    startActivityForResult(intent, REQUEST_TAKE_PICTURE_LARGE);
+                    getActivity().startActivityForResult(intent, REQUEST_TAKE_PICTURE_LARGE);
                 } else {
                     Toast.makeText(getActivity(), R.string.textNoCameraAppsFound, Toast.LENGTH_SHORT).show();
                 }
@@ -169,7 +160,9 @@ public class MEMBER_informationFragment extends Fragment {
         btPickPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onPickPictureClick(view);
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        getActivity().startActivityForResult(intent, REQUEST_PICK_PICTURE);
             }
         });
     }
