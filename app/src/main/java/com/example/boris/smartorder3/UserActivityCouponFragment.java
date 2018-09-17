@@ -143,13 +143,11 @@ public class UserActivityCouponFragment extends Fragment {
                         if (newCouponQty > 0) {
                             couponItem.setQty(newCouponQty);
                             couponAdapter.notifyDataSetChanged();
-                            Toast.makeText(v.getContext(), "已領取優惠券", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(v.getContext(), "您已領取此優惠券", Toast.LENGTH_SHORT).show();
                         } else if (newCouponQty == 0) {
                             couponItem.setQty(newCouponQty);
                             couponAdapter.notifyDataSetChanged();
                             Toast.makeText(v.getContext(), "優惠券已領取完畢", Toast.LENGTH_SHORT).show();
-                        } else if (newCouponQty == -1) {
-                            Toast.makeText(v.getContext(), "您已領取過此優惠券", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
