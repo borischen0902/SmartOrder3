@@ -1,11 +1,13 @@
 package com.example.boris.smartorder3;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +17,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class UserActivityCouponFragment extends Fragment {
-    private CouponAdapter couponAdapter;
     private RecyclerView rvCoupon;
+    private static final String TAG = "ShowCoupon";
+    CCommonTask showCouponTask, receiveCouponQtyTask;
+    ImageTask couponImageTask;
+    CouponAdapter couponAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.user_coupon_fragment, container, false);
         rvCoupon = (RecyclerView) view.findViewById(R.id.rvCoupon);
         rvCoupon.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -33,14 +46,27 @@ public class UserActivityCouponFragment extends Fragment {
         return view;
     }
 
-    //假資料
+    //取得資料
     private List<CCoupon> getCoupon() {
-        List<CCoupon> coupon = new ArrayList<>();
-        coupon.add(new CCoupon(R.drawable.info1, 10, "生日優惠", "生日優惠, 打九折"));
-        coupon.add(new CCoupon(R.drawable.info2, 9, "VIP優惠", "VIP打八折"));
-        coupon.add(new CCoupon(R.drawable.info3, 8, "94要打折", "打到骨折"));
-        coupon.add(new CCoupon(R.drawable.info4, 7, "結束營業優惠", "2/30消費免錢!"));
-        return coupon;
+        List<CCoupon> coupons = new ArrayList<>();
+        if (CCommon.isNetworkConnected(getActivity())) {
+            String url = CCommon.URL + "/SmartOrderServlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "showCoupon");
+            String jsonOut = jsonObject.toString();
+            showCouponTask = new CCommonTask(url, jsonOut);
+            try {
+                String jsonIn = showCouponTask.execute().get();
+                Type listType = new TypeToken<List<CCoupon>>() {
+                }.getType();
+                coupons = new Gson().fromJson(jsonIn, listType);
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Toast.makeText(getActivity(), "未連線", Toast.LENGTH_SHORT).show();
+        }
+        return coupons;
     }
 
     //把Data binding在View
@@ -48,6 +74,7 @@ public class UserActivityCouponFragment extends Fragment {
         private LayoutInflater inflater;
         private List<CCoupon> coupon;
         private int isCardViewExtend = -1;
+        int newCouponQty, couponQty;
 
         public CouponAdapter(LayoutInflater inflater, List<CCoupon> coupon) {
             this.inflater = inflater;
@@ -90,33 +117,36 @@ public class UserActivityCouponFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int i) {
-            final CCoupon couponItem = coupon.get(i);
-            final int position = i;
-            myViewHolder.ivCoupon.setImageResource(couponItem.getPicture());
+        public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int position) {
+            final CCoupon couponItem = coupon.get(position);
+            final int id = couponItem.getId_coupon_content();
+            couponQty = couponItem.getQty();
+            getCouponImage(id, myViewHolder);
             myViewHolder.tvCouponTitle.setText(couponItem.getTitle());
+            myViewHolder.tvCouponQty.setText("剩餘 " + couponQty + " 張");
             myViewHolder.tvMore.setOnClickListener(new View.OnClickListener() { //  開啟卡片延伸
                 @Override
                 public void onClick(View v) {
-                    getIsCardViewExtend(myViewHolder.itemView ,position);
+                    getIsCardViewExtend(myViewHolder.itemView, position);
                 }
             });
+
             if (isCardViewExtend == position) {
                 myViewHolder.llExtend.setVisibility(View.VISIBLE);
-                //moveTo(myViewHolder.itemView);
-                myViewHolder.tvCouponInfoDetail.setText(couponItem.getInfo());
+                myViewHolder.tvCouponInfoDetail.setText(couponItem.getText());
                 myViewHolder.btCouponReceive.setOnClickListener(new View.OnClickListener() {
-                    private int couponQty = couponItem.getQty();
                     @Override
                     public void onClick(View v) {
-                        if (couponQty > 0) {
-                            couponQty -= 1;
+                        newCouponQty = receiveCoupon(id, couponQty);
+                        if (newCouponQty > 0) {
+                            couponItem.setQty(newCouponQty);
+                            couponAdapter.notifyDataSetChanged();
                             Toast.makeText(v.getContext(), "已領取優惠券", Toast.LENGTH_SHORT).show();
-                            myViewHolder.tvCouponQty.setText("剩餘 " + couponQty + " 張");
-                        } else {
+                        } else if (newCouponQty == 0) {
                             Toast.makeText(v.getContext(), "優惠券已領取完畢", Toast.LENGTH_SHORT).show();
+                        } else if (newCouponQty == -1) {
+                            Toast.makeText(v.getContext(), "您已領取過此優惠券", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
                 myViewHolder.btCouponShare.setOnClickListener(new View.OnClickListener() {
@@ -128,19 +158,62 @@ public class UserActivityCouponFragment extends Fragment {
             } else {
                 myViewHolder.llExtend.setVisibility(View.GONE);
             }
+
+        }
+
+        /* 領取優惠券 */
+        private int receiveCoupon(int id, int couponQty) {
+            int updateCouponQty = couponQty;
+            if (CCommon.isNetworkConnected(getActivity())) {
+                String url = CCommon.URL + "/SmartOrderServlet";
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("action", "receiveCoupon");
+                SharedPreferences pref = getActivity().getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);  // 取得帳號
+                jsonObject.addProperty("account", pref.getString("account",""));
+                jsonObject.addProperty("id_coupon_content", id);
+                jsonObject.addProperty("updateCouponQty", couponQty - 1);
+                String jsonOut = jsonObject.toString();
+                receiveCouponQtyTask = new CCommonTask(url, jsonOut);
+                try {
+                    String jsonIn = receiveCouponQtyTask.execute().get();
+                    jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
+                    updateCouponQty = jsonObject.get("newCouponQty").getAsInt();
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
+            } else {
+                Toast.makeText(getActivity(), "未連線", Toast.LENGTH_SHORT).show();
+            }
+            return updateCouponQty;
+        }
+
+        /* 取得優惠券圖 */
+        private void getCouponImage(int id, MyViewHolder myViewHolder) {
+            String url = CCommon.URL + "/SmartOrderServlet";
+            couponImageTask = new ImageTask(url, id, myViewHolder.ivCoupon);
+            couponImageTask.execute();
         }
 
         /* 卡片延伸 */
         private void getIsCardViewExtend(View view, int position) {
-            if (isCardViewExtend == position) {
+            if (isCardViewExtend == position) { //  收卡片
                 isCardViewExtend = -1;
-                notifyItemChanged(position);
-            } else {
+                couponAdapter.notifyItemChanged(position);
+            } else {    //  展開卡片
                 int preIsCardViewExtend = isCardViewExtend;
                 isCardViewExtend = position;
-                notifyItemChanged(preIsCardViewExtend);
-                notifyItemChanged(isCardViewExtend);
-                moveTo(view);
+
+                if ((isCardViewExtend < preIsCardViewExtend) || (preIsCardViewExtend == -1)) {
+                    if (preIsCardViewExtend != -1) {
+                        couponAdapter.notifyItemChanged(preIsCardViewExtend);
+                    }
+                    couponAdapter.notifyItemChanged(isCardViewExtend);
+                    moveTo(view);
+                } else if (isCardViewExtend > preIsCardViewExtend) {
+                    couponAdapter.notifyItemChanged(preIsCardViewExtend);
+                    couponAdapter.notifyItemChanged(isCardViewExtend);
+                    moveTo(view);
+                }
             }
         }
 
@@ -151,7 +224,25 @@ public class UserActivityCouponFragment extends Fragment {
             int scrollHeight = view.getTop() - (screenHeight / 2 - itemHeight / 2);
             rvCoupon.smoothScrollBy(0, scrollHeight);
         }
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (showCouponTask != null) {
+            showCouponTask.cancel(true);
+            showCouponTask = null;
+        }
+
+        if (couponImageTask != null) {
+            couponImageTask.cancel(true);
+            couponImageTask = null;
+        }
+
+        if (receiveCouponQtyTask != null) {
+            receiveCouponQtyTask.cancel(true);
+            receiveCouponQtyTask = null;
+        }
     }
 
 

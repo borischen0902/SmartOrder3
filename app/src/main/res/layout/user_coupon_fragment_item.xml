@@ -38,8 +38,7 @@
                     android:layout_below="@id/ivCoupon"
                     android:layout_marginBottom="12dp"
                     android:layout_marginTop="12dp"
-                    android:textSize="16sp"
-                    android:text="八月優惠!" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tvMore"
@@ -82,8 +81,7 @@
                     android:layout_marginBottom="12dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp"
-                    android:textSize="14sp"
-                    android:text="八月優惠! 歡慶父親節, 消費現折8.8折!" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvCouponQty"
@@ -91,8 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvCouponInfoDetail"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="12dp"
-                    android:text="剩餘 10 張" />
+                    android:layout_margin="12dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

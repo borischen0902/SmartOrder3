@@ -68,7 +68,7 @@ public class MainActivityRegister extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int day) {
-                                birthday = setDateFormat(year, month, day);
+                                birthday = setDateFormat(year, month + 1, day);
                                 tvBirthdayRegister.setText("您的生日為 : " + birthday);
                             }
                         },
@@ -163,5 +163,14 @@ public class MainActivityRegister extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);
         pref.edit().putBoolean("login", true).putString("account", account.getPhone()).putString("password", account.getPassword()).putInt("permission", account.getPermission()).apply();
         setResult(RESULT_OK);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (registerTask != null) {
+            registerTask.cancel(true);
+            registerTask = null;
+        }
     }
 }
