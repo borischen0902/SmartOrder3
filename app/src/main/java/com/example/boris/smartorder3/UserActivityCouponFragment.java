@@ -143,6 +143,7 @@ public class UserActivityCouponFragment extends Fragment {
                             couponAdapter.notifyDataSetChanged();
                             Toast.makeText(v.getContext(), "已領取優惠券", Toast.LENGTH_SHORT).show();
                         } else if (newCouponQty == 0) {
+                            couponItem.setQty(newCouponQty);
                             Toast.makeText(v.getContext(), "優惠券已領取完畢", Toast.LENGTH_SHORT).show();
                         } else if (newCouponQty == -1) {
                             Toast.makeText(v.getContext(), "您已領取過此優惠券", Toast.LENGTH_SHORT).show();
@@ -171,7 +172,7 @@ public class UserActivityCouponFragment extends Fragment {
                 SharedPreferences pref = getActivity().getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);  // 取得帳號
                 jsonObject.addProperty("account", pref.getString("account",""));
                 jsonObject.addProperty("id_coupon_content", id);
-                jsonObject.addProperty("updateCouponQty", couponQty - 1);
+                //jsonObject.addProperty("updateCouponQty", couponQty - 1);
                 String jsonOut = jsonObject.toString();
                 receiveCouponQtyTask = new CCommonTask(url, jsonOut);
                 try {
