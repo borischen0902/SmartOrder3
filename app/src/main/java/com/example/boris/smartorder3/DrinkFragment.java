@@ -1,14 +1,15 @@
 package com.example.boris.smartorder3;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class DrinkFragment extends Fragment {
-    private RecyclerView recyclerView;
+    private final static String TAG = "DrinkFragment";
+    private RecyclerView rvDrink;
+    private CommonTask drinkGetAllTask;
+
 
     public DrinkFragment() {
 
@@ -30,25 +38,48 @@ public class DrinkFragment extends Fragment {
     @Override
         public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_drink, container, false);
-        recyclerView = view.findViewById(R.id.rvDrink);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        List<CDrink> drinkList = getDrinkList();
-        recyclerView.setAdapter(new ItemAdapter(getActivity(), drinkList));
+        rvDrink = view.findViewById(R.id.rvDrink);
+        rvDrink.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        showAllDrinks();
         return view;
 
-
         }
 
-        private List<CDrink> getDrinkList () {
 
-            List<CDrink> drinkList = new ArrayList<>();
+    @Override
+    public void onStart() {
+        super.onStart();
+        showAllDrinks();
+    }
 
-            drinkList.add(new CDrink(R.drawable.matcha, "抹茶", 70, true));
-            drinkList.add(new CDrink(R.drawable.matcha_latte, "抹茶拿鐵", 60, true));
-            drinkList.add(new CDrink(R.drawable.matcha_smoothie, "抹茶奶昔", 60, true));
-            drinkList.add(new CDrink(R.drawable.beer, "啤酒", 50, true));
-            return drinkList;
+    private void showAllDrinks() {
+        if (Common.networkConnected(getActivity())) {
+            String url = Common.URL + "/DrinkServlet";
+            List<Drink> drinkList = null;
+
+            try {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("action", "getAll");
+                String jsonOut = jsonObject.toString();
+                drinkGetAllTask = new CommonTask(url, jsonOut);
+                String jsonIn = drinkGetAllTask.execute().get();
+                Log.d(TAG, jsonIn);
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Drink>>(){ }.getType();
+                drinkList = gson.fromJson(jsonIn, listType);
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+            if (drinkList == null || drinkList.isEmpty())  {
+                Common.showToast(getActivity(), R.string.msg_NoNewsFound);
+            } else {
+                rvDrink.setAdapter(new DrinkRecyclerViewAdapter(getActivity(), drinkList));
+            }
+        } else {
+            Common.showToast(getActivity(), R.string.msg_NoNetwork);
         }
+    }
+
 
     public static Fragment newInstance() {
         DrinkFragment fragment = new DrinkFragment();
@@ -56,62 +87,62 @@ public class DrinkFragment extends Fragment {
     }
 
 
-    private class ItemAdapter extends RecyclerView.Adapter<DrinkFragment.ItemAdapter.MyViewHolder> {
+    private class DrinkRecyclerViewAdapter extends RecyclerView.Adapter<DrinkFragment.DrinkRecyclerViewAdapter.MyViewHolder> {
             private Context context;
-            private List<CDrink> drinkList;
+            private List<Drink> drinkList;
 
 
-            public ItemAdapter(Context context, List<CDrink> drinkList) {
+            public DrinkRecyclerViewAdapter(Context context, List<Drink> drinkList) {
                 this.context = context;
                 this.drinkList = drinkList;
 
             }
 
+
+        class MyViewHolder extends RecyclerView.ViewHolder {
+            ImageView imageView;
+            TextView txtName, txtPrice;
+            Button btnButton;
+
+            MyViewHolder(View itemView) {
+                super(itemView);
+                imageView = itemView.findViewById(R.id.ivDrinkPhoto);
+                txtName = itemView.findViewById(R.id.txtDrinkName);
+                txtPrice = itemView.findViewById(R.id.txtDrinkPrice);
+                btnButton = itemView.findViewById(R.id.btnDrinkButton);
+            }
+
+        }
+
+
+        @Override
+        public int getItemCount() {
+
+            return drinkList.size();
+        }
+
+
+        @Override
+        public void onBindViewHolder(@NonNull DrinkFragment.DrinkRecyclerViewAdapter.MyViewHolder myViewHolder, int i) {
+
+            final Drink drinkItem = drinkList.get(i);
+            myViewHolder.txtName.setText(String.valueOf(drinkItem.getName()));
+            myViewHolder.txtPrice.setText(String.valueOf(drinkItem.getPrice()));
+            myViewHolder.btnButton.setOnClickListener(new Button.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+
+
+                }
+            });
+        }
+
             @NonNull
             @Override
-            public DrinkFragment.ItemAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            public DrinkFragment.DrinkRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
                 View itemView = LayoutInflater.from(context).inflate(R.layout.drink_item_view, viewGroup, false);
-                return new DrinkFragment.ItemAdapter.MyViewHolder(itemView);
-            }
-
-            @Override
-            public void onBindViewHolder(@NonNull DrinkFragment.ItemAdapter.MyViewHolder myViewHolder, int i) {
-
-                final CDrink drinkItem = drinkList.get(i);
-                myViewHolder.imageView.setImageResource(drinkItem.getImage());
-                myViewHolder.txtName.setText(String.valueOf(drinkItem.getName()));
-                myViewHolder.txtPrice.setText(String.valueOf(drinkItem.getPrice()));
-                myViewHolder.btnButton.setOnClickListener(new Button.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view) {
-
-
-
-
-                    }
-                });
-            }
-
-            @Override
-            public int getItemCount() {
-
-                return drinkList.size();
-            }
-
-            class MyViewHolder extends RecyclerView.ViewHolder {
-                ImageView imageView;
-                TextView txtName, txtPrice;
-                Button btnButton;
-
-                MyViewHolder(View itemView) {
-                    super(itemView);
-                    imageView = itemView.findViewById(R.id.ivDrinkPhoto);
-                    txtName = itemView.findViewById(R.id.txtDrinkName);
-                    txtPrice = itemView.findViewById(R.id.txtDrinkPrice);
-                    btnButton = itemView.findViewById(R.id.btnDrinkButton);
-                }
-
+                return new DrinkFragment.DrinkRecyclerViewAdapter.MyViewHolder(itemView);
             }
 
         }

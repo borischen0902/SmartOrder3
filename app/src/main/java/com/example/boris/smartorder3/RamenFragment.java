@@ -1,13 +1,15 @@
 package com.example.boris.smartorder3;
-
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,18 +21,21 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.transform.Result;
-
-
 public class RamenFragment extends Fragment {
     RadioGroup rdgDashi,rdgRichness,rdgGarlic,rdgSpicy,rdgTexture;
+    CheckBox btnExtraSeaweedYes,btnExtraRiceYes,btnExtraEggYes;
+    boolean seaWeed,egg,rice;
     int dashi,richness,garlic,spicy,texture;
-    boolean  seaWeed,egg,rice;
-
-
+    private FragmentActivity activity;
+    private FragmentManager fragmentManager;
+    private final static String TAG = "RamenUploadFragment";
 
     public RamenFragment() {
 
@@ -48,7 +53,19 @@ public class RamenFragment extends Fragment {
         customized(view);
         Button btnRamenConfirm = view.findViewById(R.id.btnRamenConfirm);
         btnRamenConfirm.setOnClickListener(confirmListener);
-        Ramen ramen = new Ramen(dashi,richness,garlic,spicy,texture, seaWeed,egg,rice);
+        activity = getActivity();
+        fragmentManager = getFragmentManager();
+
+        rdgDashi = view.findViewById(R.id.rdgDashi);
+        rdgRichness = view.findViewById(R.id.rdgRichness);
+        rdgGarlic = view.findViewById(R.id.rdgGarlic);
+        rdgSpicy = view.findViewById(R.id.rdgSpicy);
+        rdgTexture = view.findViewById(R.id.rdgTexture);
+
+        btnExtraEggYes = view.findViewById(R.id.btnExtraEggYes);
+        btnExtraSeaweedYes = view.findViewById(R.id.btnExtraSeaweedYes);
+        btnExtraRiceYes = view.findViewById(R.id.btnExtraRiceYes);
+
 
         return view;
 
@@ -56,22 +73,9 @@ public class RamenFragment extends Fragment {
 
     private Button.OnClickListener confirmListener = new Button.OnClickListener() {
 
+
         @Override
         public void onClick(View v) {
-
-            RadioButton rbDashi = rdgDashi.findViewById(rdgDashi.getCheckedRadioButtonId());
-            RadioButton rbRichbess = rdgRichness.findViewById(rdgRichness.getCheckedRadioButtonId());
-            RadioButton rbGarlic = rdgGarlic.findViewById(rdgGarlic.getCheckedRadioButtonId());
-            RadioButton rbSpicy = rdgSpicy.findViewById(rdgSpicy.getCheckedRadioButtonId());
-            RadioButton rbTexture = rdgTexture.findViewById(rdgTexture.getCheckedRadioButtonId());
-
-            String  result=  rbDashi.getText().toString()+
-                    rbRichbess.getText().toString()+
-                    rbGarlic.getText().toString()+
-                    rbSpicy.getText().toString()+
-                    rbTexture.getText().toString();
-
-
 
             switch (v.getId()) {
                 case R.id.btnRamenConfirm:
@@ -79,10 +83,50 @@ public class RamenFragment extends Fragment {
 
                     new AlertDialog.Builder(getActivity())
                             .setTitle("是否送出？")
-                            .setMessage(""+result)
+                            .setMessage("")
                             .setPositiveButton("確定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    int dashi = rdgDashi.getCheckedRadioButtonId();
+                                    int richness = rdgRichness.getCheckedRadioButtonId();
+                                    int garlic = rdgGarlic.getCheckedRadioButtonId();
+                                    int spicy = rdgSpicy.getCheckedRadioButtonId();
+                                    int texture = rdgTexture.getCheckedRadioButtonId();
+
+
+                                    if (Common.networkConnected(activity)) {
+                                        String url = Common.URL + "/RamenServlet";
+                                        Ramen ramen = new Ramen(dashi, richness, garlic, spicy, texture, true,true,true);
+                                        JsonObject jsonObject = new JsonObject();
+                                        jsonObject.addProperty("ramen", new Gson().toJson(ramen));
+                                        jsonObject.addProperty("action", "Insert");
+
+                                        jsonObject.addProperty("dashi",dashi);
+                                        jsonObject.addProperty("richness",richness);
+                                        jsonObject.addProperty("garlic",garlic);
+                                        jsonObject.addProperty("spicy",spicy);
+                                        jsonObject.addProperty("texture",texture);
+                                        jsonObject.addProperty("seaweed",seaWeed);
+                                        jsonObject.addProperty("egg",egg);
+                                        jsonObject.addProperty("rice",rice);
+
+
+                                        int count = 0;
+                                        try {
+                                            String result = new CommonTask(url, jsonObject.toString()).execute().get();
+                                            count = Integer.valueOf(result);
+                                        } catch (Exception e) {
+                                            Log.e(TAG, e.toString());
+
+                                        }
+                                        if (count == 0) {
+                                            Common.showToast(getActivity(), R.string.msg_InsertFail);
+                                        } else {
+                                            Common.showToast(getActivity(), R.string.msg_InsertSuccess);
+                                        }
+                                    } else {
+                                        Common.showToast(getActivity(), R.string.msg_NoNetwork);
+                                    }
 
 
 
@@ -118,7 +162,10 @@ public class RamenFragment extends Fragment {
 
                 switch(checkedId) {
                     case R.id.btnDashiLight:
+
+
                         dashi = 0;
+
 
 
 

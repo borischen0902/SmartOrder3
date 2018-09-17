@@ -1,7 +1,9 @@
 package com.example.boris.smartorder3;
 
 
-public class Ramen {
+import java.io.Serializable;
+
+public class Ramen implements Serializable {
 
     private int dashi, richness, garlic, spicy, texture;
     private boolean seaweed, egg, rice;
