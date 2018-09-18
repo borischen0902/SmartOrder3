@@ -72,17 +72,19 @@
 
             <TableRow>
 
-                 <TextView
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/accountnumber"
                     android:textSize="16dp" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
                     android:text="顯示帳號"
                     android:textSize="16dp" />
             </TableRow>
@@ -91,16 +93,18 @@
             <TableRow>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/memberpassword"
                     android:textSize="16dp" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
                     android:text="顯示密碼"
                     android:textSize="16dp" />
             </TableRow>
@@ -109,37 +113,43 @@
             <TableRow>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/memberbir"
                     android:textSize="16dp" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
                     android:text="顯示生日"
                     android:textSize="16dp" />
             </TableRow>
 
             <TableRow>
-
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/membersex"
                     android:textSize="16dp" />
+                <TextView
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="顯示性別"
+                    android:textSize="16dp" />
 
-                 <TextView
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:layout_marginStart="60dp"
-                     android:text="顯示性別"
-                     android:textSize="16dp" />
+
+
 
             </TableRow>
+
         </TableLayout>
     </android.support.v7.widget.CardView>
 

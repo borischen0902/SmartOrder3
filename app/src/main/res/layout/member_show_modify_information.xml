@@ -56,18 +56,20 @@
             <TableRow>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/accountnumber"
                     android:textSize="16dp" />
 
                 <EditText
-                    android:layout_width="match_parent"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
                     android:inputType="phone"
-                    android:hint="顯示帳號"
+                    android:hint="輸入帳號"
                     android:textSize="16dp" />
             </TableRow>
 
@@ -75,45 +77,59 @@
             <TableRow>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/memberpassword"
                     android:textSize="16dp" />
 
                 <EditText
-                    android:layout_width="match_parent"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
                     android:inputType="textPassword"
-                    android:hint="顯示密碼"
+                    android:hint="輸入密碼"
                     android:textSize="16dp" />
             </TableRow>
 
 
             <TableRow>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="@string/memberbir"
-                    android:textSize="16dp" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="60dp"
-                    android:inputType="date"
-                    android:hint="顯示生日"
-                    android:textSize="16dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/memberbir"
+                        android:textSize="16dp" />
+                    <Button
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:shadowDx="0"
+                        android:shadowDy="0"
+                        android:text="選擇日期"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginStart="60dp"
+                        android:background="@null"
+                        android:textColor="@color/colorgray"
+                        android:textSize="16dp"
+                        android:layout_gravity="left"
+                        android:id="@+id/dateButton" />
+
+
+
             </TableRow>
 
             <TableRow>
+
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/membersex"
                     android:textSize="16dp" />
 
@@ -122,6 +138,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -135,6 +153,7 @@
                         android:id="@+id/Female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
                         android:text="女" />
 
                 </RadioGroup>
@@ -147,19 +166,21 @@
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingTop="30dp">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btOK"
         android:gravity="center"
-        android:layout_marginStart="120dp"
+        android:layout_marginStart="100dp"
         android:text="ok"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btClean"
         android:gravity="center"
+        android:layout_marginStart="20dp"
         android:text="Clean"/>
 </LinearLayout>
 
