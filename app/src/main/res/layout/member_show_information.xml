@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -14,12 +13,6 @@
     app:cardCornerRadius="12dp"
     app:cardElevation="6dp"
     android:layout_centerHorizontal="true">
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="修改"
-        android:id="@+id/btmodify" />
 
 
     <ImageView
@@ -62,28 +55,47 @@
             android:orientation="vertical"
             tools:context=".UserActivity">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="6dp"
-                android:text="@string/showinformation"
-                android:textSize="20dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:text="@string/showinformation"
+                    android:textSize="20dp" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="修改"
+                    android:background="@null"
+                    android:textColor="@color/colorAccent"
+                    android:id="@+id/btmodify" />
+
+
+            </LinearLayout>
 
             <TableRow>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/accountnumber"
                     android:textSize="16dp" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
+                    android:layout_marginTop="6dp"
                     android:text="顯示帳號"
                     android:textSize="16dp" />
             </TableRow>
@@ -92,36 +104,79 @@
             <TableRow>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/memberpassword"
                     android:textSize="16dp" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
+                    android:layout_marginTop="6dp"
                     android:text="顯示密碼"
                     android:textSize="16dp" />
             </TableRow>
 
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/accountname"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="6dp"
+                    android:text="顯示姓名"
+                    android:textSize="16dp" />
+            </TableRow>
 
             <TableRow>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="@string/memberphone"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/memberbir"
                     android:textSize="16dp" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
-                    android:text="顯示電話"
+                    android:layout_marginTop="6dp"
+                    android:text="顯示生日"
                     android:textSize="16dp" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/membersex"
+                    android:textSize="16dp" />
+                <TextView
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="6dp"
+                    android:hint="顯示性別"
+                    android:textSize="16dp" />
+
+
+
+
             </TableRow>
 
         </TableLayout>
