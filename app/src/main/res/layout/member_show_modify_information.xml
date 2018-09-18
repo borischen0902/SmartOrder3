@@ -22,7 +22,7 @@
         android:layout_marginEnd="30dp"
         android:id="@+id/photo"
         android:background="@color/colorgray"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="120dp"
         android:layout_marginBottom="5dp"
         />
@@ -59,15 +59,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/accountnumber"
                     android:textSize="16dp" />
 
                 <EditText
+                    android:id="@+id/modify_Account"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="6dp"
                     android:inputType="phone"
                     android:hint="輸入帳號"
                     android:textSize="16dp" />
@@ -80,17 +81,60 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/memberpassword"
                     android:textSize="16dp" />
 
                 <EditText
-                    android:layout_width="170dp"
+                    android:id="@+id/modify_PassWord"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="6dp"
                     android:inputType="textPassword"
                     android:hint="輸入密碼"
+                    android:textSize="16dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/memberrepassword"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/modify_rePassWord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="6dp"
+                    android:inputType="textPassword"
+                    android:hint="請再次輸入密碼"
+                    android:textSize="16dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/accountname"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/modify_Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="6dp"
+                    android:inputType="text"
+                    android:hint="輸入姓名"
                     android:textSize="16dp" />
             </TableRow>
 
@@ -102,17 +146,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="6dp"
                         android:text="@string/memberbir"
                         android:textSize="16dp" />
                     <Button
-                        android:layout_width="170dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:shadowDx="0"
                         android:shadowDy="0"
                         android:text="選擇日期"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginStart="60dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="30dp"
                         android:background="@null"
                         android:textColor="@color/colorgray"
                         android:textSize="16dp"
@@ -129,7 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/membersex"
                     android:textSize="16dp" />
 
@@ -137,8 +181,8 @@
                     android:id="@+id/Sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="6dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
@@ -167,7 +211,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="30dp">
+    android:paddingTop="10dp">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
