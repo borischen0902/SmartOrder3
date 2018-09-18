@@ -46,7 +46,14 @@ public class MEMBER_information_modify extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.member_show_modify_information);
 
+        DateButton();
+        BTOK();
+        BTclean();
 
+    }
+
+    //設定生日日期
+    private void DateButton() {
         final Button dateButton = (Button)findViewById(R.id.dateButton);
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +66,9 @@ public class MEMBER_information_modify extends AppCompatActivity  {
                 new DatePickerDialog(MEMBER_information_modify.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
-                        String format =  setDateFormat(year, month, day);
+                        String format =  String.valueOf(year) + "-"
+                                + String.valueOf(month + 1) + "-"
+                                + String.valueOf(day);
                         dateButton.setText(format);
                     }
 
@@ -67,7 +76,10 @@ public class MEMBER_information_modify extends AppCompatActivity  {
             }
         });
 
+    }
 
+    //按下ok回傳值
+    private void BTOK() {
         Button btok = findViewById(R.id.btOK);
         btok .setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +87,10 @@ public class MEMBER_information_modify extends AppCompatActivity  {
                 MEMBER_information_modify.this.finish();
             }
         });
+    }
 
+    //按下clean清除
+    private void BTclean() {
         Button btclean = findViewById(R.id.btClean);
         btclean.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,19 +99,9 @@ public class MEMBER_information_modify extends AppCompatActivity  {
             }
         });
 
-
     }
 
-
-
-    private String setDateFormat(int year,int monthOfYear,int dayOfMonth){
-        return String.valueOf(year) + "-"
-                + String.valueOf(monthOfYear + 1) + "-"
-                + String.valueOf(dayOfMonth);
-    }
-
-
-
+    //重新整理
     public void refresh() {
         finish();
         Intent intent = new Intent(this,MEMBER_information_modify.class);
