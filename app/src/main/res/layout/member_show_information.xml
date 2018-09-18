@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -125,36 +124,22 @@
             </TableRow>
 
             <TableRow>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:text="@string/membersex"
                     android:textSize="16dp" />
 
-                <RadioGroup
-                    android:id="@+id/rgSex"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tvBirthdayRegister"
-                    android:layout_marginStart="12dp"
-                    android:orientation="horizontal">
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginStart="60dp"
+                     android:text="顯示性別"
+                     android:textSize="16dp" />
 
-                    <RadioButton
-                        android:id="@+id/rbMale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="男" />
-
-                    <RadioButton
-                        android:id="@+id/rbFemale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="女" />
-
-                </RadioGroup>
             </TableRow>
-
         </TableLayout>
     </android.support.v7.widget.CardView>
 

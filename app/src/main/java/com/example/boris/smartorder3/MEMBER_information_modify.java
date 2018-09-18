@@ -39,9 +39,31 @@ public class MEMBER_information_modify extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.member_show_modify_information);
+        Button btok = findViewById(R.id.btOK);
+        btok .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MEMBER_information_modify.this.finish();
+            }
+        });
+
+        Button btclean = findViewById(R.id.btClean);
+        btclean.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refresh();
+            }
+        });
+
 
     }
 
-
+    public void refresh() {
+        finish();
+        Intent intent = new Intent(this,MEMBER_information_modify.class);
+        startActivity(intent);
+    }
 
 }
+
+
