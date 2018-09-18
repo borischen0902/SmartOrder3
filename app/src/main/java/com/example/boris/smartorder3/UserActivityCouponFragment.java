@@ -107,7 +107,11 @@ public class UserActivityCouponFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return coupon.size();
+            if (coupon != null) {
+                return coupon.size();
+            } else {
+                return 0;
+            }
         }
 
         @NonNull
@@ -140,14 +144,16 @@ public class UserActivityCouponFragment extends Fragment {
                     @Override
                     public void onClick(View v) {   // 領取優惠券
                         newCouponQty = receiveCoupon(id, couponQty);
-                        if (newCouponQty > 0) {
-                            couponItem.setQty(newCouponQty);
-                            couponAdapter.notifyDataSetChanged();
-                            Toast.makeText(v.getContext(), "您已領取此優惠券", Toast.LENGTH_SHORT).show();
-                        } else if (newCouponQty == 0) {
+                        if ((couponQty == 0) && (newCouponQty == 0)) {
                             couponItem.setQty(newCouponQty);
                             couponAdapter.notifyDataSetChanged();
                             Toast.makeText(v.getContext(), "優惠券已領取完畢", Toast.LENGTH_SHORT).show();
+                        } else if (newCouponQty >= 0) {
+                            couponItem.setQty(newCouponQty);
+                            couponAdapter.notifyDataSetChanged();
+                            Toast.makeText(v.getContext(), "您已領取此優惠券", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(v.getContext(), "您已領取過此優惠券", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -224,6 +230,7 @@ public class UserActivityCouponFragment extends Fragment {
             int scrollHeight = view.getTop() - (screenHeight / 2 - itemHeight / 2);
             rvCoupon.smoothScrollBy(0, scrollHeight);
         }
+
         private void moveTo2(View view) {
             int screenHeight = getResources().getDisplayMetrics().heightPixels;
             int scrollHeight = view.getTop() - (screenHeight / 2);

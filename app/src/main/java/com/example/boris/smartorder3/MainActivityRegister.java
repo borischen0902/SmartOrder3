@@ -147,10 +147,6 @@ public class MainActivityRegister extends AppCompatActivity {
             Toast.makeText(this, "請輸入姓名", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (name.equals("")) {
-            Toast.makeText(this, "請輸入姓名", Toast.LENGTH_SHORT).show();
-            return false;
-        }
         if (!isBirthClick) {
             Toast.makeText(this, "請選擇生日", Toast.LENGTH_SHORT).show();
             return false;
