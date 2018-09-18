@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/scrRamen">
@@ -363,159 +364,22 @@
 
                 </RadioGroup>
 
-            </android.support.constraint.ConstraintLayout>
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="追加配料"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/conTextureCustomized"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:orientation="horizontal"
-                android:id="@+id/txtExtraMenu"
-                android:textSize="20sp"/>
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtExtraMenu"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:orientation="horizontal"
-                android:id="@+id/conExtraSeaweed">
-
-                <TextView
-                    android:id="@+id/txtExtraSeaweed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="多海苔"
+                <Button
+                    android:id="@+id/btnRamenConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
+                    android:text="確認"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rdgTexture"/>
 
-                <CheckBox
-                    android:id="@+id/btnExtraSeaweedYes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/txtExtraSeaweed"
-                    android:layout_marginStart="100dp"
-                    android:textSize="20sp"
-                    android:text="好"/>
-
-                <TextView
-                    android:id="@+id/txtExtraSeaweedPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="40元"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-            </android.support.constraint.ConstraintLayout>
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/conExtraSeaweed"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:orientation="horizontal"
-                android:id="@+id/conExtraEgg">
-
-                <TextView
-                    android:id="@+id/txtExtraEgg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="多溫泉蛋"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <CheckBox
-                    android:id="@+id/btnExtraEggYes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/txtExtraEgg"
-                    android:layout_marginStart="80dp"
-                    android:textSize="20sp"
-                    android:text="好"/>
-
-                <TextView
-                    android:id="@+id/txtExtraEggPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="40元"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-            </android.support.constraint.ConstraintLayout>
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/conExtraEgg"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:orientation="horizontal"
-                android:id="@+id/conExtraRice">
-
-                <TextView
-                    android:id="@+id/txtExtraRice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="多白飯"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <CheckBox
-                    android:id="@+id/btnExtraRiceYes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="100dp"
-                    android:text="好"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@id/txtExtraRice" />
-
-                <TextView
-                    android:id="@+id/txtExtraRicePrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="40元"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-            </android.support.constraint.ConstraintLayout>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="確認"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtRamenTitle"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:orientation="horizontal"
-                android:id="@+id/btnRamenConfirm"
-                android:textSize="20sp"
-                />
         </android.support.constraint.ConstraintLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
 </ScrollView>
 
 

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -14,10 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.common.internal.service.Common;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -29,6 +27,7 @@ public class DrinkFragment extends Fragment {
     private final static String TAG = "DrinkFragment";
     private RecyclerView rvDrink;
     private CCommonTask drinkGetAllTask;
+    private DrinkImageTask DrinkImageTask;
 
 
     public DrinkFragment() {
@@ -102,7 +101,7 @@ public class DrinkFragment extends Fragment {
         class MyViewHolder extends RecyclerView.ViewHolder {
             ImageView imageView;
             TextView txtName, txtPrice;
-            Button btnButton;
+            CheckBox btnButton;
 
             MyViewHolder(View itemView) {
                 super(itemView);
@@ -124,15 +123,14 @@ public class DrinkFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull DrinkFragment.DrinkRecyclerViewAdapter.MyViewHolder myViewHolder, int i) {
+            final Drink drinkItem = drinkList.get(i);
+
 
             String url = CCommon.URL + "/SmartOrderServlet";
+            int id = drinkItem.getId();
+            DrinkImageTask = new DrinkImageTask(url, id, myViewHolder.imageView);
+            DrinkImageTask.execute();
 
-            int id = spot.getId();
-            spotImageTask = new ImageTask(url, id, imageSize, myViewHolder.imageView);
-            spotImageTask.execute();
-
-
-            final Drink drinkItem = drinkList.get(i);
             myViewHolder.txtName.setText(String.valueOf(drinkItem.getName()));
             myViewHolder.txtPrice.setText(String.valueOf(drinkItem.getPrice()));
             myViewHolder.btnButton.setOnClickListener(new Button.OnClickListener() {

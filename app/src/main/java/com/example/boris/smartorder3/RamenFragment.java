@@ -32,7 +32,6 @@ import java.util.List;
 import javax.xml.transform.Result;
 public class RamenFragment extends Fragment {
     RadioGroup rdgDashi,rdgRichness,rdgGarlic,rdgSpicy,rdgTexture;
-    CheckBox btnExtraSeaweedYes,btnExtraRiceYes,btnExtraEggYes;
     int dashi,richness,garlic,spicy,texture;
     private FragmentActivity activity;
     private FragmentManager fragmentManager;
@@ -67,10 +66,6 @@ public class RamenFragment extends Fragment {
         rdgSpicy = view.findViewById(R.id.rdgSpicy);
         rdgTexture = view.findViewById(R.id.rdgTexture);
 
-        btnExtraEggYes = view.findViewById(R.id.btnExtraEggYes);
-        btnExtraSeaweedYes = view.findViewById(R.id.btnExtraSeaweedYes);
-        btnExtraRiceYes = view.findViewById(R.id.btnExtraRiceYes);
-
 
         return view;
 
@@ -87,6 +82,23 @@ public class RamenFragment extends Fragment {
 
                     Ramen ramen = new Ramen(dashi, richness, garlic, spicy, texture);
                     int dashi= ramen.getDashi();
+
+                    if (dashi ==1) {
+
+
+
+
+                    }
+                    int richness= ramen.getRichness();
+
+                    int garlic= ramen.getGarlic();
+
+                    int spicy= ramen.getSpicy();
+
+                    int texture= ramen.getTexture();
+
+
+
 
 
 
@@ -133,11 +145,6 @@ public class RamenFragment extends Fragment {
 
                 switch(checkedId) {
                     case R.id.btnDashiLight:
-
-
-
-
-
                         dashi = 0;
 
 

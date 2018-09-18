@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ImageTask extends AsyncTask<Object, Integer, Bitmap> {
+public class DrinkImageTask extends AsyncTask<Object, Integer, Bitmap> {
     private final static String TAG = "ImageTask";
     private String url;
     private int id;
@@ -26,7 +26,7 @@ public class ImageTask extends AsyncTask<Object, Integer, Bitmap> {
     //    this(url, id, imageSize, null);
     //}
 
-    public ImageTask(String url, int id, ImageView imageView) {
+    public DrinkImageTask(String url, int id, ImageView imageView) {
         this.url = url;
         this.id = id;
         //this.imageSize = imageSize;
@@ -36,8 +36,8 @@ public class ImageTask extends AsyncTask<Object, Integer, Bitmap> {
     @Override
     protected Bitmap doInBackground(Object... params) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("action", "getImage");
-        jsonObject.addProperty("id", id);
+        jsonObject.addProperty("action", "getDrinkImage");
+        jsonObject.addProperty("drinkId", id);
         return getRemoteImage(url, jsonObject.toString());
     }
 
