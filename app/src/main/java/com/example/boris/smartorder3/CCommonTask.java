@@ -12,7 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class CCommonTask extends AsyncTask<String, Integer, String> {
-    private final String TAG = "CCoommonTask";
+    private final String TAG = "CCommonTask";
     private String url, outStr;
 
     public CCommonTask(String url, String outStr) {

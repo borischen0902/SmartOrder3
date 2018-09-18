@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btLoginOnClick(View view) {
-        Toast.makeText(this, "已成功登入", Toast.LENGTH_SHORT).show();
         account = etAccount.getText().toString();
         password = etPassword.getText().toString();
         if (CCommon.isNetworkConnected(this)) {
@@ -123,14 +122,17 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, "請輸入正確帳號密碼或註冊", Toast.LENGTH_SHORT).show();
                         break;
                     case 1:
+                        Toast.makeText(this, "已成功登入", Toast.LENGTH_SHORT).show();
                         saveLoginInfo();
                         goToActivity(1);
                         break;
                     case 2:
+                        Toast.makeText(this, "已成功登入", Toast.LENGTH_SHORT).show();
                         saveLoginInfo();
                         goToActivity(2);
                         break;
                     case 3:
+                        Toast.makeText(this, "已成功登入", Toast.LENGTH_SHORT).show();
                         saveLoginInfo();
                         goToActivity(3);
                         break;
@@ -143,6 +145,14 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             Toast.makeText(this, "未連線", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (loginTask != null) {
+            loginTask.cancel(true);
+            loginTask = null;
         }
     }
 
