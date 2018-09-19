@@ -104,12 +104,12 @@
                         android:layout_height="wrap_content"
                         android:text="領取優惠券" />
 
-                    <Button
+                    <com.facebook.share.widget.ShareButton
                         android:id="@+id/btCouponShare"
                         android:layout_width="130dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:text="與好友分享資訊" />
+                        android:text="分享資訊" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

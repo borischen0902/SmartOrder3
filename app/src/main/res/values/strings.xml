@@ -18,5 +18,6 @@
     <string name="membersex">性別：</string>
     <string name="accountname">姓名：</string>
     <string name="memberrepassword">請再次輸入密碼：</string>
+    <string name="facebook_app_id">2345556035457734</string>
 
 </resources>
