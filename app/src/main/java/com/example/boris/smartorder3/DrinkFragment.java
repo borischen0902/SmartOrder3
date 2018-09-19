@@ -2,17 +2,22 @@ package com.example.boris.smartorder3;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,11 +28,15 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
+
 public class DrinkFragment extends Fragment {
     private final static String TAG = "DrinkFragment";
     private RecyclerView rvDrink;
     private CCommonTask drinkGetAllTask;
     private DrinkImageTask DrinkImageTask;
+    boolean[] check = new boolean[4];
 
 
     public DrinkFragment() {
@@ -41,9 +50,66 @@ public class DrinkFragment extends Fragment {
         rvDrink = view.findViewById(R.id.rvDrink);
         rvDrink.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         showAllDrinks();
+
+        Button btnDrinkCheck = view.findViewById(R.id.btnDrinkCheck);
+        btnDrinkCheck.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences pref = getActivity().getSharedPreferences(CCommon.ORDER_INFO, MODE_PRIVATE);
+
+
+                if (check[0]) {
+                    pref.edit().putString("抹茶", "抹茶").apply();
+                    getActivity().setResult(RESULT_OK);
+
+                }else {
+
+                    pref.edit().putString("抹茶", "").apply();
+                    getActivity().setResult(RESULT_OK);
+
+                }
+
+
+                if (check[1]) {
+
+                    pref.edit().putString("抹茶拿鐵", "抹茶拿鐵").apply();
+                    getActivity().setResult(RESULT_OK);
+
+                } else {
+
+                    pref.edit().putString("抹茶拿鐵", "").apply();
+                    getActivity().setResult(RESULT_OK);
+
+
+                } if (check[2]) {
+
+                    pref.edit().putString("抹茶奶昔", "抹茶奶昔").apply();
+                    getActivity().setResult(RESULT_OK);
+
+                } else {
+
+                    pref.edit().putString("抹茶奶昔", "").apply();
+                    getActivity().setResult(RESULT_OK);
+
+
+                }if (check[3]) {
+
+                    pref.edit().putString("啤酒", "啤酒").apply();
+                    getActivity().setResult(RESULT_OK);
+
+                }else {
+
+                    pref.edit().putString("啤酒", "").apply();
+                    getActivity().setResult(RESULT_OK);
+
+                }
+
+            }
+        });
         return view;
 
         }
+
 
 
     @Override
@@ -122,26 +188,69 @@ public class DrinkFragment extends Fragment {
 
 
         @Override
-        public void onBindViewHolder(@NonNull DrinkFragment.DrinkRecyclerViewAdapter.MyViewHolder myViewHolder, int i) {
-            final Drink drinkItem = drinkList.get(i);
+        public long getItemId(int i) {
+            return i;
+        }
 
+
+
+
+
+        @Override
+        public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int i) {
+                final Drink drinkItem = drinkList.get(i);
 
             String url = CCommon.URL + "/SmartOrderServlet";
-            int id = drinkItem.getId();
+            final int id = drinkItem.getId();
             DrinkImageTask = new DrinkImageTask(url, id, myViewHolder.imageView);
             DrinkImageTask.execute();
-
             myViewHolder.txtName.setText(String.valueOf(drinkItem.getName()));
             myViewHolder.txtPrice.setText(String.valueOf(drinkItem.getPrice()));
-            myViewHolder.btnButton.setOnClickListener(new Button.OnClickListener() {
-
+            myViewHolder.btnButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View view) {
+                public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+
+                    switch (id) {
+
+                        case 2:
+
+                            check[0] = myViewHolder.btnButton.isChecked();
+
+
+                            break;
+
+
+                        case 3:
+
+                            check[1] = myViewHolder.btnButton.isChecked();
+
+                            break;
+
+
+                        case 4:
+
+                            check[2] = myViewHolder.btnButton.isChecked();
+
+
+                            break;
+
+
+                        case 5:
+
+                            check[3] = myViewHolder.btnButton.isChecked();
+
+                            break;
+
+                    }
+
 
 
                 }
             });
+
+
         }
+
 
             @NonNull
             @Override

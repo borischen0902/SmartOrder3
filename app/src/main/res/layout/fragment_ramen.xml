@@ -1,384 +1,371 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrRamen"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/scrRamen">
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/txtRamenTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="100dp"
+            android:paddingStart="100dp"
+            android:text="開始客製化您的拉麵"
+            android:textSize="20sp" />
+
+        <!--拉麵照片-->
+        <ImageView
+            android:id="@+id/ivRamenPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ramen"
+            app:layout_constraintTop_toBottomOf="@+id/txtRamenTitle" />
+
+        <TextView
+            android:id="@+id/txtRamenPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="拉麵360元"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivRamenPhoto" />
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/conDashiCustomized"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtRamenPrice">
 
 
+            <!--濃淡選項-->
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="開始客製化您的拉麵"
-                android:textSize="20sp"
-                android:id="@+id/txtRamenTitle"
-                android:paddingStart="100dp"
-                android:paddingEnd="100dp" />
-
-            <!--拉麵照片-->
-            <ImageView
-                android:id="@+id/ivRamenPhoto"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:src="@drawable/ramen"
-                android:scaleType="fitXY"
-                app:layout_constraintTop_toBottomOf="@+id/txtRamenTitle"/>
-
-            <TextView
+                android:id="@+id/txtDashi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="拉麵360元"
-                app:layout_constraintTop_toBottomOf="@id/ivRamenPhoto"
-                android:id="@+id/txtRamenPrice"
+                android:text="濃淡"
                 android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
+
+            <RadioGroup
+                android:id="@+id/rdgDashi"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtRamenPrice"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
                 android:orientation="horizontal"
-                android:id="@+id/conDashiCustomized">
-
-
-                <!--濃淡選項-->
-                <TextView
-                    android:id="@+id/txtDashi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="濃淡"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-
-<RadioGroup
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    app:layout_constraintStart_toEndOf="@+id/txtDashi"
-    android:id="@+id/rdgDashi">
+                app:layout_constraintStart_toEndOf="@+id/txtDashi">
 
                 <RadioButton
                     android:id="@+id/btnDashiLight"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/txtDashi"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="40dp"
                     android:layout_marginStart="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:textSize="20sp"
                     android:text="淡"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toEndOf="@id/txtDashi"
 
                     />
 
                 <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/btnDashiLight"
-                    android:text="中"
-                    android:textSize="20sp"
-                    android:layout_marginEnd="40dp"
                     android:id="@+id/btnDashiMedium"
-                     />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/btnDashiMedium"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:text="濃"
-                    android:textSize="20sp"
-                    android:id="@+id/btnDashiStrong"
-
-                    />
-
-</RadioGroup>
-
-
-            </android.support.constraint.ConstraintLayout>
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/conDashiCustomized"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:orientation="horizontal"
-                android:id="@+id/conRichnessCustomized">
-
-
-                <!--油量選項-->
-                <TextView
-                    android:id="@+id/txtRichness"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="油量"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-                <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toEndOf="@+id/txtRichness"
-                    android:id="@+id/rdgRichness">
+                    android:layout_marginEnd="40dp"
+                    android:text="中"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btnDashiLight"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioButton
+                    android:id="@+id/btnDashiStrong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="濃"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnDashiMedium"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    />
+
+            </RadioGroup>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/conRichnessCustomized"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/conDashiCustomized">
+
+
+            <!--油量選項-->
+            <TextView
+                android:id="@+id/txtRichness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="油量"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/rdgRichness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@+id/txtRichness">
 
                 <RadioButton
                     android:id="@+id/btnRichnessLight"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/txtRichness"
-                    android:layout_marginStart="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="40dp"
+                    android:layout_marginStart="40dp"
+                    android:text="淡"
                     android:textSize="20sp"
-                    android:text="淡"/>
+                    app:layout_constraintStart_toEndOf="@id/txtRichness" />
 
                 <RadioButton
                     android:id="@+id/btnRichnessMedium"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/btnRichnessLight"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="40dp"
+                    android:text="中"
                     android:textSize="20sp"
-                    android:text="中"/>
+                    app:layout_constraintStart_toEndOf="@id/btnRichnessLight" />
 
                 <RadioButton
                     android:id="@+id/btnRichnessStrong"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/btnRichnessMedium"
-                    android:layout_marginEnd="40dp"
-                    android:textSize="20sp"
-                    android:text="濃"/>
-
-                </RadioGroup>
-
-            </android.support.constraint.ConstraintLayout>
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/conRichnessCustomized"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:orientation="horizontal"
-                android:id="@+id/conGarlicCustomized">
-
-
-                <!--蒜量選項-->
-                <TextView
-                    android:id="@+id/txtGarlic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="蒜量"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-                <RadioGroup
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toEndOf="@+id/txtGarlic"
-                    android:id="@+id/rdgGarlic">
+                    android:layout_marginEnd="40dp"
+                    android:text="濃"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toEndOf="@id/btnRichnessMedium" />
+
+            </RadioGroup>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/conGarlicCustomized"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/conRichnessCustomized">
+
+
+            <!--蒜量選項-->
+            <TextView
+                android:id="@+id/txtGarlic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="蒜量"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/rdgGarlic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@+id/txtGarlic">
 
                 <RadioButton
                     android:id="@+id/btnGarlicLight"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/txtGarlic"
-                    android:layout_marginStart="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="40dp"
+                    android:layout_marginStart="40dp"
+                    android:text="淡"
                     android:textSize="20sp"
-                    android:text="淡"/>
+                    app:layout_constraintStart_toEndOf="@id/txtGarlic" />
 
                 <RadioButton
                     android:id="@+id/btnGarlicMedium"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/btnGarlicLight"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="40dp"
+                    android:text="中"
                     android:textSize="20sp"
-                    android:text="中"/>
+                    app:layout_constraintStart_toEndOf="@id/btnGarlicLight" />
 
                 <RadioButton
                     android:id="@+id/btnGarlicStrong"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/btnGarlicMedium"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="40dp"
+                    android:text="濃"
                     android:textSize="20sp"
-                    android:text="濃"/>
+                    app:layout_constraintStart_toEndOf="@id/btnGarlicMedium" />
 
-                </RadioGroup>
+            </RadioGroup>
 
-            </android.support.constraint.ConstraintLayout>
-
-
+        </android.support.constraint.ConstraintLayout>
 
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/conSpicyCustomized"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/conGarlicCustomized">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
+
+            <!--辣度選項-->
+            <TextView
+                android:id="@+id/txtSpicy"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/conGarlicCustomized"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:text="辣度"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/rdgSpicy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:id="@+id/conSpicyCustomized">
-
-
-                <!--辣度選項-->
-                <TextView
-                    android:id="@+id/txtSpicy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="辣度"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-<RadioGroup
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    app:layout_constraintStart_toEndOf="@+id/txtSpicy"
-    android:id="@+id/rdgSpicy">
+                app:layout_constraintStart_toEndOf="@+id/txtSpicy">
 
                 <RadioButton
                     android:id="@+id/btnSpicyLight"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/txtSpicy"
-                    android:layout_marginStart="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginStart="40dp"
+                    android:text="小辣"
                     android:textSize="20sp"
-                    android:text="小辣"/>
+                    app:layout_constraintStart_toEndOf="@id/txtSpicy" />
 
                 <RadioButton
                     android:id="@+id/btnSpicyMedium"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/btnSpicyLight"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
+                    android:text="中辣"
                     android:textSize="20sp"
-                    android:text="中辣"/>
+                    app:layout_constraintStart_toEndOf="@id/btnSpicyLight" />
 
                 <RadioButton
                     android:id="@+id/btnSpicyStrong"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/btnSpicyMedium"
-                    android:layout_marginEnd="50dp"
-                    android:textSize="20sp"
-                    android:text="大辣"/>
-
-</RadioGroup>
-
-
-
-            </android.support.constraint.ConstraintLayout>
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/conSpicyCustomized"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:orientation="horizontal"
-                android:id="@+id/conTextureCustomized">
-
-
-
-                <TextView
-                    android:id="@+id/txtTexture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="硬度"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-                <RadioGroup
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toEndOf="@+id/txtTexture"
-                    android:id="@+id/rdgTexture">
+                    android:layout_marginEnd="50dp"
+                    android:text="大辣"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toEndOf="@id/btnSpicyMedium" />
+
+            </RadioGroup>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/conTextureCustomized"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/conSpicyCustomized">
+
+
+            <TextView
+                android:id="@+id/txtTexture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="硬度"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/rdgTexture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@+id/txtTexture">
 
                 <RadioButton
                     android:id="@+id/btnTextureSoft"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/txtTexture"
-                    android:layout_marginStart="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="40dp"
+                    android:layout_marginStart="40dp"
+                    android:text="軟"
                     android:textSize="20sp"
-                    android:text="軟"/>
+                    app:layout_constraintStart_toEndOf="@id/txtTexture" />
 
                 <RadioButton
                     android:id="@+id/btnTextureMedium"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/btnTextureSoft"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
+                    android:text="普通"
                     android:textSize="20sp"
-                    android:text="普通"/>
+                    app:layout_constraintStart_toEndOf="@id/btnTextureSoft" />
 
                 <RadioButton
                     android:id="@+id/btnTextureFirm"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toEndOf="@id/btnTextureMedium"
-                    android:layout_marginEnd="50dp"
-                    android:textSize="20sp"
-                    android:text="硬"/>
-
-                </RadioGroup>
-
-                <Button
-                    android:id="@+id/btnRamenConfirm"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="10dp"
-                    android:paddingStart="10dp"
-                    android:text="確認"
+                    android:layout_marginEnd="50dp"
+                    android:text="硬"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rdgTexture"/>
+                    app:layout_constraintStart_toEndOf="@id/btnTextureMedium" />
+
+            </RadioGroup>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/conTextureCustomized"
+                android:text=" 確定"
+                android:id="@+id/btnRamenConfirm"/>
+
 
         </android.support.constraint.ConstraintLayout>
 
-        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
 </ScrollView>
 

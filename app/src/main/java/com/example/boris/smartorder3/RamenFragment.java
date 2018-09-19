@@ -1,6 +1,7 @@
 package com.example.boris.smartorder3;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.transform.Result;
+
+import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
+
 public class RamenFragment extends Fragment {
     RadioGroup rdgDashi,rdgRichness,rdgGarlic,rdgSpicy,rdgTexture;
     int dashi,richness,garlic,spicy,texture;
@@ -72,45 +77,100 @@ public class RamenFragment extends Fragment {
     }
 
     private Button.OnClickListener confirmListener = new Button.OnClickListener() {
-
-
         @Override
-        public void onClick(View v) {
-
-            switch (v.getId()) {
-                case R.id.btnRamenConfirm:
-
-                    Ramen ramen = new Ramen(dashi, richness, garlic, spicy, texture);
-                    int dashi= ramen.getDashi();
-
-                    if (dashi ==1) {
-
-
-
-
-                    }
-                    int richness= ramen.getRichness();
-
-                    int garlic= ramen.getGarlic();
-
-                    int spicy= ramen.getSpicy();
-
-                    int texture= ramen.getTexture();
-
-
-
-
+        public void onClick(final View v) {
 
 
                     new AlertDialog.Builder(getActivity())
                             .setTitle("是否送出？")
-                            .setMessage(""+dashi)
-                            .setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                            .setMessage("")
+                            .setPositiveButton("確定", new DialogInterface.OnClickListener()
+                            {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    SharedPreferences pref = getActivity().getSharedPreferences(CCommon.ORDER_INFO, MODE_PRIVATE);
+
+                                    if (dashi ==0) {
+
+                                        pref.edit().putString("dashi", "淡").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    } else if (dashi == 1){
+
+
+                                        pref.edit().putString("dashi", "中").apply();
+                                        getActivity().setResult(RESULT_OK);
 
 
 
+                                    } else if (dashi == 2) {
+
+                                        pref.edit().putString("dashi", "濃").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }
+
+                                    if (richness == 0 ){
+
+                                        pref.edit().putString("richness", "淡").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }else if (richness == 1) {
+
+                                        pref.edit().putString("richness", "中").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }else if (richness == 2) {
+
+                                        pref.edit().putString("richness", "濃").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }if (garlic == 0 ){
+
+                                        pref.edit().putString("garlic", "淡").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }else if (garlic == 1) {
+
+                                        pref.edit().putString("garlic", "中").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }else if (garlic == 2) {
+
+                                        pref.edit().putString("garlic", "濃").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }if (spicy == 0 ){
+
+                                        pref.edit().putString("spicy", "小辣").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }else if (spicy == 1) {
+
+                                        pref.edit().putString("spicy", "中辣").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }else if (spicy == 2) {
+
+                                        pref.edit().putString("spicy", "大辣").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }if (texture == 0 ){
+
+                                        pref.edit().putString("texture", "軟").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }else if (texture == 1) {
+
+                                        pref.edit().putString("texture", "普通").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }else if (texture == 2) {
+
+                                        pref.edit().putString("texture", "硬").apply();
+                                        getActivity().setResult(RESULT_OK);
+
+                                    }
 
 
                                 }
@@ -127,7 +187,7 @@ public class RamenFragment extends Fragment {
 
             }
 
-        }
+
     };
 
 
@@ -147,26 +207,17 @@ public class RamenFragment extends Fragment {
                     case R.id.btnDashiLight:
                         dashi = 0;
 
-
-
-
-
-
                             break;
 
                     case R.id.btnDashiMedium:
                         dashi =1;
-
-
 
                             break;
 
                     case R.id.btnDashiStrong:
                         dashi =2;
 
-
-
-                        break;
+                            break;
 
                 }
 
@@ -174,7 +225,6 @@ public class RamenFragment extends Fragment {
             }
 
         });
-
 
 
         RadioGroup rdgRichness = view.findViewById(R.id.rdgRichness);
@@ -193,10 +243,14 @@ public class RamenFragment extends Fragment {
                     case R.id.btnRichnessMedium:
                         richness = 1;
 
+                        break;
+
 
 
                     case R.id.btnRichnessStrong:
                         richness = 2;
+
+                        break;
 
 
 
