@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/member"
     tools:context=".UserActivity"
     android:layout_marginEnd="10dp"
     android:layout_marginStart="10dp"
@@ -58,8 +59,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -84,6 +84,7 @@
             <TableRow>
 
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
@@ -92,6 +93,7 @@
                     android:textSize="16dp" />
 
                 <TextView
+                    android:id="@+id/Showinformation"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
@@ -112,6 +114,7 @@
                     android:textSize="16dp" />
 
                 <TextView
+                    android:id="@+id/Showpassword"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
@@ -131,6 +134,7 @@
                     android:textSize="16dp" />
 
                 <TextView
+                    android:id="@+id/Showname"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
@@ -150,6 +154,7 @@
                     android:textSize="16dp" />
 
                 <TextView
+                    android:id="@+id/ShowDate"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
@@ -167,6 +172,7 @@
                     android:text="@string/membersex"
                     android:textSize="16dp" />
                 <TextView
+                    android:id="@+id/Showsex"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"

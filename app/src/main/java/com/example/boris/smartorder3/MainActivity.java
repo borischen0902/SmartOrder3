@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private int permission;
     private Intent intent;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
     private void handleViews() {
         etAccount = findViewById(R.id.etAccount);
         etPassword = findViewById(R.id.etPassword);
+
+
     }
 
     // 測試用按鍵
@@ -155,5 +159,9 @@ public class MainActivity extends AppCompatActivity {
             loginTask = null;
         }
     }
+
+
+
+
 
 }
