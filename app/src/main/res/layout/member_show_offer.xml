@@ -77,26 +77,14 @@
                     android:layout_margin="6dp"
                     android:text="剩餘 10 張" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvofferdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvofferCouponQty"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="6dp">
-
-                    <Button
-                        android:id="@+id/btofferCouponuse"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:text="使用" />
-
-                    <Button
-                        android:id="@+id/btofferCouponShare"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:text="分享" />
-                </LinearLayout>
+                    android:layout_margin="6dp"
+                    android:text="使用期限" />
             </RelativeLayout>
         </LinearLayout>
 

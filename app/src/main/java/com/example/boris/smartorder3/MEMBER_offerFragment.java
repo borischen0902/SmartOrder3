@@ -75,8 +75,6 @@ public class MEMBER_offerFragment extends Fragment {
                 llExtend = coupon_item.findViewById(R.id.llofferExtend);
                 tvCouponInfoDetail = coupon_item.findViewById(R.id.tvofferCouponInfoDetail);
                 tvCouponQty = coupon_item.findViewById(R.id.tvofferCouponQty);
-                btCouponuse = coupon_item.findViewById(R.id.btofferCouponuse);
-                btCouponShare = coupon_item.findViewById(R.id.btofferCouponShare);
                 cvCoupon = coupon_item.findViewById(R.id.cvofferCoupon);
                 llExtend.setVisibility(View.GONE);
             }
