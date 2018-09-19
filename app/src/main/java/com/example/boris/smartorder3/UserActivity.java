@@ -33,6 +33,7 @@ public class UserActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigationBottom);
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
         initContent();
+
         //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         //fab.setOnClickListener(new View.OnClickListener() {
         //    @Override
@@ -41,8 +42,6 @@ public class UserActivity extends AppCompatActivity {
         //                .setAction("Action", null).show();
         //    }
         //});
-
-
 
 
 
@@ -93,8 +92,6 @@ public class UserActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.content, fragment);
         fragmentTransaction.commit();
     }
-
-
 
 
 

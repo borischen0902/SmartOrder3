@@ -19,5 +19,16 @@
     <string name="accountname">姓名：</string>
     <string name="memberrepassword">請再次輸入密碼：</string>
     <string name="facebook_app_id">2345556035457734</string>
+    <string name="msg_InsertFail">Insert fail</string>
+    <string name="msg_InsertSuccess">Insert successfully</string>
+    <string name="msg_NoNetwork">no network connection available</string>
+    <string name="msg_NoSpotsFound">No spots found</string>
+    <string name="msg_NoNewsFound">No news found</string>
+
+
+
+
+
+
 
 </resources>

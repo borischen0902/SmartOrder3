@@ -9,6 +9,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -28,6 +30,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.android.support:multidex:1.0.3'
+
 
     //Firebase
     implementation 'com.google.firebase:firebase-core:16.0.3' //使firebase 必須 implementation
@@ -37,4 +41,4 @@ dependencies {
     compile 'com.facebook.android:facebook-share:[4,5)'
 }
 //Firebase
-apply plugin: 'com.google.gms.google-services'
+    apply plugin: 'com.google.gms.google-services'

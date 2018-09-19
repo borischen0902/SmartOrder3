@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <TextView
-        android:id="@+id/txtDrinkTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:paddingEnd="100dp"
-        android:paddingStart="100dp"
-        android:text="點選您需要的飲料"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvDrink"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/txtDrinkTitle">
+        android:layout_height="wrap_content">
+
     </android.support.v7.widget.RecyclerView>
 
-</android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnDrinkCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="確認" />
+
+</LinearLayout>
