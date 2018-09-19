@@ -10,7 +10,7 @@ import android.net.NetworkInfo;
 public class CCommon {
     public final static String LOGIN_INFO = "SmartOrderLoginInfo";
     public final static String ORDER_INFO = "SmartOrderOrderInfo";
-    public final static  String URL = "http://10.0.2.2:8080/SmartOrder_Web";
+    public final static  String URL = "http://10.0.2.2:8080/SmartOrder_Web_2";
 
     public static boolean isNetworkConnected(Activity activity) {
         NetworkInfo networkInfo;

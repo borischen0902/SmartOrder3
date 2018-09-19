@@ -18,6 +18,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,11 +51,10 @@ import java.util.List;
 
 public class MEMBER_information_modify extends AppCompatActivity  {
     Button dateButton;
-    EditText Account,Password,Name,rePassword;
+    EditText Password,Name,rePassword;
     RadioGroup sex;
     MemberAccount account;
-    int sexcheck;
-    int permission;
+    int sexcheck,permission;
     CCommonTask registerTask;
     String phone,password,name,bir,repassword;
     private int mYear, mMonth, mDay;
@@ -62,7 +64,7 @@ public class MEMBER_information_modify extends AppCompatActivity  {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.member_show_modify_information);
-
+        //isLogin(); //儲存設定檔功能, 開發階段關閉
         DateButton();
         BTOK();
         BTclean();
@@ -71,7 +73,7 @@ public class MEMBER_information_modify extends AppCompatActivity  {
     }
 
     private void handview() {
-        Account = findViewById(R.id.modify_Account);
+
         Password = findViewById(R.id.modify_PassWord);
         rePassword = findViewById(R.id.modify_rePassWord);
         Name = findViewById(R.id.modify_Name);
@@ -117,6 +119,8 @@ public class MEMBER_information_modify extends AppCompatActivity  {
                     }
 
                 }, mYear,mMonth, mDay).show();
+
+                isBirthClick = true;
             }
         });
 
@@ -129,24 +133,28 @@ public class MEMBER_information_modify extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 setinformation();
-                MEMBER_information_modify.this.finish();
             }
         });
     }
 
     private void setinformation() {
-        phone = Account.getText().toString();
+
         password = Password.getText().toString();
         repassword=rePassword.getText().toString();
         name = Name.getText().toString();
-        account = new MemberAccount(phone,password,repassword,name,bir,sexcheck);
 
-        if (checkInt(phone, password,repassword, name)) {
+        if(password.equals(repassword)){
+           account = new MemberAccount(phone,password,name,bir,sexcheck);
+        }else{
+            Toast.makeText(this, "請密碼錯誤", Toast.LENGTH_SHORT).show();
+        }
+
+        if (checkInt( password,repassword, name)) {
             if (CCommon.isNetworkConnected(this)) {
                 String url = CCommon.URL + "/SmartOrderServlet";
                 JsonObject jsonObject = new JsonObject();
                 gson = new Gson();
-                jsonObject.addProperty("action", "register");
+                jsonObject.addProperty("action", "changeregister");
                 jsonObject.addProperty("account", gson.toJson(account));
                 String jsonOut = jsonObject.toString();
                 registerTask = new CCommonTask(url, jsonOut);
@@ -159,32 +167,32 @@ public class MEMBER_information_modify extends AppCompatActivity  {
             } else {
                 Toast.makeText(this, "未連線", Toast.LENGTH_SHORT).show();
             }
+            if (permission == 1) {
+                saveLoginInfo();
+                Intent intent = new Intent(this,UserActivity.class);
+                startActivity(intent);
+                finish();
+            }else {
+                Toast.makeText(this, "此帳號已註冊", Toast.LENGTH_SHORT).show();
+            }
 
         }
 
     }
 
-    private boolean checkInt(String phone,String password,String repassword, String name) {
+    private boolean checkInt(String password,String repassword, String name) {
 
-        if(!phone.matches("[0-9]{10}")){
-            Toast.makeText(this, "請輸入手機電話", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if(  password.equals("") | repassword.equals("")){
+
+        if( (password.equals("") | repassword.equals(""))){
             if(!(password.equals(repassword))){
                 Toast.makeText(this, "請密碼錯誤", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(this, "請輸入密碼", Toast.LENGTH_SHORT).show();
             }
+            Toast.makeText(this, "請輸入密碼", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (name.equals("")) {
             Toast.makeText(this, "請輸入姓名", Toast.LENGTH_SHORT).show();
             return false;
-        }
-
-        if (permission == 1) {
-            saveLoginInfo();
         }
         if (!isBirthClick) {
             Toast.makeText(this, "請選擇生日", Toast.LENGTH_SHORT).show();
@@ -228,6 +236,8 @@ public class MEMBER_information_modify extends AppCompatActivity  {
             registerTask = null;
         }
     }
+
+
 
 }
 
