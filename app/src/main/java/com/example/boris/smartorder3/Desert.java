@@ -2,10 +2,16 @@ package com.example.boris.smartorder3;
 
 import java.io.Serializable;
 
-public class Drink implements Serializable{
+public class Desert implements Serializable {
     private int id;
     private String name;
     private int price;
+
+    public Desert(int id, String name, int price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
 
     public int getId() {
         return id;
@@ -28,12 +34,6 @@ public class Drink implements Serializable{
     }
 
     public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public Drink(int id, String name, int price) {
-        this.id = id;
-        this.name = name;
         this.price = price;
     }
 }

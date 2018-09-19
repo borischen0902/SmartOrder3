@@ -1,22 +1,34 @@
 package com.example.boris.smartorder3;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WaiterActivityOrderFragment extends Fragment {
-    private List<COrder> order = new ArrayList<>();
+    private List<CShowOrderList> order = new ArrayList<>();
     private OrderAdapter orderAdapter;
+    private CCommonTask showOrderTask, changeOrderStatusTask;
+    private static final String TAG = "ShowOrder";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,51 +45,70 @@ public class WaiterActivityOrderFragment extends Fragment {
         return view;
     }
 
-    //假資料
-    private List<COrder> getOrder() {
-        order.add(new COrder(5, 1, 2, 3, 4, 3, 2, 4, 1));
-        order.add(new COrder(2, 2, 3, 3, 4, 3, 2, 4, 0));
-        order.add(new COrder(3, 2, 2, 3, 4, 3, 2, 4, 0));
-        order.add(new COrder(4, 1, 4, 3, 4, 3, 2, 4, 0));
-        order.add(new COrder(1, 3, 4, 3, 4, 3, 2, 4, 0));
+    /* 取得訂單 */
+    private List<CShowOrderList> getOrder() {
+        if (CCommon.isNetworkConnected(getActivity())) {
+            String url = CCommon.URL + "/SmartOrderServlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "showOrder");
+            String jsonOut = jsonObject.toString();
+            showOrderTask = new CCommonTask(url, jsonOut);
+            try {
+                String jsonIn = showOrderTask.execute().get();
+                Type listType = new TypeToken<List<CShowOrderList>>() {
+                }.getType();
+                order = new Gson().fromJson(jsonIn, listType);
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Toast.makeText(getActivity(), "未連線", Toast.LENGTH_SHORT).show();
+        }
         return order;
     }
 
     //把Data binding在View
     private class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder> {
         private LayoutInflater inflater;
-        private List<COrder> order;
+        private List<CShowOrderList> order;
 
-        public OrderAdapter(LayoutInflater inflater, List<COrder> order) {
+        public OrderAdapter(LayoutInflater inflater, List<CShowOrderList> order) {
             this.inflater = inflater;
             this.order = order;
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
-            TextView tvTableID, tvItem1, tvItem2, tvItem3, tvItem4, tvItem5, tvItem6, tvItem7;
+            TextView tvTableID, tvItem1, tvItem2, tvItem3, tvItem4, tvItem5;
+            CardView cvOrderInfo;
+            LinearLayout llForRamen;
 
             public MyViewHolder(View order_item) {
                 super(order_item);
                 tvTableID = order_item.findViewById(R.id.tvTableID);
+                cvOrderInfo = order_item.findViewById(R.id.cvOrderInfo);
                 tvItem1 = order_item.findViewById(R.id.tvItem1);
+                llForRamen = order_item.findViewById(R.id.llForRamen);
                 tvItem2 = order_item.findViewById(R.id.tvItem2);
                 tvItem3 = order_item.findViewById(R.id.tvItem3);
                 tvItem4 = order_item.findViewById(R.id.tvItem4);
                 tvItem5 = order_item.findViewById(R.id.tvItem5);
-                tvItem6 = order_item.findViewById(R.id.tvItem6);
-                tvItem7 = order_item.findViewById(R.id.tvItem7);
+                llForRamen.setVisibility(View.GONE);
             }
         }
 
         @Override
         public int getItemCount() {
-            for (int i = 0; i < order.size(); i++) {
-                if (order.get(i).getOrderStatus() == 1) {
-                    order.remove(i);
+            if (order != null) {
+                for (int i = 0; i < order.size(); i++) {
+                    if (order.get(i).getStatus() == 1) {
+                        order.remove(i);
+                    }
                 }
+                return order.size();
+            } else {
+                return 0;
             }
 
-            return order.size();
         }
 
         @NonNull
@@ -89,49 +120,118 @@ public class WaiterActivityOrderFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int i) {
-            final COrder orderItem = order.get(i);
-            myViewHolder.tvTableID.setText("桌號 : " + Integer.toString(orderItem.getTableID()));
-            myViewHolder.tvItem1.setText(orderItem.getOrderItem1());
-            myViewHolder.tvItem2.setText(orderItem.getOrderItem2());
-            myViewHolder.tvItem3.setText(orderItem.getOrderItem3());
-            myViewHolder.tvItem4.setText(orderItem.getOrderItem4());
-            myViewHolder.tvItem5.setText(orderItem.getOrderItem5());
-            myViewHolder.tvItem6.setText(orderItem.getOrderItem6());
-            myViewHolder.tvItem7.setText(orderItem.getOrderItem7());
-            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            final CShowOrderList orderItem = order.get(i);
+            myViewHolder.tvTableID.setText("桌號 : " + Integer.toString(orderItem.getId_table()));
+            String item = orderItem.getItem();
+            switch (item) {
+                case "拉麵":
+                    myViewHolder.cvOrderInfo.setCardBackgroundColor(Color.rgb(114, 150, 110));
+                    myViewHolder.llForRamen.setVisibility(View.VISIBLE);
+                    decodeFlavor(myViewHolder, orderItem.getFlavor());
+                    break;
+                default:
+                    myViewHolder.cvOrderInfo.setCardBackgroundColor(Color.rgb(255, 255, 255));
+                    myViewHolder.llForRamen.setVisibility(View.GONE);
+                    myViewHolder.tvItem1.setText(orderItem.getItem());
+                    break;
+            }
+        }
 
+        /* 拉麵口味解碼 */
+        private void decodeFlavor(MyViewHolder myViewHolder, String flavor) {
+            for (int i = 0; i < flavor.length(); i++) {
+                switch (i) {
+                    case 0: // 濃度
+                        switch (flavor.charAt(0)) {
+                            case '0':
+                                myViewHolder.tvItem1.setText("淡");
+                                break;
+                            case '1':
+                                myViewHolder.tvItem1.setText("中");
+                                break;
+                            case '2':
+                                myViewHolder.tvItem1.setText("濃");
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 1: //油量
+                        switch (flavor.charAt(1)) {
+                            case '0':
+                                myViewHolder.tvItem2.setText("淡");
+                                break;
+                            case '1':
+                                myViewHolder.tvItem2.setText("中");
+                                break;
+                            case '2':
+                                myViewHolder.tvItem2.setText("濃");
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 2: //蒜量
+                        switch (flavor.charAt(2)) {
+                            case '0':
+                                myViewHolder.tvItem3.setText("淡");
+                                break;
+                            case '1':
+                                myViewHolder.tvItem3.setText("中");
+                                break;
+                            case '2':
+                                myViewHolder.tvItem3.setText("濃");
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 3: //辣度
+                        switch (flavor.charAt(3)) {
+                            case '0':
+                                myViewHolder.tvItem4.setText("小辣");
+                                break;
+                            case '1':
+                                myViewHolder.tvItem4.setText("中辣");
+                                break;
+                            case '2':
+                                myViewHolder.tvItem4.setText("大辣");
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 4: //硬度
+                        switch (flavor.charAt(4)) {
+                            case '0':
+                                myViewHolder.tvItem5.setText("軟");
+                                break;
+                            case '1':
+                                myViewHolder.tvItem5.setText("普通");
+                                break;
+                            case '2':
+                                myViewHolder.tvItem5.setText("硬");
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    default:
+                        break;
                 }
-            });
-
+            }
         }
     }
 
+    /* 滑動刪除 */
     private class SwipeCardCallBack extends ItemTouchHelper.SimpleCallback {
-        /**
-         * Creates a Callback for the given drag and swipe allowance. These values serve as
-         * defaults
-         * and if you want to customize behavior per ViewHolder, you can override
-         * {@link #getSwipeDirs(RecyclerView, ViewHolder)}
-         * and / or {@link #getDragDirs(RecyclerView, ViewHolder)}.
-         *
-         * @param dragDirs  Binary OR of direction flags in which the Views can be dragged. Must be
-         * composed of {@link #LEFT}, {@link #RIGHT}, {@link #START}, {@link
-         * #END},
-         * {@link #UP} and {@link #DOWN}.
-         * @param swipeDirs Binary OR of direction flags in which the Views can be swiped. Must be
-         * composed of {@link #LEFT}, {@link #RIGHT}, {@link #START}, {@link
-         * #END},
-         * {@link #UP} and {@link #DOWN}.
-         */
-        private List<COrder> order;
+        private List<CShowOrderList> orders;
         private OrderAdapter orderAdapter;
 
-        public SwipeCardCallBack(List<COrder> order, OrderAdapter orderAdapter) {
+        public SwipeCardCallBack(List<CShowOrderList> order, OrderAdapter orderAdapter) {
             super(0,
                     ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-            this.order = order;
+            this.orders = order;
             this.orderAdapter = orderAdapter;
         }
 
@@ -153,10 +253,43 @@ public class WaiterActivityOrderFragment extends Fragment {
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            COrder orderItem = order.get(viewHolder.getLayoutPosition());
-            orderItem.setOrderStatus(1);
+            order.get(viewHolder.getLayoutPosition()).setStatus(1);
             orderAdapter.notifyDataSetChanged();
+            changeOrderStatus(order.get(viewHolder.getLayoutPosition()).getId_order_detail());
+            orderAdapter.notifyItemRemoved(viewHolder.getLayoutPosition());
         }
 
+        /* 更改餐點狀態 */
+        private void changeOrderStatus(int id_order_detail) {
+            if (CCommon.isNetworkConnected(getActivity())) {
+                String url = CCommon.URL + "/SmartOrderServlet";
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("action", "changeOrderStatus");
+                jsonObject.addProperty("id", id_order_detail);
+                String jsonOut = jsonObject.toString();
+                changeOrderStatusTask = new CCommonTask(url, jsonOut);
+                try {
+                    String jsonIn = changeOrderStatusTask.execute().get();
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
+            } else {
+                Toast.makeText(getActivity(), "未連線", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (showOrderTask != null) {
+            showOrderTask.cancel(true);
+            showOrderTask = null;
+        }
+
+        if (changeOrderStatusTask != null) {
+            changeOrderStatusTask.cancel(true);
+            changeOrderStatusTask = null;
+        }
     }
 }

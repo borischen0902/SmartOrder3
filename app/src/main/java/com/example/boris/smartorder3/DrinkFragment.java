@@ -33,16 +33,20 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DrinkFragment extends Fragment {
     private final static String TAG = "DrinkFragment";
+    boolean[] check = new boolean[4];
     private RecyclerView rvDrink;
     private CCommonTask drinkGetAllTask;
     private DrinkImageTask DrinkImageTask;
-    boolean[] check = new boolean[4];
 
 
     public DrinkFragment() {
 
     }
 
+    public static Fragment newInstance() {
+        DrinkFragment fragment = new DrinkFragment();
+        return fragment;
+    }
 
     @Override
         public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -110,8 +114,6 @@ public class DrinkFragment extends Fragment {
 
         }
 
-
-
     @Override
     public void onStart() {
         super.onStart();
@@ -145,13 +147,6 @@ public class DrinkFragment extends Fragment {
         }
     }
 
-
-    public static Fragment newInstance() {
-        DrinkFragment fragment = new DrinkFragment();
-        return fragment;
-    }
-
-
     private class DrinkRecyclerViewAdapter extends RecyclerView.Adapter<DrinkFragment.DrinkRecyclerViewAdapter.MyViewHolder> {
             private Context context;
             private List<Drink> drinkList;
@@ -163,38 +158,16 @@ public class DrinkFragment extends Fragment {
 
             }
 
-
-        class MyViewHolder extends RecyclerView.ViewHolder {
-            ImageView imageView;
-            TextView txtName, txtPrice;
-            CheckBox btnButton;
-
-            MyViewHolder(View itemView) {
-                super(itemView);
-                imageView = itemView.findViewById(R.id.ivDrinkPhoto);
-                txtName = itemView.findViewById(R.id.txtDrinkName);
-                txtPrice = itemView.findViewById(R.id.txtDrinkPrice);
-                btnButton = itemView.findViewById(R.id.btnDrinkButton);
-            }
-
-        }
-
-
         @Override
         public int getItemCount() {
 
             return drinkList.size();
         }
 
-
         @Override
         public long getItemId(int i) {
             return i;
         }
-
-
-
-
 
         @Override
         public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int i) {
@@ -251,13 +224,27 @@ public class DrinkFragment extends Fragment {
 
         }
 
-
             @NonNull
             @Override
             public DrinkFragment.DrinkRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
                 View itemView = LayoutInflater.from(context).inflate(R.layout.drink_item_view, viewGroup, false);
                 return new DrinkFragment.DrinkRecyclerViewAdapter.MyViewHolder(itemView);
             }
+
+        class MyViewHolder extends RecyclerView.ViewHolder {
+            ImageView imageView;
+            TextView txtName, txtPrice;
+            CheckBox btnButton;
+
+            MyViewHolder(View itemView) {
+                super(itemView);
+                imageView = itemView.findViewById(R.id.ivDrinkPhoto);
+                txtName = itemView.findViewById(R.id.txtDrinkName);
+                txtPrice = itemView.findViewById(R.id.txtDrinkPrice);
+                btnButton = itemView.findViewById(R.id.btnDrinkButton);
+            }
+
+        }
 
         }
 

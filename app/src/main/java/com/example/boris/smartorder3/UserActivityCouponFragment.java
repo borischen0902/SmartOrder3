@@ -2,6 +2,7 @@ package com.example.boris.smartorder3;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -87,7 +91,8 @@ public class UserActivityCouponFragment extends Fragment {
             TextView tvCouponTitle, tvMore;
             LinearLayout llExtend;
             TextView tvCouponInfoDetail, tvCouponQty;
-            Button btCouponReceive, btCouponShare;
+            Button btCouponReceive;
+            ShareButton btCouponShare;
             CardView cvCoupon;
 
             public MyViewHolder(View coupon_item) {
@@ -107,7 +112,11 @@ public class UserActivityCouponFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return coupon.size();
+            if (coupon != null) {
+                return coupon.size();
+            } else {
+                return 0;
+            }
         }
 
         @NonNull
@@ -140,29 +149,23 @@ public class UserActivityCouponFragment extends Fragment {
                     @Override
                     public void onClick(View v) {   // 領取優惠券
                         newCouponQty = receiveCoupon(id, couponQty);
-                        if (newCouponQty > 0) {
-                            couponItem.setQty(newCouponQty);
-                            couponAdapter.notifyDataSetChanged();
-                            Toast.makeText(v.getContext(), "已領取優惠券", Toast.LENGTH_SHORT).show();
-                        } else if (newCouponQty == 0) {
+                        if ((couponQty == 0) && (newCouponQty == 0)) {
                             couponItem.setQty(newCouponQty);
                             couponAdapter.notifyDataSetChanged();
                             Toast.makeText(v.getContext(), "優惠券已領取完畢", Toast.LENGTH_SHORT).show();
-                        } else if (newCouponQty == -1) {
+                        } else if (newCouponQty >= 0) {
+                            couponItem.setQty(newCouponQty);
+                            couponAdapter.notifyDataSetChanged();
+                            Toast.makeText(v.getContext(), "您已領取此優惠券", Toast.LENGTH_SHORT).show();
+                        } else {
                             Toast.makeText(v.getContext(), "您已領取過此優惠券", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-                myViewHolder.btCouponShare.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {   // 分享鍵
-                        Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_SEND);
-                        intent.setType("text/plain");
-                        intent.putExtra(Intent.EXTRA_TEXT, couponItem.getText());
-                        startActivity(Intent.createChooser(intent, "分享到"));
-                    }
-                });
+                ShareLinkContent content = new ShareLinkContent.Builder()
+                        .setShareHashtag(new ShareHashtag.Builder().setHashtag("#快使用SmartOrderAPP" + couponItem.getText()).build())
+                        .build();
+                myViewHolder.btCouponShare.setShareContent(content);
             } else {
                 myViewHolder.llExtend.setVisibility(View.GONE);
             }
@@ -226,6 +229,7 @@ public class UserActivityCouponFragment extends Fragment {
             int scrollHeight = view.getTop() - (screenHeight / 2 - itemHeight / 2);
             rvCoupon.smoothScrollBy(0, scrollHeight);
         }
+
         private void moveTo2(View view) {
             int screenHeight = getResources().getDisplayMetrics().heightPixels;
             int scrollHeight = view.getTop() - (screenHeight / 2);

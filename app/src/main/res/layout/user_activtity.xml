@@ -46,8 +46,8 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
         app:menu="@menu/user_navigate_menu"
-
-        />
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"/>
 
 
 </LinearLayout>
