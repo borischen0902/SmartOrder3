@@ -87,7 +87,7 @@ public class MEMBER_informationFragment extends Fragment {
             JsonObject jsonObject = new JsonObject();
             Gson gson = new Gson();
             jsonObject.addProperty("action", "readAccount"); //Servlet switch
-            jsonObject.addProperty("account", gson.toJson(pref));
+            jsonObject.addProperty("account", pref);
             String jsonOut = jsonObject.toString();
             registerTask = new CCommonTask(url, jsonOut);
 
