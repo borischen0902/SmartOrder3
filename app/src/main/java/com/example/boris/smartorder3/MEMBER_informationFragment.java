@@ -85,9 +85,9 @@ public class MEMBER_informationFragment extends Fragment {
         if (CCommon.isNetworkConnected(getActivity())) {
             String url = CCommon.URL + "/SmartOrderServlet";
             JsonObject jsonObject = new JsonObject();
-            Gson gson = new Gson();
+
             jsonObject.addProperty("action", "readAccount"); //Servlet switch
-            jsonObject.addProperty("account", gson.toJson(pref));
+            jsonObject.addProperty("account", pref);
             String jsonOut = jsonObject.toString();
             registerTask = new CCommonTask(url, jsonOut);
 
@@ -98,6 +98,7 @@ public class MEMBER_informationFragment extends Fragment {
 
                 //回傳到Android資料
                 String read = jsonObject.get("readaccount").getAsString();
+                Gson gson = new Gson();
                 personalFile = gson.fromJson(read, CAccount.class);
 
             } catch (Exception e) {
