@@ -2,6 +2,7 @@ package com.example.boris.smartorder3;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -87,7 +91,8 @@ public class UserActivityCouponFragment extends Fragment {
             TextView tvCouponTitle, tvMore;
             LinearLayout llExtend;
             TextView tvCouponInfoDetail, tvCouponQty;
-            Button btCouponReceive, btCouponShare;
+            Button btCouponReceive;
+            ShareButton btCouponShare;
             CardView cvCoupon;
 
             public MyViewHolder(View coupon_item) {
@@ -157,16 +162,10 @@ public class UserActivityCouponFragment extends Fragment {
                         }
                     }
                 });
-                myViewHolder.btCouponShare.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {   // 分享鍵
-                        Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_SEND);
-                        intent.setType("text/plain");
-                        intent.putExtra(Intent.EXTRA_TEXT, couponItem.getText());
-                        startActivity(Intent.createChooser(intent, "分享到"));
-                    }
-                });
+                ShareLinkContent content = new ShareLinkContent.Builder()
+                        .setShareHashtag(new ShareHashtag.Builder().setHashtag("#快使用SmartOrderAPP" + couponItem.getText()).build())
+                        .build();
+                myViewHolder.btCouponShare.setShareContent(content);
             } else {
                 myViewHolder.llExtend.setVisibility(View.GONE);
             }
