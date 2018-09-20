@@ -13,9 +13,9 @@ class MemberAccount implements Serializable {
     private int permission= 1;
     int sex;
 
-    public MemberAccount(String phone, String password, String name, String bir, int sexcheck) {
+    public MemberAccount( String password, String name, String bir, int sexcheck) {
 
-        this.phone = phone;
+
         this.password = password;
         this.name = name;
         this.birth = bir;
