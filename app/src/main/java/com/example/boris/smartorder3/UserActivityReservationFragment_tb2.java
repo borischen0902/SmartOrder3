@@ -124,6 +124,8 @@ public class UserActivityReservationFragment_tb2 extends Fragment {
                         }
                         if (value != null) {
                             waitingNum = value.size();
+                            if(waitingNum == 0 )
+                                waitingNum = 1;
                         }else waitingNum = 1;
                     }
                 });
@@ -204,7 +206,6 @@ public class UserActivityReservationFragment_tb2 extends Fragment {
     private void getTable(){
         listenOrderBy.remove();//取消監聽號碼
         Query query = db.collection("smartOrder/waiting/table").whereEqualTo(STATUS_KEY,0);
-                //.whereGreaterThanOrEqualTo("seat",mySeveral);
         listenTable = query.addSnapshotListener(MetadataChanges.INCLUDE,new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value,
