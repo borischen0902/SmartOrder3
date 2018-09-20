@@ -31,7 +31,7 @@ public class MEMBER_orderlistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.member_orderlistfragment, container, false);
-        rvCoupon = (RecyclerView) view.findViewById(R.id.reorderlist);
+        rvCoupon = view.findViewById(R.id.reorderlist);
         rvCoupon.setLayoutManager(new LinearLayoutManager(getActivity()));
         orderlistAdapter = new OrderlistAdapter(inflater, getOrder());
         rvCoupon.setAdapter(orderlistAdapter);

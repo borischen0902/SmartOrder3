@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,16 +35,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /* 是否登入過檢查 */
-    private void isLogin() {
+    public void isLogin() {
         boolean loginCheck;
+        SharedPreferences pref;
         int activityIndex;
-        SharedPreferences pref = getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);
-        loginCheck = pref.getBoolean("login", false);
-        if (loginCheck) {
-            activityIndex = pref.getInt("permission", 0);
-            goToActivity(activityIndex);
-        }
+            pref = getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);
+            loginCheck = pref.getBoolean("login", false);
+            if (loginCheck) {
+                activityIndex = pref.getInt("permission", 0);
+                goToActivity(activityIndex);
+            }
+
     }
+
 
     /* 換頁 */
     private void goToActivity(int activityIndex) {

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.boris.smartorder3.UserActivityReservationFragment.TAG;
 
 public class MEMBER_offerFragment extends Fragment {
     private OfferAdapter offerAdapter;
     private RecyclerView rvCoupon;
+    CCommonTask showCouponTask, receiveCouponQtyTask;
+    ImageTask couponImageTask;
+
 
     public static Fragment newInstance() {
         MEMBER_offerFragment fragment = new MEMBER_offerFragment();
@@ -34,38 +45,51 @@ public class MEMBER_offerFragment extends Fragment {
         View view = inflater.inflate(R.layout.member_offerfragment, container, false);
         rvCoupon = view.findViewById(R.id.reoffer);
         rvCoupon.setLayoutManager(new LinearLayoutManager(getActivity()));
-        offerAdapter = new MEMBER_offerFragment.OfferAdapter(inflater, getCoupon());
+        offerAdapter = new MEMBER_offerFragment.OfferAdapter(inflater,getcoupon());
         rvCoupon.setAdapter(offerAdapter);
         return view;
     }
 
-    //假資料
-    private List<OfferCoupon> getCoupon() {
-        List<OfferCoupon> coupon = new ArrayList<>();
-        coupon.add(new OfferCoupon(R.drawable.info1, 10, "生日優惠", "生日優惠, 打九折"));
-        coupon.add(new OfferCoupon(R.drawable.info2, 9, "VIP優惠", "VIP打八折"));
-        coupon.add(new OfferCoupon(R.drawable.info3, 8, "94要打折", "打到骨折"));
-        coupon.add(new OfferCoupon(R.drawable.info4, 7, "結束營業優惠", "2/30消費免錢!"));
-        return coupon;
+    public List<OfferCoupon> getcoupon() {
+        List<OfferCoupon> coupons = new ArrayList<>();
+        if (CCommon.isNetworkConnected(getActivity())) {
+            String url = CCommon.URL + "/SmartOrderServlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "showCoupon");
+            String jsonOut = jsonObject.toString();
+            showCouponTask = new CCommonTask(url, jsonOut);
+            try {
+                String jsonIn = showCouponTask.execute().get();
+                Type listType = new TypeToken<List<CCoupon>>() {
+                }.getType();
+                coupons = new Gson().fromJson(jsonIn, listType);
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Toast.makeText(getActivity(), "未連線", Toast.LENGTH_SHORT).show();
+        }
+        return coupons;
     }
 
+
     //把Data binding在View
-    private class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder> {
+    public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder> {
         private LayoutInflater inflater;
         private List<OfferCoupon> offercoupon;
-        private int isCardViewExtend = -1;
 
-        public OfferAdapter(LayoutInflater inflater, List<OfferCoupon> coupon) {
+
+        public OfferAdapter(LayoutInflater inflater, List<OfferCoupon> getcoupon) {
             this.inflater = inflater;
-            this.offercoupon = coupon;
+            this.offercoupon = getcoupon;
         }
+
 
         class MyViewHolder extends RecyclerView.ViewHolder {
             ImageView ivCoupon;
             TextView tvCouponTitle;
             LinearLayout llExtend;
-            TextView tvCouponInfoDetail, tvCouponQty;
-            Button btCouponuse, btCouponShare;
+            TextView tvCouponInfoDetail, tvCouponStart,tvCouponEnd;
             CardView cvCoupon;
 
             public MyViewHolder(View coupon_item) {
@@ -74,7 +98,8 @@ public class MEMBER_offerFragment extends Fragment {
                 tvCouponTitle = coupon_item.findViewById(R.id.tvofferCouponTitle);
                 llExtend = coupon_item.findViewById(R.id.llofferExtend);
                 tvCouponInfoDetail = coupon_item.findViewById(R.id.tvofferCouponInfoDetail);
-                tvCouponQty = coupon_item.findViewById(R.id.tvofferCouponQty);
+                tvCouponStart = coupon_item.findViewById(R.id.tvofferStart);
+                tvCouponEnd=coupon_item.findViewById(R.id.tvofferdate);
                 cvCoupon = coupon_item.findViewById(R.id.cvofferCoupon);
                 llExtend.setVisibility(View.GONE);
             }
@@ -92,48 +117,58 @@ public class MEMBER_offerFragment extends Fragment {
             return new MyViewHolder(coupon_item);
         }
 
+
+
+
+
         @Override
         public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int i) {
             final OfferCoupon couponItem = offercoupon.get(i);
-            myViewHolder.tvCouponQty.setText("剩餘 " + couponItem.getQty() + " 張");
-            myViewHolder.ivCoupon.setImageResource(couponItem.getPicture());
+            final int id = couponItem.getId_coupon_content();
+            getCouponImage(id, myViewHolder);
+            myViewHolder.tvCouponStart.setText("開始日期" + couponItem.getDate_start());
+            myViewHolder.tvCouponEnd.setText("結束日期"+couponItem.getDate_end());
             myViewHolder.tvCouponTitle.setText(couponItem.getTitle());
             myViewHolder.llExtend.setVisibility(View.VISIBLE);
             moveTo(myViewHolder.itemView);
-            myViewHolder.tvCouponInfoDetail.setText(couponItem.getInfo());
-            myViewHolder.btCouponuse.setOnClickListener(new View.OnClickListener() {
-                //                private int couponQty = couponItem.getQty();
-                @Override
-                public void onClick(View v) {
-                    if (couponItem.getQty() > 0) {
-                        couponItem.setQty(couponItem.getQty() - 1);
-                        Toast.makeText(v.getContext(), "已使用優惠券", Toast.LENGTH_SHORT).show();
-                        myViewHolder.tvCouponQty.setText("剩餘 " + couponItem.getQty() + " 張");
-                    } else {
-                        Toast.makeText(v.getContext(), "已無優惠券", Toast.LENGTH_SHORT).show();
-                    }
+            myViewHolder.tvCouponInfoDetail.setText(couponItem.getText());
 
-                }
-            });
-            myViewHolder.btCouponShare.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "對不起, 您沒有朋友", Toast.LENGTH_SHORT).show();
-                }
-            });
+        }
+
+        private void getCouponImage(int id, OfferAdapter.MyViewHolder myViewHolder) {
+            String url = CCommon.URL + "/SmartOrderServlet";
+            couponImageTask = new ImageTask(url, id, myViewHolder.ivCoupon);
+            couponImageTask.execute();
         }
     }
 
+        /* 點擊時調整item位置 */
+        private void moveTo(View view) {
+            int itemHeight = view.getHeight();
+            int screenHeight = getResources().getDisplayMetrics().heightPixels;
+            int scrollHeight = view.getTop() - (screenHeight / 2 - itemHeight / 2);
+            rvCoupon.smoothScrollBy(0, scrollHeight);
+        }
 
-    /* 點擊時調整item位置 */
-    private void moveTo(View view) {
-        int itemHeight = view.getHeight();
-        int screenHeight = getResources().getDisplayMetrics().heightPixels;
-        int scrollHeight = view.getTop() - (screenHeight / 2 - itemHeight / 2);
-        rvCoupon.smoothScrollBy(0, scrollHeight);
+
+        public void onStop() {
+            super.onStop();
+            if (showCouponTask != null) {
+                showCouponTask.cancel(true);
+                showCouponTask = null;
+            }
+
+            if (couponImageTask != null) {
+                couponImageTask.cancel(true);
+                couponImageTask = null;
+            }
+
+            if (receiveCouponQtyTask != null) {
+                receiveCouponQtyTask.cancel(true);
+                receiveCouponQtyTask = null;
+            }
+
     }
-
 }
-
 
 
