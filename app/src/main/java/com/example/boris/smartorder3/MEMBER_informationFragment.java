@@ -58,7 +58,7 @@ public class MEMBER_informationFragment extends Fragment {
 
 
     private ImageView imageView;
-    private Button btTakePictureLarge, btPickPicture;
+    private Button btTakePictureLarge, btPickPicture,logout;
     private TextView tvphone,tvpassword,tvname,tvbir,tvsex;
     private File file;
     private static final int REQUEST_TAKE_PICTURE_LARGE = 1;
@@ -78,10 +78,25 @@ public class MEMBER_informationFragment extends Fragment {
         readservlet(pref.getString("account",""));
         handleview(view);
         Botton(view);
+        Logout(view);
         return view;
     }
 
+    public void Logout(View view) {
+        logout = view.findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CCommon.LOGIN_INFO = null;
+                Intent intent = new Intent(getActivity(),MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
     private void readservlet(String pref) {
+
         if (CCommon.isNetworkConnected(getActivity())) {
             String url = CCommon.URL + "/SmartOrderServlet";
             JsonObject jsonObject = new JsonObject();
@@ -182,22 +197,24 @@ public class MEMBER_informationFragment extends Fragment {
         tvbir =view.findViewById(R.id.ShowDate);
         tvsex =view.findViewById(R.id.Showsex);
 
-        tvphone.setText(personalFile.getPhone());
-        tvpassword.setText(personalFile.getPassword());
-        tvname.setText(personalFile.getName());
-        tvbir.setText(personalFile.getBirth());
+        if(personalFile!=null) {
 
-        int sex;
-        sex = personalFile.getSex();
+            tvphone.setText(personalFile.getPhone());
+            tvpassword.setText(personalFile.getPassword());
+            tvname.setText(personalFile.getName());
+            tvbir.setText(personalFile.getBirth());
 
-        if(sex==0){
-            tvsex.setText("男性");
-        }else{
-            tvsex.setText("女性");
+            int sex;
+            sex = personalFile.getSex();
+
+            if (sex == 0) {
+                tvsex.setText("男性");
+            } else {
+                tvsex.setText("女性");
+            }
+
+
         }
-
-
-
     }
 
     private void Botton(View view) {
