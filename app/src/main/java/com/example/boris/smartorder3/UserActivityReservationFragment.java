@@ -17,7 +17,7 @@ import java.util.List;
 public class UserActivityReservationFragment extends Fragment {
 
     public static final String TAG = "TabActivity";
-    public static final String []sTitle = new String[]{"訂位","候位"};
+    public static final String []sTitle = new String[]{"候位","訂位"};
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -54,8 +54,8 @@ public class UserActivityReservationFragment extends Fragment {
         });
         tabLayout.setupWithViewPager(viewPager);
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(UserActivityReservationFragment_tb1.newInstance());
         fragments.add(UserActivityReservationFragment_tb2.newInstance());
+        fragments.add(UserActivityReservationFragment_tb1.newInstance());
 
         UserActivityReservationFragment_Adapter adapter = new UserActivityReservationFragment_Adapter(getChildFragmentManager(),fragments, Arrays.asList(sTitle));
         viewPager.setAdapter(adapter);
