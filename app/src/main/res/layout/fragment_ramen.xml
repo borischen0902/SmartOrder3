@@ -14,7 +14,8 @@
             android:paddingEnd="100dp"
             android:paddingStart="100dp"
             android:text="開始客製化您的拉麵"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"/>
 
         <!--拉麵照片-->
         <ImageView
@@ -306,7 +307,8 @@
             android:id="@+id/btnRamenConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=" 確定" />
+            android:text=" 確定"
+            android:layout_marginTop="20dp"/>
 </LinearLayout>
 
 

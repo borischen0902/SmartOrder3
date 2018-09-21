@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+
     <TextView
         android:id="@+id/txtMenuRecord"
         android:layout_width="match_parent"
@@ -13,6 +15,12 @@
         android:text="您的點餐紀錄"
         android:textSize="20sp"
         android:gravity="center"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnPay"
+        android:text="付款" />
 
     <TextView
         android:layout_width="match_parent"
@@ -242,12 +250,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnPay"
-            android:text="付款" />
 
 
     </android.support.constraint.ConstraintLayout>

@@ -82,10 +82,9 @@ public class RamenFragment extends Fragment {
 
 
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("是否送出？")
-                            .setMessage("")
-                            .setPositiveButton("確定", new DialogInterface.OnClickListener()
-                            {
+                            .setTitle("加入至付款？")
+                            .setMessage("餐點選購完畢，請至付款，完成點餐")
+                            .setPositiveButton("確定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     SharedPreferences pref = getActivity().getSharedPreferences(CCommon.ORDER_INFO, MODE_PRIVATE);
