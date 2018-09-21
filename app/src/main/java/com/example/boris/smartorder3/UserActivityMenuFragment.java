@@ -16,7 +16,7 @@ import java.util.List;
 
 
 public class UserActivityMenuFragment extends Fragment {
-    public static final String[] sTitle = new String[]{"拉麵","飲料","甜點","紀錄"};
+    public static final String[] sTitle = new String[]{"拉麵","飲料","甜點","付款"};
 
 
     @Nullable
@@ -83,6 +83,8 @@ public class UserActivityMenuFragment extends Fragment {
 
         UserActivityMenuAdapter adapter = new UserActivityMenuAdapter(getChildFragmentManager(),fragments, Arrays.asList(sTitle));
         mViewPager.setAdapter(adapter);
+        mViewPager.setOffscreenPageLimit(2);
+
 
 
     }
