@@ -4,11 +4,10 @@ import java.io.Serializable;
 
 public class OfferCoupon implements Serializable {
     int id_coupon_content;
-    String date_start;
-    String date_end;
+    String startdate;
+    String  enddate;
     String title;
     String text;
-
 
     public int getId_coupon_content() {
         return id_coupon_content;
@@ -18,20 +17,20 @@ public class OfferCoupon implements Serializable {
         this.id_coupon_content = id_coupon_content;
     }
 
-    public String getDate_start() {
-        return date_start;
+    public String getStartdate() {
+        return startdate;
     }
 
-    public void setDate_start(String date_start) {
-        this.date_start = date_start;
+    public void setStartdate(String startdate) {
+        this.startdate = startdate;
     }
 
-    public String getDate_end() {
-        return date_end;
+    public String getEnddate() {
+        return enddate;
     }
 
-    public void setDate_end(String date_end) {
-        this.date_end = date_end;
+    public void setEnddate(String enddate) {
+        this.enddate = enddate;
     }
 
     public String getTitle() {
@@ -50,10 +49,11 @@ public class OfferCoupon implements Serializable {
         this.text = text;
     }
 
-    public OfferCoupon(int id_coupon_content,String date_start,String date_end,String title, String text) {
+    public OfferCoupon(int id_coupon_content, String startdate, String enddate, String title, String text) {
         this.id_coupon_content = id_coupon_content;
-        this.date_start = date_start;
-        this.date_end = date_end;
+        this.startdate = startdate;
+        this. enddate =  enddate;
+
         this.title = title;
         this.text = text;
 

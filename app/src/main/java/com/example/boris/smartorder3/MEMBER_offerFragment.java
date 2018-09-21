@@ -1,5 +1,6 @@
 package com.example.boris.smartorder3;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.example.boris.smartorder3.UserActivityReservationFragment.TAG;
 
 public class MEMBER_offerFragment extends Fragment {
@@ -32,6 +34,7 @@ public class MEMBER_offerFragment extends Fragment {
     private RecyclerView rvCoupon;
     CCommonTask showCouponTask, receiveCouponQtyTask;
     ImageTask couponImageTask;
+
 
 
     public static Fragment newInstance() {
@@ -45,22 +48,24 @@ public class MEMBER_offerFragment extends Fragment {
         View view = inflater.inflate(R.layout.member_offerfragment, container, false);
         rvCoupon = view.findViewById(R.id.reoffer);
         rvCoupon.setLayoutManager(new LinearLayoutManager(getActivity()));
-        offerAdapter = new MEMBER_offerFragment.OfferAdapter(inflater,getcoupon());
+        SharedPreferences pref = getActivity().getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);//取得設定檔資料
+        offerAdapter = new MEMBER_offerFragment.OfferAdapter(inflater,getcoupon(pref.getString("account","")));
         rvCoupon.setAdapter(offerAdapter);
         return view;
     }
 
-    public List<OfferCoupon> getcoupon() {
+    public List<OfferCoupon> getcoupon(String pref) {
         List<OfferCoupon> coupons = new ArrayList<>();
         if (CCommon.isNetworkConnected(getActivity())) {
             String url = CCommon.URL + "/SmartOrderServlet";
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "showCoupon");
+            jsonObject.addProperty("action", "showOfferCoupon");
+            jsonObject.addProperty("account", pref);
             String jsonOut = jsonObject.toString();
             showCouponTask = new CCommonTask(url, jsonOut);
             try {
                 String jsonIn = showCouponTask.execute().get();
-                Type listType = new TypeToken<List<CCoupon>>() {
+                Type listType = new TypeToken<List<OfferCoupon>>() {
                 }.getType();
                 coupons = new Gson().fromJson(jsonIn, listType);
             } catch (Exception e) {
@@ -107,6 +112,9 @@ public class MEMBER_offerFragment extends Fragment {
 
         @Override
         public int getItemCount() {
+            if(offercoupon==null){
+                return 0;
+            }
             return offercoupon.size();
         }
 
@@ -126,8 +134,8 @@ public class MEMBER_offerFragment extends Fragment {
             final OfferCoupon couponItem = offercoupon.get(i);
             final int id = couponItem.getId_coupon_content();
             getCouponImage(id, myViewHolder);
-            myViewHolder.tvCouponStart.setText("開始日期" + couponItem.getDate_start());
-            myViewHolder.tvCouponEnd.setText("結束日期"+couponItem.getDate_end());
+            myViewHolder.tvCouponStart.setText("開始日期: " + couponItem.getStartdate());
+            myViewHolder.tvCouponEnd.setText("結束日期: "+couponItem.getEnddate());
             myViewHolder.tvCouponTitle.setText(couponItem.getTitle());
             myViewHolder.llExtend.setVisibility(View.VISIBLE);
             moveTo(myViewHolder.itemView);
@@ -135,7 +143,7 @@ public class MEMBER_offerFragment extends Fragment {
 
         }
 
-        private void getCouponImage(int id, OfferAdapter.MyViewHolder myViewHolder) {
+        private void getCouponImage(int id,MEMBER_offerFragment.OfferAdapter.MyViewHolder myViewHolder) {
             String url = CCommon.URL + "/SmartOrderServlet";
             couponImageTask = new ImageTask(url, id, myViewHolder.ivCoupon);
             couponImageTask.execute();
