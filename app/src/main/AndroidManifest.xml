@@ -46,6 +46,8 @@
             android:name=".AdminActivity"
             android:label="admin_activity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Statistics.LineChartActivity" />
+
         <activity
             android:name=".WaiterActivity"
             android:label="waiter_activity"
