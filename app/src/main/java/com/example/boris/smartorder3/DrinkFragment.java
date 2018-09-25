@@ -66,8 +66,6 @@ public class DrinkFragment extends Fragment {
                         .setMessage("餐點選購完畢，請至付款，完成點餐")
                         .setPositiveButton("確定", new DialogInterface.OnClickListener() {
 
-
-
                             @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
@@ -207,6 +205,44 @@ public class DrinkFragment extends Fragment {
             DrinkImageTask.execute();
             myViewHolder.txtName.setText(String.valueOf(drinkItem.getName()));
             myViewHolder.txtPrice.setText(String.valueOf(drinkItem.getPrice()));
+            SharedPreferences pref = getActivity().getSharedPreferences(CCommon.DRINK_INFO, MODE_PRIVATE);
+            switch (i){
+                case 0:
+                    if ((pref.getString("抹茶","").equals("抹茶"))){
+                        myViewHolder.btnButton.setChecked(true);
+
+                    }else  myViewHolder.btnButton.setChecked(false);
+
+                    break;
+
+
+                case 1:
+                    if ((pref.getString("抹茶拿鐵","").equals("抹茶拿鐵"))){
+                        myViewHolder.btnButton.setChecked(true);
+
+                    }else  myViewHolder.btnButton.setChecked(false);
+
+                    break;
+
+                case 2:
+                    if ((pref.getString("抹茶奶昔","").equals("抹茶奶昔"))){
+                        myViewHolder.btnButton.setChecked(true);
+
+                    }else  myViewHolder.btnButton.setChecked(false);
+
+                    break;
+
+                case 3:
+                    if ((pref.getString("啤酒","").equals("啤酒"))){
+                        myViewHolder.btnButton.setChecked(true);
+
+                    }else  myViewHolder.btnButton.setChecked(false);
+
+                    break;
+
+
+            }
+
             myViewHolder.btnButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {

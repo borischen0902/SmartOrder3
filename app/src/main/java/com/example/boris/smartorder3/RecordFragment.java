@@ -25,27 +25,9 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.wallet.AutoResolveHelper;
-import com.google.android.gms.wallet.IsReadyToPayRequest;
-import com.google.android.gms.wallet.PaymentData;
-import com.google.android.gms.wallet.PaymentDataRequest;
-import com.google.android.gms.wallet.PaymentsClient;
-import com.google.android.gms.wallet.Wallet;
-import com.google.android.gms.wallet.WalletConstants;
-import java.util.Optional;
+
 import java.util.concurrent.ExecutionException;
 
-import org.json.JSONObject;
 
 
 public class RecordFragment extends Fragment {
@@ -57,7 +39,6 @@ public class RecordFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();// 初始化 FirebaseFirestore
     private String documentPatch = "/smartOrder/update";//指定檔案路徑
     List<Integer> drinkAndDesertList = new ArrayList<>();
-    private PaymentsClient mPaymentsClient;
     private View mGooglePayButton;
     private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 42;
 
@@ -110,6 +91,7 @@ public class RecordFragment extends Fragment {
 
         int matchaNumber = 0, matchaLatteNumber = 0, matchaSmoothieNumber = 0, beerNumber = 0;
 
+        drinkAndDesertList.clear();
 
         if (!drinkPref.getString("抹茶", "").equals("")) {
             drinkStr = drinkStr + drinkPref.getString("抹茶", "") + "\n";
@@ -164,6 +146,7 @@ public class RecordFragment extends Fragment {
 
         }
         txtDrinkResult.setText(drinkStr);
+
 
 
         String desertStr = "";
@@ -354,6 +337,9 @@ public class RecordFragment extends Fragment {
 
 
                 }
+
+             drinkPref.edit().clear().apply();
+                desertPref.edit().clear().apply();
 
 
             }

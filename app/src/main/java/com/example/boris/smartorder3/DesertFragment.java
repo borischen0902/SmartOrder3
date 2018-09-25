@@ -49,7 +49,8 @@ public class DesertFragment extends Fragment {
     }
 
     public static Fragment newInstance() {
-        DesertFragment fragment = new DesertFragment();
+        DesertFragment fragment;
+        fragment = new DesertFragment();
         return fragment;
     }
 
@@ -61,8 +62,6 @@ public class DesertFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_desert, container, false);
         rvDesert = view.findViewById(R.id.rvDesert);
         rvDesert.setLayoutManager(new LinearLayoutManager(getActivity()));
-        showAllDesert();
-        activity = getActivity();
         Button btnDesertCheck = view.findViewById(R.id.btnDesertCheck);
         btnDesertCheck.setOnClickListener(confirmDesertCheck);
         return view;
@@ -210,9 +209,41 @@ public class DesertFragment extends Fragment {
             final int id = desertItem.getId();
             DesertImageTask = new DesertImageTask(url, id, myViewHolder.imageView);
             DesertImageTask.execute();
-
             myViewHolder.txtName.setText(String.valueOf(desertItem.getName()));
             myViewHolder.txtPrice.setText(String.valueOf(desertItem.getPrice()));
+            SharedPreferences pref = getActivity().getSharedPreferences(CCommon.DRINK_INFO, MODE_PRIVATE);
+            switch (i){
+                case 0:
+                    if ((pref.getString("水信玄餅","").equals("水信玄餅"))){
+                        myViewHolder.btnButton.setChecked(true);
+                    }else  myViewHolder.btnButton.setChecked(false);
+
+                    break;
+
+                case 1:
+                    if ((pref.getString("糯米丸子","").equals("糯米丸子"))){
+                        myViewHolder.btnButton.setChecked(true);
+                    }else  myViewHolder.btnButton.setChecked(false);
+
+                    break;
+
+                case 2:
+                    if ((pref.getString("抹茶蛋糕","").equals("抹茶蛋糕"))){
+                        myViewHolder.btnButton.setChecked(true);
+                    }else  myViewHolder.btnButton.setChecked(false);
+
+                    break;
+
+                case 3:
+                    if ((pref.getString("抹茶冰淇淋","").equals("抹茶冰淇淋"))){
+                        myViewHolder.btnButton.setChecked(true);
+                    }else  myViewHolder.btnButton.setChecked(false);
+
+                    break;
+
+
+            }
+
             myViewHolder.btnButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
