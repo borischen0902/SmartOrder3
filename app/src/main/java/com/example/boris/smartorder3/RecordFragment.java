@@ -56,7 +56,6 @@ public class RecordFragment extends Fragment {
     public static final String TIME_KEY = "time"; //更新產生新的時間戳
     private FirebaseFirestore db = FirebaseFirestore.getInstance();// 初始化 FirebaseFirestore
     private String documentPatch = "/smartOrder/update";//指定檔案路徑
-    public static final String TAG = "FirebaseDeBug";
     List<Integer> drinkAndDesertList = new ArrayList<>();
     private PaymentsClient mPaymentsClient;
     private View mGooglePayButton;
@@ -365,15 +364,6 @@ public class RecordFragment extends Fragment {
         return view;
 
     }
-
-}
-
-
-
-
-
-    }
-
     //更新菜單資訊- 資料庫確定更新後呼叫
     private void updateMenu(){
         db.document(documentPatch)
@@ -392,3 +382,8 @@ public class RecordFragment extends Fragment {
                 });
     }
 }
+
+
+
+
+
