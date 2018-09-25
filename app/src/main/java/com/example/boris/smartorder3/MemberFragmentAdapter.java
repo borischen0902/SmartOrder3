@@ -2,10 +2,11 @@ package com.example.boris.smartorder3;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.List;
 
-class MemberFragmentAdapter extends FragmentStatePagerAdapter {
+class MemberFragmentAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> mFragments ;
     private List<String> mTitles ;

@@ -49,6 +49,7 @@ public class UserActivityMenuFragment extends Fragment {
 
         UserActivityMenuAdapter adapter = new UserActivityMenuAdapter(getChildFragmentManager(),fragments, Arrays.asList(sTitle));
         mViewPager.setAdapter(adapter);
+        mViewPager.setOffscreenPageLimit(1);
 
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
