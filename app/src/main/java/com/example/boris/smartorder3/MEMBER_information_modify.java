@@ -183,7 +183,7 @@ public class MEMBER_information_modify extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 setinformation();
-                changeFragment();
+
             }
         });
     }
@@ -217,7 +217,7 @@ public class MEMBER_information_modify extends AppCompatActivity  {
                     permission = jsonObject.get("permission").getAsInt();
 
                     saveLoginInfo();
-                    //changeFragment();
+                    changeFragment();
 
                 } catch (Exception e) {
                 }
