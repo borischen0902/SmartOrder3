@@ -46,6 +46,8 @@
             android:name=".AdminActivity"
             android:label="admin_activity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Statistics.LineChartActivity" />
+
         <activity
             android:name=".WaiterActivity"
             android:label="waiter_activity"
@@ -81,6 +83,10 @@
                 android:name="com.facebook.sdk.ApplicationId"
                 android:value="@string/facebook_app_id" />
         </provider>
+
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
 
     </application>
 

@@ -2,11 +2,14 @@ package com.example.boris.smartorder3;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -44,69 +47,98 @@ public class DrinkFragment extends Fragment {
     }
 
     public static Fragment newInstance() {
-        DrinkFragment fragment = new DrinkFragment();
+        DrinkFragment fragment;
+        fragment = new DrinkFragment();
         return fragment;
     }
 
     @Override
-        public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        public View onCreateView (@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_drink, container, false);
         rvDrink = view.findViewById(R.id.rvDrink);
-        rvDrink.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        showAllDrinks();
-
+        rvDrink.setLayoutManager(new LinearLayoutManager(getActivity()));
         Button btnDrinkCheck = view.findViewById(R.id.btnDrinkCheck);
         btnDrinkCheck.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences pref = getActivity().getSharedPreferences(CCommon.ORDER_INFO, MODE_PRIVATE);
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("加入至付款？")
+                        .setMessage("餐點選購完畢，請至付款，完成點餐")
+                        .setPositiveButton("確定", new DialogInterface.OnClickListener() {
 
 
-                if (check[0]) {
-                    pref.edit().putString("抹茶", "抹茶").apply();
-                    getActivity().setResult(RESULT_OK);
 
-                }else {
+                            @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                    pref.edit().putString("抹茶", "").apply();
-                    getActivity().setResult(RESULT_OK);
+                                        Log.d(TAG,"activity"+getActivity());
+                                        SharedPreferences pref = getActivity().getSharedPreferences(CCommon.DRINK_INFO, MODE_PRIVATE);
 
-                }
+                                        if (check[0]) {
+                                            pref.edit().putString("抹茶", "抹茶").apply();
+                                            getActivity().setResult(RESULT_OK);
 
+                                        }else {
 
-                if (check[1]) {
+                                            pref.edit().putString("抹茶", "").apply();
+                                            getActivity().setResult(RESULT_OK);
 
-                    pref.edit().putString("抹茶拿鐵", "抹茶拿鐵").apply();
-                    getActivity().setResult(RESULT_OK);
-
-                } else {
-
-                    pref.edit().putString("抹茶拿鐵", "").apply();
-                    getActivity().setResult(RESULT_OK);
+                                        }
 
 
-                } if (check[2]) {
+                                        if (check[1]) {
 
-                    pref.edit().putString("抹茶奶昔", "抹茶奶昔").apply();
-                    getActivity().setResult(RESULT_OK);
+                                            pref.edit().putString("抹茶拿鐵", "抹茶拿鐵").apply();
+                                            getActivity().setResult(RESULT_OK);
 
-                } else {
+                                        } else {
 
-                    pref.edit().putString("抹茶奶昔", "").apply();
-                    getActivity().setResult(RESULT_OK);
+                                            pref.edit().putString("抹茶拿鐵", "").apply();
+                                            getActivity().setResult(RESULT_OK);
 
 
-                }if (check[3]) {
+                                        } if (check[2]) {
 
-                    pref.edit().putString("啤酒", "啤酒").apply();
-                    getActivity().setResult(RESULT_OK);
+                                            pref.edit().putString("抹茶奶昔", "抹茶奶昔").apply();
+                                            getActivity().setResult(RESULT_OK);
 
-                }else {
+                                        } else {
 
-                    pref.edit().putString("啤酒", "").apply();
-                    getActivity().setResult(RESULT_OK);
+                                            pref.edit().putString("抹茶奶昔", "").apply();
+                                            getActivity().setResult(RESULT_OK);
 
-                }
+
+                                        }if (check[3]) {
+
+                                            pref.edit().putString("啤酒", "啤酒").apply();
+                                            getActivity().setResult(RESULT_OK);
+
+                                        }else {
+
+                                            pref.edit().putString("啤酒", "").apply();
+                                            getActivity().setResult(RESULT_OK);
+
+                                        }
+
+
+
+
+                                    }
+
+
+
+
+
+                        })
+
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        })
+                        .show();
 
             }
         });
@@ -164,10 +196,6 @@ public class DrinkFragment extends Fragment {
             return drinkList.size();
         }
 
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
 
         @Override
         public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int i) {

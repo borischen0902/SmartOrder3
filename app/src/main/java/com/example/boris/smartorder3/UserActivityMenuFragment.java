@@ -16,7 +16,7 @@ import java.util.List;
 
 
 public class UserActivityMenuFragment extends Fragment {
-    public static final String[] sTitle = new String[]{"拉麵","飲料","甜點","紀錄"};
+    public static final String[] sTitle = new String[]{"拉麵","飲料","甜點","付款"};
 
 
     @Nullable
@@ -31,11 +31,24 @@ public class UserActivityMenuFragment extends Fragment {
     private void initView(View view) {
         ViewPager mViewPager = view.findViewById(R.id.containerView);
         TabLayout mTabLayout = view.findViewById(R.id.tabs);
+
         mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[0]));
         mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[1]));
         mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[2]));
         mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[3]));
 
+
+        mTabLayout.setupWithViewPager(mViewPager);
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new RamenFragment());
+        fragments.add(new DrinkFragment());
+        fragments.add(new DesertFragment());
+        fragments.add(new RecordFragment());
+
+
+
+        UserActivityMenuAdapter adapter = new UserActivityMenuAdapter(getChildFragmentManager(),fragments, Arrays.asList(sTitle));
+        mViewPager.setAdapter(adapter);
 
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -65,6 +78,7 @@ public class UserActivityMenuFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
 
+
             }
 
             @Override
@@ -72,18 +86,6 @@ public class UserActivityMenuFragment extends Fragment {
 
             }
         });
-
-        mTabLayout.setupWithViewPager(mViewPager);
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(RamenFragment.newInstance());
-        fragments.add(DrinkFragment.newInstance());
-        fragments.add(DesertFragment.newInstance());
-        fragments.add(RecordFragment.newInstance());
-
-
-        UserActivityMenuAdapter adapter = new UserActivityMenuAdapter(getChildFragmentManager(),fragments, Arrays.asList(sTitle));
-        mViewPager.setAdapter(adapter);
-
 
     }
 

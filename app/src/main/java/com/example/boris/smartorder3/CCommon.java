@@ -9,7 +9,9 @@ import android.net.NetworkInfo;
 
 public class CCommon {
     public static String LOGIN_INFO = "SmartOrderLoginInfo";
-    public final static String ORDER_INFO = "SmartOrderOrderInfo";
+    public final static String RAMEN_INFO = "SmartOrderOrderInfo";
+    public final static String DRINK_INFO = "SmartOrderOrderInfo";
+    public final static String DESERT_INFO = "SmartOrderOrderInfo";
     public final static String WAITING_INFO = "SmartOrderWaitingGInfo";
     public final static  String URL = "http://10.0.2.2:8080/SmartOrder_Web_2";
 
