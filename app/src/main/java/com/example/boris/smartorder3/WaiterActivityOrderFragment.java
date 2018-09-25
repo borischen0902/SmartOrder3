@@ -123,17 +123,19 @@ public class WaiterActivityOrderFragment extends Fragment {
             final CShowOrderList orderItem = order.get(i);
             myViewHolder.tvTableID.setText("桌號 : " + Integer.toString(orderItem.getId_table()));
             String item = orderItem.getItem();
-            switch (item) {
-                case "拉麵":
-                    myViewHolder.cvOrderInfo.setCardBackgroundColor(Color.rgb(114, 150, 110));
-                    myViewHolder.llForRamen.setVisibility(View.VISIBLE);
-                    decodeFlavor(myViewHolder, orderItem.getFlavor());
-                    break;
-                default:
-                    myViewHolder.cvOrderInfo.setCardBackgroundColor(Color.rgb(255, 255, 255));
-                    myViewHolder.llForRamen.setVisibility(View.GONE);
-                    myViewHolder.tvItem1.setText(orderItem.getItem());
-                    break;
+            if (item != null) {
+                switch (item) {
+                    case "拉麵":
+                        myViewHolder.cvOrderInfo.setCardBackgroundColor(Color.rgb(114, 150, 110));
+                        myViewHolder.llForRamen.setVisibility(View.VISIBLE);
+                        decodeFlavor(myViewHolder, orderItem.getFlavor());
+                        break;
+                    default:
+                        myViewHolder.cvOrderInfo.setCardBackgroundColor(Color.rgb(255, 255, 255));
+                        myViewHolder.llForRamen.setVisibility(View.GONE);
+                        myViewHolder.tvItem1.setText(orderItem.getItem());
+                        break;
+                }
             }
         }
 
