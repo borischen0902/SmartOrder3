@@ -183,6 +183,7 @@ public class MEMBER_information_modify extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 setinformation();
+                changeFragment();
             }
         });
     }
@@ -276,11 +277,9 @@ public class MEMBER_information_modify extends AppCompatActivity  {
     }
 
     private void changeFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction =
-                fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.member, new MEMBER_informationFragment());
-        fragmentTransaction.commit();
+        finish();
+        Intent intent = new Intent(MEMBER_information_modify.this, UserActivity.class);
+        startActivity(intent);
     }
 
     @Override

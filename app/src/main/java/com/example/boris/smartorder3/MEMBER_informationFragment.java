@@ -79,6 +79,7 @@ public class MEMBER_informationFragment extends Fragment {
         handleview(view);
         Botton(view);
         Logout(view);
+
         return view;
     }
 
@@ -90,10 +91,14 @@ public class MEMBER_informationFragment extends Fragment {
                 CCommon.LOGIN_INFO = null;
                 Intent intent = new Intent(getActivity(),MainActivity.class);
                 startActivity(intent);
+
+
             }
         });
 
     }
+
+
 
     private void readservlet(String pref) {
 
@@ -265,4 +270,9 @@ public class MEMBER_informationFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
+
+
+
+
 }
