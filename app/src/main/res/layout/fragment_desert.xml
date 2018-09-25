@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="選購您喜愛的甜點"
+        android:textSize="20sp"
+        android:gravity="center"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvDesert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
 
     <Button
         android:layout_width="match_parent"
@@ -13,13 +30,6 @@
         android:text="確認"
         android:id="@+id/btnDesertCheck"/>
 
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvDesert"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp">
-    </android.support.v7.widget.RecyclerView>
-
 </LinearLayout>
+
+</ScrollView>

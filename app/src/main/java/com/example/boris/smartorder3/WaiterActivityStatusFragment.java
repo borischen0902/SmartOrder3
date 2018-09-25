@@ -96,7 +96,7 @@ public class WaiterActivityStatusFragment extends Fragment {
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             Long table = tables.get(position);
             holder.tvTableID.setText("第 " + Long.toString(table) + " 桌                                 用餐中");
-holder.cvStatus.setCardBackgroundColor(Color.rgb(251, 226, 82));
+            holder.cvStatus.setCardBackgroundColor(Color.rgb(251, 226, 82));
         }
 
     }
@@ -130,14 +130,14 @@ holder.cvStatus.setCardBackgroundColor(Color.rgb(251, 226, 82));
     }
 
     //座位狀態監聽器
-    private void tableListener(){
-        Query query = db.collection(collectionPatch).whereEqualTo(STATUS_KEY,1);
-        listenTable = query.addSnapshotListener(MetadataChanges.INCLUDE,new EventListener<QuerySnapshot>() {
+    private void tableListener() {
+        Query query = db.collection(collectionPatch).whereEqualTo(STATUS_KEY, 1);
+        listenTable = query.addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value,
                                 @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
-                    Log.w(TAG, "檔案讀取失敗:", e);
+                    //   Log.w(TAG, "檔案讀取失敗:", e);
                     return;
                 }
 
@@ -156,19 +156,19 @@ holder.cvStatus.setCardBackgroundColor(Color.rgb(251, 226, 82));
     }
 
     //清潔完桌面設定狀態為０ 表示空桌 傳入桌號
-    private void cleanTable(int table){
+    private void cleanTable(int table) {
         db.collection(collectionPatch).document(String.valueOf(table))
                 .update(STATUS_KEY, 0)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "座位狀態更新成功!");
+                        //       Log.d(TAG, "座位狀態更新成功!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "座位狀態更新失敗", e);
+                        //       Log.w(TAG, "座位狀態更新失敗", e);
                     }
                 });
     }

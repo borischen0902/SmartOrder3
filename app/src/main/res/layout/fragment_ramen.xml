@@ -14,7 +14,8 @@
             android:paddingEnd="100dp"
             android:paddingStart="100dp"
             android:text="開始客製化您的拉麵"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            />
 
         <!--拉麵照片-->
         <ImageView
@@ -38,7 +39,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingEnd="10dp"
-            android:paddingStart="10dp">
+            android:paddingStart="10dp"
+            android:layout_marginBottom="10sp">
 
 
             <!--濃淡選項-->
@@ -95,7 +97,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingEnd="10dp"
-            android:paddingStart="10dp">
+            android:paddingStart="10dp"
+            android:layout_marginBottom="10sp">
 
 
             <!--油量選項-->
@@ -147,7 +150,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingEnd="10dp"
-            android:paddingStart="10dp">
+            android:paddingStart="10dp"
+            android:layout_marginBottom="10sp">
 
 
             <!--蒜量選項-->
@@ -200,7 +204,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingEnd="10dp"
-            android:paddingStart="10dp">
+            android:paddingStart="10dp"
+            android:layout_marginBottom="10sp">
 
 
             <!--辣度選項-->
@@ -307,6 +312,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=" 確定" />
+
 </LinearLayout>
 
 
