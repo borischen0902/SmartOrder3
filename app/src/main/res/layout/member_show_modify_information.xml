@@ -15,7 +15,7 @@
     app:cardElevation="6dp"
     android:layout_centerHorizontal="true">
 
-
+    <!--
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -26,7 +26,7 @@
         android:layout_marginStart="120dp"
         android:layout_marginBottom="5dp"
         />
-
+-->
 
 
 

@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="12dp" />
-
+<!--
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             android:text="選取相簿" />
     </LinearLayout>
 
-
+-->
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
