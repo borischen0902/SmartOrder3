@@ -37,10 +37,6 @@ public class Result implements Serializable {
     }
 
 
-
-
-
-
     public String getFlavor() {
         return flavor;
     }

@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="選購您喜愛的飲料"
+            android:textSize="20sp"
+            android:gravity="center"/>
 
-    <Button
-        android:id="@+id/btnDrinkCheck"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="確認" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvDrink"
@@ -19,11 +27,14 @@
     </android.support.v7.widget.RecyclerView>
 
     <Button
-        android:id="@+id/btnDrinkCheck2"
+        android:id="@+id/btnDrinkCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="確認" />
 
+</LinearLayout>
 
-</android.support.v7.widget.LinearLayoutCompat>
+</ScrollView>
+
+
 

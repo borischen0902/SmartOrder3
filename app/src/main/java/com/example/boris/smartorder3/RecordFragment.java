@@ -2,36 +2,53 @@ package com.example.boris.smartorder3;
 
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static android.content.Context.MODE_PRIVATE;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.wallet.AutoResolveHelper;
+import com.google.android.gms.wallet.IsReadyToPayRequest;
+import com.google.android.gms.wallet.PaymentData;
+import com.google.android.gms.wallet.PaymentDataRequest;
+import com.google.android.gms.wallet.PaymentsClient;
+import com.google.android.gms.wallet.Wallet;
+import com.google.android.gms.wallet.WalletConstants;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+
+import org.json.JSONObject;
 
 
 public class RecordFragment extends Fragment {
     private final static String TAG = "RecordFragment";
-    TextView txtDashiResult,txtRichnessResult,txtGarlicResult,txtSpicyResult, txtTextureResult
-            ,txtDrinkResult,txtDesertResult;
+    TextView txtDashiResult, txtRichnessResult, txtGarlicResult, txtSpicyResult, txtTextureResult, txtDrinkResult, txtDesertResult;
     Button btnPay;
-    private CCommonTask ramenInsertTask;
     List<Integer> drinkAndDesertList = new ArrayList<>();
-
+    private PaymentsClient mPaymentsClient;
+    private View mGooglePayButton;
+    private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 42;
 
 
     public RecordFragment() {
@@ -40,73 +57,79 @@ public class RecordFragment extends Fragment {
     }
 
     public static Fragment newInstance() {
-        RecordFragment fragment = new RecordFragment();
+        RecordFragment fragment;
+        fragment = new RecordFragment();
         return fragment;
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.record, container, false);
         txtDashiResult = view.findViewById(R.id.txtDashiResult);
-        txtRichnessResult =  view.findViewById(R.id.txtRichnessResult);
-        txtGarlicResult =  view.findViewById(R.id.txtGarlicResult);
-        txtSpicyResult =  view.findViewById(R.id.txtSpicyResult);
-        txtTextureResult =  view.findViewById(R.id.txtTextureResult);
+        txtRichnessResult = view.findViewById(R.id.txtRichnessResult);
+        txtGarlicResult = view.findViewById(R.id.txtGarlicResult);
+        txtSpicyResult = view.findViewById(R.id.txtSpicyResult);
+        txtTextureResult = view.findViewById(R.id.txtTextureResult);
         txtDrinkResult = view.findViewById(R.id.txtDrinkResult);
         txtDesertResult = view.findViewById(R.id.txtDesertResult);
 
-        SharedPreferences pref = getActivity().getSharedPreferences(CCommon.ORDER_INFO, MODE_PRIVATE);
+        final SharedPreferences ramenPref = getActivity().getSharedPreferences(CCommon.RAMEN_INFO, MODE_PRIVATE);
+        final SharedPreferences drinkPref = getActivity().getSharedPreferences(CCommon.DRINK_INFO, MODE_PRIVATE);
+        final SharedPreferences desertPref = getActivity().getSharedPreferences(CCommon.DESERT_INFO, MODE_PRIVATE);
 
-        final String dashiResult = pref.getString("dashi", "");
+
+        final String dashiResult = ramenPref.getString("dashi", "");
         txtDashiResult.setText(dashiResult);
 
-        final String richnessResult = pref.getString("richness", "");
+        final String richnessResult = ramenPref.getString("richness", "");
         txtRichnessResult.setText(richnessResult);
 
-        final String garlicResult = pref.getString("garlic", "");
+        final String garlicResult = ramenPref.getString("garlic", "");
         txtGarlicResult.setText(garlicResult);
 
-        final String spicyResult = pref.getString("spicy", "");
+        final String spicyResult = ramenPref.getString("spicy", "");
         txtSpicyResult.setText(spicyResult);
 
-        final String textureResult = pref.getString("texture", "");
+        final String textureResult = ramenPref.getString("texture", "");
         txtTextureResult.setText(textureResult);
 
 
-        String drinkStr="";
+        String drinkStr = "";
 
-    int matchaNumber=0,matchaLatteNumber=0,matchaSmoothieNumber=0,beerNumber=0;
-
-
-        if(pref.getString("抹茶", "")!=""){
-        drinkStr = drinkStr + pref.getString("抹茶", "") + "\n";
-        String matcha = pref.getString("抹茶", "");
-        if (matcha == "抹茶") {
-
-            matchaNumber = 2;
-            drinkAndDesertList.add(matchaNumber);
-
-        }
-
-        }
+        int matchaNumber = 0, matchaLatteNumber = 0, matchaSmoothieNumber = 0, beerNumber = 0;
 
 
-        if (pref.getString("抹茶拿鐵", "")!=""){
-        drinkStr = drinkStr + pref.getString("抹茶拿鐵", "") + "\n";
-        String matchaLatte = pref.getString("抹茶拿鐵", "");
-        if (matchaLatte == "抹茶拿鐵") {
+        if (!drinkPref.getString("抹茶", "").equals("")) {
+            drinkStr = drinkStr + drinkPref.getString("抹茶", "") + "\n";
 
-            matchaLatteNumber = 3;
-            drinkAndDesertList.add(matchaLatteNumber);
+            String matcha = drinkPref.getString("抹茶", "");
+            if (matcha.equals("抹茶")) {
+
+                matchaNumber = 2;
+                drinkAndDesertList.add(matchaNumber);
+
+            }
 
         }
 
 
-    } if (pref.getString("抹茶奶昔", "")!=""){
-            drinkStr = drinkStr + pref.getString("抹茶奶昔", "") + "\n";
-            String matchaSmoothie = pref.getString("抹茶奶昔", "");
-            if (matchaSmoothie == "抹茶奶昔") {
+        if (!drinkPref.getString("抹茶拿鐵", "").equals("")) {
+            drinkStr = drinkStr + drinkPref.getString("抹茶拿鐵", "") + "\n";
+            String matchaLatte = drinkPref.getString("抹茶拿鐵", "");
+            if (matchaLatte.equals("抹茶拿鐵")) {
+
+                matchaLatteNumber = 3;
+                drinkAndDesertList.add(matchaLatteNumber);
+
+            }
+
+
+        }
+        if (!drinkPref.getString("抹茶奶昔", "").equals("")) {
+            drinkStr = drinkStr + drinkPref.getString("抹茶奶昔", "") + "\n";
+            String matchaSmoothie = drinkPref.getString("抹茶奶昔", "");
+            if (matchaSmoothie.equals("抹茶奶昔")) {
 
                 matchaSmoothieNumber = 4;
                 drinkAndDesertList.add(matchaSmoothieNumber);
@@ -115,10 +138,11 @@ public class RecordFragment extends Fragment {
             }
 
 
-    } if (pref.getString("啤酒", "")!=""){
-            drinkStr = drinkStr + pref.getString("啤酒", "") + "\n";
-            String beer = pref.getString("啤酒", "");
-            if (beer == "啤酒") {
+        }
+        if (!drinkPref.getString("啤酒", "").equals("")) {
+            drinkStr = drinkStr + drinkPref.getString("啤酒", "") + "\n";
+            String beer = drinkPref.getString("啤酒", "");
+            if (beer.equals("啤酒")) {
 
                 beerNumber = 5;
                 drinkAndDesertList.add(beerNumber);
@@ -127,21 +151,18 @@ public class RecordFragment extends Fragment {
             }
 
 
-    }
-    txtDrinkResult.setText(drinkStr);
+        }
+        txtDrinkResult.setText(drinkStr);
 
 
+        String desertStr = "";
+        int rainDropNumber = 0, dangoNumber = 0, cakeNumber = 0, iceNumber = 0;
 
 
-    String desertStr="";
-        int rainDropNumber=0,dangoNumber=0,cakeNumber=0,iceNumber=0;
-
-
-
-        if(pref.getString("水信玄餅", "")!=""){
-            desertStr = desertStr + pref.getString("水信玄餅", "") + "\n";
-            String raindrop = pref.getString("水信玄餅", "");
-            if (raindrop == "水信玄餅") {
+        if (!desertPref.getString("水信玄餅", "").equals("")) {
+            desertStr = desertStr + desertPref.getString("水信玄餅", "") + "\n";
+            String raindrop = desertPref.getString("水信玄餅", "");
+            if (raindrop.equals("水信玄餅")) {
 
                 rainDropNumber = 6;
                 drinkAndDesertList.add(rainDropNumber);
@@ -152,10 +173,10 @@ public class RecordFragment extends Fragment {
         }
 
 
-        if (pref.getString("糯米丸子", "")!=""){
-            desertStr = desertStr + pref.getString("糯米丸子", "") + "\n";
-            String dango = pref.getString("糯米丸子", "");
-            if (dango == "糯米丸子") {
+        if (!desertPref.getString("糯米丸子", "").equals("")) {
+            desertStr = desertStr + desertPref.getString("糯米丸子", "") + "\n";
+            String dango = desertPref.getString("糯米丸子", "");
+            if (dango.equals("糯米丸子")) {
 
                 dangoNumber = 7;
                 drinkAndDesertList.add(dangoNumber);
@@ -163,25 +184,27 @@ public class RecordFragment extends Fragment {
             }
 
 
-        } if (pref.getString("抹茶蛋糕", "")!=""){
-            desertStr = desertStr + pref.getString("抹茶蛋糕", "") + "\n";
+        }
+        if (!desertPref.getString("抹茶蛋糕", "").equals("")) {
+            desertStr = desertStr + desertPref.getString("抹茶蛋糕", "") + "\n";
 
-            String cake = pref.getString("抹茶蛋糕", "");
-            if (cake == "抹茶蛋糕") {
+            String cake = desertPref.getString("抹茶蛋糕", "");
+            if (cake.equals("抹茶蛋糕")) {
 
-                cakeNumber = 6;
+                cakeNumber = 8;
                 drinkAndDesertList.add(cakeNumber);
 
             }
 
-        } if (pref.getString("抹茶冰淇淋", "")!=""){
-            desertStr = desertStr + pref.getString("抹茶冰淇淋", "") + "\n";
+        }
+        if (!desertPref.getString("抹茶冰淇淋", "").equals("")) {
+            desertStr = desertStr + desertPref.getString("抹茶冰淇淋", "") + "\n";
 
 
-            String ice = pref.getString("抹茶冰淇淋", "");
-            if (ice == "抹茶冰淇淋") {
+            String ice = desertPref.getString("抹茶冰淇淋", "");
+            if (ice.equals("抹茶冰淇淋")) {
 
-                iceNumber = 6;
+                iceNumber = 9;
                 drinkAndDesertList.add(iceNumber);
 
             }
@@ -190,33 +213,16 @@ public class RecordFragment extends Fragment {
         txtDesertResult.setText(desertStr);
 
 
-
         btnPay = view.findViewById(R.id.btnPay);
         btnPay.setOnClickListener(new View.OnClickListener() {
-            String dashiNumber,richnessNumber,garlicNumber,spicyNumber,textNumber;
+            String dashiNumber, richnessNumber, garlicNumber, spicyNumber, textNumber;
+            String ramenNumberToData = dashiNumber + richnessNumber + garlicNumber + spicyNumber + textNumber;
+
 
             @Override
             public void onClick(View v) {
-                String ramenNumberToData = dashiNumber+ richnessNumber+garlicNumber+spicyNumber+textNumber;
 
-                if (ramenNumberToData.length() < 5) {
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("拉麵客制尚未選擇完整")
-                            .setMessage("")
-                            .setPositiveButton("確定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-
-                                }
-                            })
-
-                            .show();
-
-                }else{
-
-
-                    switch (dashiResult){
+                switch (dashiResult) {
 
                     case "淡":
 
@@ -228,12 +234,13 @@ public class RecordFragment extends Fragment {
                         dashiNumber = "1";
                         break;
 
-                    case  "濃":
+                    case "濃":
 
                         dashiNumber = "2";
                         break;
 
-                }  switch (richnessResult){
+                }
+                switch (richnessResult) {
 
                     case "淡":
 
@@ -245,12 +252,13 @@ public class RecordFragment extends Fragment {
                         richnessNumber = "1";
                         break;
 
-                    case  "濃":
+                    case "濃":
 
                         richnessNumber = "2";
                         break;
 
-                }switch (garlicResult){
+                }
+                switch (garlicResult) {
 
                     case "淡":
 
@@ -262,12 +270,13 @@ public class RecordFragment extends Fragment {
                         garlicNumber = "1";
                         break;
 
-                    case  "濃":
+                    case "濃":
 
                         garlicNumber = "2";
                         break;
 
-                }switch (spicyResult){
+                }
+                switch (spicyResult) {
 
                     case "小辣":
 
@@ -279,12 +288,13 @@ public class RecordFragment extends Fragment {
                         spicyNumber = "1";
                         break;
 
-                    case  "大辣":
+                    case "大辣":
 
                         spicyNumber = "2";
                         break;
 
-                }switch (textureResult){
+                }
+                switch (textureResult) {
 
                     case "軟":
 
@@ -296,67 +306,54 @@ public class RecordFragment extends Fragment {
                         textNumber = "1";
                         break;
 
-                    case  "硬":
+                    case "硬":
 
                         textNumber = "2";
                         break;
                 }
 
+                SharedPreferences phonePref = getActivity().getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);
+                SharedPreferences tablePref = getActivity().getSharedPreferences(CCommon.WAITING_INFO, MODE_PRIVATE);
 
 
-                    SharedPreferences pref = getActivity().getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);
-
-                    String phone = pref.getString("account", "");
-
-                    Result result = new Result(phone,ramenNumberToData,drinkAndDesertList, table);
+                String phone = phonePref.getString("account", "");
+                int table = tablePref.getInt("table", 0);
+                ramenNumberToData = dashiNumber + richnessNumber + garlicNumber + spicyNumber + textNumber;
 
 
+                Result result = new Result(phone, ramenNumberToData, drinkAndDesertList, table);
+                if (CCommon.isNetworkConnected(getActivity())) {
+                    String url = CCommon.URL + "/SmartOrderServlet";
 
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("action", "resultInsert");
+                    Gson gson = new Gson();
+                    jsonObject.addProperty("result", gson.toJson(result));
+                    String jsonOut = jsonObject.toString();
+                    CCommonTask showResultTask = new CCommonTask(url, jsonOut);
+                    try {
+                        showResultTask.execute().get();
 
-                    if (CCommon.isNetworkConnected(getActivity())) {
-                        String url = CCommon.URL + "/SmartOrderServlet";
+                    } catch (InterruptedException | ExecutionException e) {
 
-                        JsonObject jsonObject = new JsonObject();
-                        jsonObject.addProperty("action", "ramenInsert");
-                        jsonObject.addProperty("ramenNumberToData",ramenNumberToData);
-                        jsonObject.addProperty("drinkAndDesertList",drinkAndDesertList);
-
-
-
-                        int count = 0;
-
-                        try {
-                            String result = new CCommonTask(url, jsonObject.toString()).execute().get();
-                            count = Integer.valueOf(result);
-
-                        } catch (Exception e) {
-
-                            Log.e(TAG, e.toString());
-                        }
-                        if (count == 0) {
-
-
-                        } else {
-
-
-                        }
-                    } else {
-
+                        e.printStackTrace();
 
                     }
-            }
+
+
+                }
+
 
             }
-    });
+
+
+        });
 
         return view;
+
     }
 
-
-
-
-
-
-
-
 }
+
+
+
