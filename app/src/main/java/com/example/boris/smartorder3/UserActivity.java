@@ -92,6 +92,13 @@ public class UserActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    public void changemembrtFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.member,new UserActivityMemberFragment());
+        fragmentTransaction.commit();
+    }
 
 
 }

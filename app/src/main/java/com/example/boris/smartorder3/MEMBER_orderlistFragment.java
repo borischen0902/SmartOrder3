@@ -89,7 +89,7 @@ public class MEMBER_orderlistFragment extends Fragment {
 
             TextView name, tvMore;
             LinearLayout llExtend;
-            TextView tvCouponInfoDetail, tvtotal, tvprice, tvitem, tvdate;
+            TextView tvtotal, tvprice, tvitem, tvdate;
             CardView cvCoupon;
 
             public MyViewHolder(View order_item) {
@@ -109,7 +109,10 @@ public class MEMBER_orderlistFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return order.size();
+            if (order == null) {
+                return 0;
+            } else
+                return order.size();
         }
 
         @NonNull
@@ -123,20 +126,20 @@ public class MEMBER_orderlistFragment extends Fragment {
         public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int i) {
             final OOder orderitem = order.get(i);
             final int position = i;
+
             myViewHolder.tvdate.setText(orderitem.getDatetime());
             myViewHolder.tvMore.setOnClickListener(new View.OnClickListener() { //  開啟卡片延伸
                 @Override
                 public void onClick(View v) {
                     getIsCardViewExtend(myViewHolder.itemView, position);
-
-
                 }
             });
+
             if (isCardViewExtend == position) {
                 myViewHolder.llExtend.setVisibility(View.VISIBLE);
-                myViewHolder.tvCouponInfoDetail.setText(orderitem.getName());
-                myViewHolder.tvitem.setText(orderitem.getId_item());
-                myViewHolder.tvprice.setText(orderitem.getPrice());
+                myViewHolder.name.setText(orderitem.getName());
+                myViewHolder.tvitem.setText(String.valueOf(orderitem.getId_item()));
+                myViewHolder.tvprice.setText(String.valueOf(orderitem.getPrice()));
                 myViewHolder.tvtotal.setText("total");
                 moveTo(myViewHolder.itemView);
 
@@ -145,6 +148,7 @@ public class MEMBER_orderlistFragment extends Fragment {
                 myViewHolder.llExtend.setVisibility(View.GONE);
             }
         }
+
 
         /* 卡片延伸 */
         private void getIsCardViewExtend(View view, int position) {
@@ -180,6 +184,8 @@ public class MEMBER_orderlistFragment extends Fragment {
         }
 
     }
+
+
     public void onStop() {
         super.onStop();
         if (showOrderTask != null) {

@@ -50,7 +50,7 @@ public class WaiterActivityOrderFragment extends Fragment {
         View view = inflater.inflate(R.layout.waiter_order_fragment, container, false);
         RecyclerView rvOrder = (RecyclerView) view.findViewById(R.id.rvOrder);
         rvOrder.setLayoutManager(new LinearLayoutManager(getActivity()));
-        order = getOrder();
+        getOrder();
         orderAdapter = new OrderAdapter(inflater, order);
         rvOrder.setAdapter(orderAdapter);
         ItemTouchHelper.Callback callback = new SwipeCardCallBack(order, orderAdapter);
@@ -61,7 +61,7 @@ public class WaiterActivityOrderFragment extends Fragment {
     }
 
     /* 取得訂單 */
-    private List<CShowOrderList> getOrder() {
+    private void getOrder() {
         if (CCommon.isNetworkConnected(getActivity())) {
             String url = CCommon.URL + "/SmartOrderServlet";
             JsonObject jsonObject = new JsonObject();
@@ -79,7 +79,7 @@ public class WaiterActivityOrderFragment extends Fragment {
         } else {
             Toast.makeText(getActivity(), "未連線", Toast.LENGTH_SHORT).show();
         }
-        return order;
+        //return order;
     }
 
     //把Data binding在View
@@ -88,6 +88,7 @@ public class WaiterActivityOrderFragment extends Fragment {
         private List<CShowOrderList> order;
 
         public OrderAdapter(LayoutInflater inflater, List<CShowOrderList> order) {
+
             this.inflater = inflater;
             this.order = order;
         }
@@ -268,9 +269,9 @@ public class WaiterActivityOrderFragment extends Fragment {
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            order.get(viewHolder.getLayoutPosition()).setStatus(1);
+            orders.get(viewHolder.getLayoutPosition()).setStatus(1);
             orderAdapter.notifyDataSetChanged();
-            changeOrderStatus(order.get(viewHolder.getLayoutPosition()).getId_order_detail());
+            changeOrderStatus(orders.get(viewHolder.getLayoutPosition()).getId_order_detail());
             orderAdapter.notifyItemRemoved(viewHolder.getLayoutPosition());
         }
 
@@ -309,7 +310,7 @@ public class WaiterActivityOrderFragment extends Fragment {
     }
 
     //餐單更新監聽器
-    private void updateListener(){
+    private void updateListener() {
         DocumentReference docRef = db.document(documentPatch);
         docRef.addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<DocumentSnapshot>() {
             @Override
@@ -320,14 +321,64 @@ public class WaiterActivityOrderFragment extends Fragment {
                     return;
                 }
 
-                if (snapshot.getTimestamp(TIME_KEY)!= null){
+                if (snapshot.getTimestamp(TIME_KEY) != null) {
+                    Log.d(TAG, "更新時間:" + snapshot.getTimestamp(TIME_KEY));
+                    //order.clear();
+                    //order.removeAll(order);
+                    getOrder();
+                    orderAdapter.notifyDataSetChanged();
 
-                    Log.d(TAG, "更新時間:" + snapshot.getTimestamp(TIME_KEY) );
-
-                    }
+                    /*List<CShowOrderList> newOrder = getOrder();
+                    ListDiffCallback listDiffCallback = new ListDiffCallback(order, newOrder);
+                    DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(listDiffCallback);
+                    order.clear();
+                    order.addAll(newOrder);
+                    diffResult.dispatchUpdatesTo(orderAdapter);*/
+                }
             }
         });
 
     }
+/*
+    public class ListDiffCallback extends DiffUtil.Callback {
+
+        private final List<CShowOrderList> oldOrderList;
+        private final List<CShowOrderList> newOrderList;
+
+        public ListDiffCallback(List<CShowOrderList> oldOrderList, List<CShowOrderList> newOrderList) {
+            this.oldOrderList = oldOrderList;
+            this.newOrderList = newOrderList;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return oldOrderList.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return newOrderList.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldOrderList.get(oldItemPosition) == newOrderList.get(
+                    newItemPosition);
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            final CShowOrderList oldShowSOrderList = oldOrderList.get(oldItemPosition);
+            final CShowOrderList newShowOrderList = newOrderList.get(newItemPosition);
+
+            return (oldShowSOrderList.getId_table() == newShowOrderList.getId_table()) && (oldShowSOrderList.getItem().equals(newShowOrderList.getItem()));
+        }
+
+        @Nullable
+        @Override
+        public Object getChangePayload(int oldItemPosition, int newItemPosition) {
+            return super.getChangePayload(oldItemPosition, newItemPosition);
+        }
+    }*/
 
 }

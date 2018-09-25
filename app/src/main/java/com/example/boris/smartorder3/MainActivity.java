@@ -24,14 +24,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_login);
         //isLogin(); //儲存設定檔功能, 開發階段關閉
         handleViews();
+
     }
 
     /* 是否登入過檢查 */
