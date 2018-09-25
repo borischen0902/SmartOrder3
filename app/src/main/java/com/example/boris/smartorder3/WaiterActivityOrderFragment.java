@@ -3,6 +3,7 @@ package com.example.boris.smartorder3;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.MetadataChanges;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -30,6 +38,12 @@ public class WaiterActivityOrderFragment extends Fragment {
     private CCommonTask showOrderTask, changeOrderStatusTask;
     private static final String TAG = "ShowOrder";
 
+    //菜單更新前置
+    public static final String TIME_KEY = "time"; //更新產生新的時間戳
+    private ListenerRegistration listenTable; //listenTable.remove(); 關閉監聽器用
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();// 初始化 FirebaseFirestore
+    private String documentPatch = "/smartOrder/update";//指定檔案路徑
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,6 +56,7 @@ public class WaiterActivityOrderFragment extends Fragment {
         ItemTouchHelper.Callback callback = new SwipeCardCallBack(order, orderAdapter);
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(rvOrder);
+        updateListener();//菜單更新監聽器
         return view;
     }
 
@@ -292,4 +307,27 @@ public class WaiterActivityOrderFragment extends Fragment {
             changeOrderStatusTask = null;
         }
     }
+
+    //餐單更新監聽器
+    private void updateListener(){
+        DocumentReference docRef = db.document(documentPatch);
+        docRef.addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "檔案讀取失敗:", e);
+                    return;
+                }
+
+                if (snapshot.getTimestamp(TIME_KEY)!= null){
+
+                    Log.d(TAG, "更新時間:" + snapshot.getTimestamp(TIME_KEY) );
+
+                    }
+            }
+        });
+
+    }
+
 }
