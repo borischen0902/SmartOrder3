@@ -91,7 +91,7 @@ public class MEMBER_informationFragment extends Fragment {
                 CCommon.LOGIN_INFO = null;
                 Intent intent = new Intent(getActivity(),MainActivity.class);
                 startActivity(intent);
-
+                getActivity().finish();
 
             }
         });
@@ -232,10 +232,10 @@ public class MEMBER_informationFragment extends Fragment {
             }
         });
         //相機
-        imageView = view.findViewById(R.id.photo);
-        btTakePictureLarge =view.findViewById(R.id.btTakePictureLarge);
-        btPickPicture = view.findViewById(R.id.btPickPicture);
-        btTakePictureLarge.setOnClickListener(new View.OnClickListener() {
+        //imageView = view.findViewById(R.id.photo);
+        //btTakePictureLarge =view.findViewById(R.id.btTakePictureLarge);
+        //btPickPicture = view.findViewById(R.id.btPickPicture);
+        /*btTakePictureLarge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -259,6 +259,7 @@ public class MEMBER_informationFragment extends Fragment {
                 getActivity().startActivityForResult(intent, REQUEST_PICK_PICTURE);
             }
         });
+        */
     }
 
 
