@@ -62,7 +62,7 @@ public class WaiterActivityOrderFragment extends Fragment {
 
     /* 取得訂單 */
     private void getOrder() {
-        if (CCommon.isNetworkConnected(getActivity())) {
+        //if (CCommon.isNetworkConnected(getActivity())) {
             String url = CCommon.URL + "/SmartOrderServlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "showOrder");
@@ -76,9 +76,9 @@ public class WaiterActivityOrderFragment extends Fragment {
             } catch (Exception e) {
                 Log.e(TAG, e.toString());
             }
-        } else {
-            Toast.makeText(getActivity(), "未連線", Toast.LENGTH_SHORT).show();
-        }
+        //} else {
+         //   Toast.makeText(getActivity(), "未連線", Toast.LENGTH_SHORT).show();
+        //}
         //return order;
     }
 
