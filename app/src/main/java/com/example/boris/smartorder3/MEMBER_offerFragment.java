@@ -175,8 +175,7 @@ public class MEMBER_offerFragment extends Fragment {
                 receiveCouponQtyTask.cancel(true);
                 receiveCouponQtyTask = null;
             }
-
-    }
+        }
 }
 
 

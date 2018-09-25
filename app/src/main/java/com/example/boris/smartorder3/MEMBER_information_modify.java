@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,6 +28,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -60,16 +62,18 @@ public class MEMBER_information_modify extends AppCompatActivity  {
     int sexcheck,permission;
     CCommonTask registerTask;
     CAccount personalFile;
-    String phone,password,name,bir,repassword;
+    String phone,password,name,birth,repassword;
     private int mYear, mMonth, mDay;
     Gson gson;
     boolean isBirthClick = false;
+
+    SharedPreferences pref;
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.member_show_modify_information);
         //isLogin(); //儲存設定檔功能, 開發階段關閉
-        SharedPreferences pref = this.getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);//取得設定檔資料
+        pref = this.getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);//取得設定檔資料
         readservlet(pref.getString("account",""));
         DateButton();
         BTOK();
@@ -126,10 +130,10 @@ public class MEMBER_information_modify extends AppCompatActivity  {
                 new DatePickerDialog(MEMBER_information_modify.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
-                        bir =  String.valueOf(year) + "-"
+                        birth =  String.valueOf(year) + "-"
                                 + String.valueOf(month + 1) + "-"
                                 + String.valueOf(day);
-                        dateButton.setText(bir);
+                        dateButton.setText(birth);
                     }
 
                 }, mYear,mMonth, mDay).show();
@@ -173,6 +177,7 @@ public class MEMBER_information_modify extends AppCompatActivity  {
 
     //按下ok回傳值
     private void BTOK() {
+
         Button btok = findViewById(R.id.btOK);
         btok .setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,9 +192,11 @@ public class MEMBER_information_modify extends AppCompatActivity  {
         password = Password.getText().toString();
         repassword=rePassword.getText().toString();
         name = Name.getText().toString();
+        phone=tvphone.getText().toString();
+
 
         if(password.equals(repassword)){
-           account = new MemberAccount(password,name,bir,sexcheck);
+           account = new MemberAccount(phone,password,1,name,sexcheck,birth);
         }else{
             Toast.makeText(this, "請密碼錯誤", Toast.LENGTH_SHORT).show();
         }
@@ -207,20 +214,15 @@ public class MEMBER_information_modify extends AppCompatActivity  {
                     String jsonIn = registerTask.execute().get();
                     jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
                     permission = jsonObject.get("permission").getAsInt();
+
+                    saveLoginInfo();
+                    //changeFragment();
+
                 } catch (Exception e) {
                 }
             } else {
                 Toast.makeText(this, "未連線", Toast.LENGTH_SHORT).show();
             }
-            if (permission == 1) {
-                saveLoginInfo();
-                Intent intent = new Intent(this,UserActivity.class);
-                startActivity(intent);
-                finish();
-            }else {
-                Toast.makeText(this, "此帳號已註冊", Toast.LENGTH_SHORT).show();
-            }
-
         }
 
     }
@@ -271,6 +273,14 @@ public class MEMBER_information_modify extends AppCompatActivity  {
         finish();
         Intent intent = new Intent(this,MEMBER_information_modify.class);
         startActivity(intent);
+    }
+
+    private void changeFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.member, new MEMBER_informationFragment());
+        fragmentTransaction.commit();
     }
 
     @Override

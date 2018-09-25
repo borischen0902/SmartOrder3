@@ -1,11 +1,12 @@
 package com.example.boris.smartorder3;
 
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -13,6 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
@@ -45,6 +52,11 @@ public class RecordFragment extends Fragment {
     private final static String TAG = "RecordFragment";
     TextView txtDashiResult, txtRichnessResult, txtGarlicResult, txtSpicyResult, txtTextureResult, txtDrinkResult, txtDesertResult;
     Button btnPay;
+    //菜單更新前置
+    public static final String TIME_KEY = "time"; //更新產生新的時間戳
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();// 初始化 FirebaseFirestore
+    private String documentPatch = "/smartOrder/update";//指定檔案路徑
+    public static final String TAG = "FirebaseDeBug";
     List<Integer> drinkAndDesertList = new ArrayList<>();
     private PaymentsClient mPaymentsClient;
     private View mGooglePayButton;
@@ -212,6 +224,7 @@ public class RecordFragment extends Fragment {
 
         txtDesertResult.setText(desertStr);
 
+        updateMenu();
 
         btnPay = view.findViewById(R.id.btnPay);
         btnPay.setOnClickListener(new View.OnClickListener() {
@@ -357,3 +370,25 @@ public class RecordFragment extends Fragment {
 
 
 
+
+
+    }
+
+    //更新菜單資訊- 資料庫確定更新後呼叫
+    private void updateMenu(){
+        db.document(documentPatch)
+                .update(TIME_KEY, FieldValue.serverTimestamp())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "菜單資訊更新成功!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "菜單資訊更新失敗", e);
+                    }
+                });
+    }
+}

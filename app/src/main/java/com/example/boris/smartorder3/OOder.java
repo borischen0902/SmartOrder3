@@ -5,29 +5,49 @@ import java.io.Serializable;
 class OOder implements Serializable {
 
 
-    private String title;
-    private String info;
+    private int id_item;
+    private String name;
+    private int price;
+    private String datetime;
 
-    public OOder( String title, String info) {
+    public OOder( int id_item,String name,int price,String datetime) {
 
-        this.title = title;
-        this.info = info;
+        this.id_item=id_item;
+        this.name = name;
+        this.price = price;
+        this.datetime = datetime;
     }
 
-
-    public String getTitle() {
-        return title;
+    public int getId_item() {
+        return id_item;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setId_item(int id_item) {
+        this.id_item = id_item;
     }
 
-    public String getInfo() {
-        return info;
+    public String getName() {
+        return name;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
+
 }
