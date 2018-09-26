@@ -1,5 +1,7 @@
 package com.example.boris.smartorder3;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,12 +40,21 @@ public class WaiterActivityOrderFragment extends Fragment {
     private CCommonTask showOrderTask, changeOrderStatusTask;
     private static final String TAG = "ShowOrder";
     public RecyclerView rvOrder;
+    private Activity activityFragment;
 
     //菜單更新前置
     public static final String TIME_KEY = "time"; //更新產生新的時間戳
     private ListenerRegistration listenTable; //listenTable.remove(); 關閉監聽器用
     private FirebaseFirestore db = FirebaseFirestore.getInstance();// 初始化 FirebaseFirestore
     private String documentPatch = "/smartOrder/update";//指定檔案路徑
+
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activityFragment = getActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +76,7 @@ public class WaiterActivityOrderFragment extends Fragment {
     /* 取得訂單 */
     private List<CShowOrderList> getOrder() {
         List<CShowOrderList> data = new ArrayList<>();
-        //if (CCommon.isNetworkConnected(getActivity())) {
+        if (CCommon.isNetworkConnected(activityFragment)) {
         String url = CCommon.URL + "/SmartOrderServlet";
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("action", "showOrder");
@@ -79,9 +90,9 @@ public class WaiterActivityOrderFragment extends Fragment {
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
-        //} else {
-        //   Toast.makeText(getActivity(), "未連線", Toast.LENGTH_SHORT).show();
-        //}
+        } else {
+           Toast.makeText(getActivity(), "未連線", Toast.LENGTH_SHORT).show();
+        }
         return data;
     }
 

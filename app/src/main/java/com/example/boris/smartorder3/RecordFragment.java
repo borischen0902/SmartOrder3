@@ -22,12 +22,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import static android.content.Context.MODE_PRIVATE;
 
 import java.util.concurrent.ExecutionException;
-
 
 
 public class RecordFragment extends Fragment {
@@ -146,7 +147,6 @@ public class RecordFragment extends Fragment {
 
         }
         txtDrinkResult.setText(drinkStr);
-
 
 
         String desertStr = "";
@@ -338,7 +338,7 @@ public class RecordFragment extends Fragment {
 
                 }
 
-             drinkPref.edit().clear().apply();
+                drinkPref.edit().clear().apply();
                 desertPref.edit().clear().apply();
 
 
@@ -350,8 +350,9 @@ public class RecordFragment extends Fragment {
         return view;
 
     }
+
     //更新菜單資訊- 資料庫確定更新後呼叫
-    private void updateMenu(){
+    private void updateMenu() {
         db.document(documentPatch)
                 .update(TIME_KEY, FieldValue.serverTimestamp())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
