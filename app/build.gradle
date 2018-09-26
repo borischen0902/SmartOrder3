@@ -39,7 +39,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
     implementation "com.google.firebase:firebase-auth:16.0.3"
     implementation 'com.google.firebase:firebase-firestore:17.1.0'
-    implementation 'com.facebook.android:facebook-share:[4,5)'
+    implementation 'com.facebook.android:facebook-share:4.36.1'
 }
 //Firebase
     apply plugin: 'com.google.gms.google-services'

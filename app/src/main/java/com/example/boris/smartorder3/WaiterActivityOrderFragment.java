@@ -37,6 +37,7 @@ public class WaiterActivityOrderFragment extends Fragment {
     private OrderAdapter orderAdapter;
     private CCommonTask showOrderTask, changeOrderStatusTask;
     private static final String TAG = "ShowOrder";
+    public RecyclerView rvOrder;
 
     //菜單更新前置
     public static final String TIME_KEY = "time"; //更新產生新的時間戳
@@ -48,38 +49,40 @@ public class WaiterActivityOrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.waiter_order_fragment, container, false);
-        RecyclerView rvOrder = (RecyclerView) view.findViewById(R.id.rvOrder);
+        rvOrder = (RecyclerView) view.findViewById(R.id.rvOrder);
         rvOrder.setLayoutManager(new LinearLayoutManager(getActivity()));
-        getOrder();
+        updateListener();//菜單更新監聽器
+        order = getOrder();
         orderAdapter = new OrderAdapter(inflater, order);
         rvOrder.setAdapter(orderAdapter);
         ItemTouchHelper.Callback callback = new SwipeCardCallBack(order, orderAdapter);
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(rvOrder);
-        updateListener();//菜單更新監聽器
+
         return view;
     }
 
     /* 取得訂單 */
-    private void getOrder() {
+    private List<CShowOrderList> getOrder() {
+        List<CShowOrderList> data = new ArrayList<>();
         //if (CCommon.isNetworkConnected(getActivity())) {
-            String url = CCommon.URL + "/SmartOrderServlet";
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "showOrder");
-            String jsonOut = jsonObject.toString();
-            showOrderTask = new CCommonTask(url, jsonOut);
-            try {
-                String jsonIn = showOrderTask.execute().get();
-                Type listType = new TypeToken<List<CShowOrderList>>() {
-                }.getType();
-                order = new Gson().fromJson(jsonIn, listType);
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
-            }
+        String url = CCommon.URL + "/SmartOrderServlet";
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("action", "showOrder");
+        String jsonOut = jsonObject.toString();
+        showOrderTask = new CCommonTask(url, jsonOut);
+        try {
+            String jsonIn = showOrderTask.execute().get();
+            Type listType = new TypeToken<List<CShowOrderList>>() {
+            }.getType();
+            data = new Gson().fromJson(jsonIn, listType);
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
         //} else {
-         //   Toast.makeText(getActivity(), "未連線", Toast.LENGTH_SHORT).show();
+        //   Toast.makeText(getActivity(), "未連線", Toast.LENGTH_SHORT).show();
         //}
-        //return order;
+        return data;
     }
 
     //把Data binding在View
@@ -322,63 +325,19 @@ public class WaiterActivityOrderFragment extends Fragment {
                 }
 
                 if (snapshot.getTimestamp(TIME_KEY) != null) {
-                    Log.d(TAG, "更新時間:" + snapshot.getTimestamp(TIME_KEY));
-                    //order.clear();
-                    //order.removeAll(order);
-                    getOrder();
-                    orderAdapter.notifyDataSetChanged();
-
-                    /*List<CShowOrderList> newOrder = getOrder();
-                    ListDiffCallback listDiffCallback = new ListDiffCallback(order, newOrder);
-                    DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(listDiffCallback);
-                    order.clear();
-                    order.addAll(newOrder);
-                    diffResult.dispatchUpdatesTo(orderAdapter);*/
+                    //Log.d(TAG, "更新時間:" + snapshot.getTimestamp(TIME_KEY));
+                    updateRecyclerView();
                 }
             }
         });
-
     }
-/*
-    public class ListDiffCallback extends DiffUtil.Callback {
 
-        private final List<CShowOrderList> oldOrderList;
-        private final List<CShowOrderList> newOrderList;
-
-        public ListDiffCallback(List<CShowOrderList> oldOrderList, List<CShowOrderList> newOrderList) {
-            this.oldOrderList = oldOrderList;
-            this.newOrderList = newOrderList;
-        }
-
-        @Override
-        public int getOldListSize() {
-            return oldOrderList.size();
-        }
-
-        @Override
-        public int getNewListSize() {
-            return newOrderList.size();
-        }
-
-        @Override
-        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            return oldOrderList.get(oldItemPosition) == newOrderList.get(
-                    newItemPosition);
-        }
-
-        @Override
-        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-            final CShowOrderList oldShowSOrderList = oldOrderList.get(oldItemPosition);
-            final CShowOrderList newShowOrderList = newOrderList.get(newItemPosition);
-
-            return (oldShowSOrderList.getId_table() == newShowOrderList.getId_table()) && (oldShowSOrderList.getItem().equals(newShowOrderList.getItem()));
-        }
-
-        @Nullable
-        @Override
-        public Object getChangePayload(int oldItemPosition, int newItemPosition) {
-            return super.getChangePayload(oldItemPosition, newItemPosition);
-        }
-    }*/
+    /* RecyclerView更新 */
+    private void updateRecyclerView() {
+        order.clear();
+        List<CShowOrderList> newOrder = getOrder();
+        order.addAll(newOrder);
+        orderAdapter.notifyDataSetChanged();
+    }
 
 }
