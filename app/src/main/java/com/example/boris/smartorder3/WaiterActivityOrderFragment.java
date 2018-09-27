@@ -40,7 +40,7 @@ public class WaiterActivityOrderFragment extends Fragment {
     private CCommonTask showOrderTask, changeOrderStatusTask;
     private static final String TAG = "ShowOrder";
     public RecyclerView rvOrder;
-    private Activity activityFragment;
+    private static Activity activityFragment;
 
     //菜單更新前置
     public static final String TIME_KEY = "time"; //更新產生新的時間戳
@@ -53,7 +53,7 @@ public class WaiterActivityOrderFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activityFragment = getActivity();
+        activityFragment = (Activity) context;
     }
 
     @Override
@@ -76,6 +76,7 @@ public class WaiterActivityOrderFragment extends Fragment {
     /* 取得訂單 */
     private List<CShowOrderList> getOrder() {
         List<CShowOrderList> data = new ArrayList<>();
+        Log.d(TAG, "activity:" + activityFragment);
         if (CCommon.isNetworkConnected(activityFragment)) {
         String url = CCommon.URL + "/SmartOrderServlet";
         JsonObject jsonObject = new JsonObject();
@@ -291,7 +292,7 @@ public class WaiterActivityOrderFragment extends Fragment {
 
         /* 更改餐點狀態 */
         private void changeOrderStatus(int id_order_detail) {
-            if (CCommon.isNetworkConnected(getActivity())) {
+            if (CCommon.isNetworkConnected(activityFragment)) {
                 String url = CCommon.URL + "/SmartOrderServlet";
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("action", "changeOrderStatus");
@@ -350,5 +351,4 @@ public class WaiterActivityOrderFragment extends Fragment {
         order.addAll(newOrder);
         orderAdapter.notifyDataSetChanged();
     }
-
 }

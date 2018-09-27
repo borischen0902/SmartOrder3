@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private Intent intent;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
         boolean loginCheck;
         SharedPreferences pref;
         int activityIndex;
-            pref = getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);
-            loginCheck = pref.getBoolean("login", false);
-            if (loginCheck) {
-                activityIndex = pref.getInt("permission", 0);
-                goToActivity(activityIndex);
-            }
+        pref = getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);
+        loginCheck = pref.getBoolean("login", false);
+        if (loginCheck) {
+            activityIndex = pref.getInt("permission", 0);
+            goToActivity(activityIndex);
+        }
 
     }
 
@@ -70,7 +69,11 @@ public class MainActivity extends AppCompatActivity {
     /* 儲存使用者設定檔 */
     private void saveLoginInfo() {
         SharedPreferences pref = getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);
-        pref.edit().putBoolean("login", true).putString("account", account).putString("password", password).putInt("permission", permission).apply();
+        pref.edit().putBoolean("login", true)
+                   .putString("account", account)
+                   .putString("password", password)
+                   .putInt("permission", permission)
+                   .apply();
         setResult(RESULT_OK);
     }
 
@@ -155,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "未連線", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -163,9 +167,6 @@ public class MainActivity extends AppCompatActivity {
             loginTask = null;
         }
     }
-
-
-
 
 
 }

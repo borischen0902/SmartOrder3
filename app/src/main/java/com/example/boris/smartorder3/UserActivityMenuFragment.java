@@ -29,7 +29,7 @@ public class UserActivityMenuFragment extends Fragment {
 
 
     private void initView(View view) {
-        ViewPager mViewPager = view.findViewById(R.id.containerView);
+        final ViewPager mViewPager = view.findViewById(R.id.containerView);
         TabLayout mTabLayout = view.findViewById(R.id.tabs);
 
         mTabLayout.addTab(mTabLayout.newTab().setText(sTitle[0]));
