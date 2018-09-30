@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_login);
-        //isLogin(); //儲存設定檔功能, 開發階段關閉
+        isLogin(); //儲存設定檔功能, 開發階段關閉
         handleViews();
 
     }
@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         int activityIndex;
         pref = getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);
         loginCheck = pref.getBoolean("login", false);
-        if (loginCheck) {
+        int userPermission = pref.getInt("permission", 0);
+        if (loginCheck && userPermission == 1) {
             activityIndex = pref.getInt("permission", 0);
             goToActivity(activityIndex);
         }
@@ -70,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
     private void saveLoginInfo() {
         SharedPreferences pref = getSharedPreferences(CCommon.LOGIN_INFO, MODE_PRIVATE);
         pref.edit().putBoolean("login", true)
-                   .putString("account", account)
-                   .putString("password", password)
-                   .putInt("permission", permission)
-                   .apply();
+                .putString("account", account)
+                .putString("password", password)
+                .putInt("permission", permission)
+                .apply();
         setResult(RESULT_OK);
     }
 
