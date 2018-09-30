@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_login);
-        isLogin(); //儲存設定檔功能, 開發階段關閉
+        isLogin(); //儲存設定檔功能
         handleViews();
 
     }
@@ -85,27 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-    // 測試用按鍵
-    public void goToAdmin(View view) {
-        intent = new Intent(this, AdminActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public void goToWaiter(View view) {
-        intent = new Intent(this, WaiterActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public void goToUser(View view) {
-        intent = new Intent(this, UserActivity.class);
-        startActivity(intent);
-        finish();
-    }
-    // -------------------------------------------
-
 
     public void btRegisterOnclick(View view) {
         intent = new Intent(this, MainActivityRegister.class);
